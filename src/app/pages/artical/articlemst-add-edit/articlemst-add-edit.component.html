@@ -1,0 +1,98 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Article</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+  <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Item name * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.itemname"
+              placeholder="Itemname"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Item group * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.itemgroup"
+              placeholder="Itemgroup"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Item group1 * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.itemgroup1"
+              placeholder="Itemgroup1"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Cft * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.cft"
+              placeholder="Cft"
+            />
+          </div>
+        </div></div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">File Upload</label>
+            <input
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader1"
+              (onFileSelected)="onFileSelected1($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>

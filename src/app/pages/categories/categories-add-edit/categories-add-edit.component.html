@@ -1,0 +1,81 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Category</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card><nb-card-body>
+      <div class="row">
+        <!-- -->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Category Name * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.cat_name"
+              placeholder="Category Name"
+            />
+            <span style="color: red">{{ objerror.categroyName }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Parent Category</label>
+            <select class="form-control" [(ngModel)]="dialog.parent_id" name="processtype">
+              <option [value]="i.id" *ngFor="let i of ddlcategoryList">
+                {{ i.cat_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">Published</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.ispublish"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">File Upload</label>
+            <input
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader1"
+              (onFileSelected)="onFileSelected1($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>

@@ -1,0 +1,147 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="nb-theme-cosmic nb-card">
+  <nb-card>
+    <nb-card-header><h2>Register</h2> </nb-card-header>
+    <nb-card-body>
+      <nb-card>
+        <nb-card-body>
+          
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="CompanyName">Company Name</label>
+                <input type="text" class="form-control" id="CompanyName" [(ngModel)]="dialog.CompanyName" placeholder="Company Name" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="WebsiteUrl">Website</label>
+                  <input type="text" class="form-control" required id="WebsiteUrl" [(ngModel)]="dialog.WebsiteUrl" placeholder="Website" required>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="FirstName">First Name</label>
+                <input type="text" class="form-control" required id="FirstName" [(ngModel)]="dialog.FirstName" placeholder="First Name">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="LastName">Last Name</label>
+                <input type="text" class="form-control" required id="LastName" [(ngModel)]="dialog.LastName" placeholder="Last Name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="EmailID">Email ID</label>
+                <input type="email" class="form-control" id="EmailID" [(ngModel)]="dialog.EmailID" placeholder="Email" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="inputCompany">Password</label>
+                  <input type="password" class="form-control" id="password" [(ngModel)]="dialog.loginpass" placeholder="Password" required>
+                </div>
+              </div>
+           
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Address1">Address1</label>
+                <input type="text" class="form-control" id="Address1" [(ngModel)]="dialog.Address1" placeholder="Address1">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Address2">Address2</label>
+                <input type="text" class="form-control" id="Address2" [(ngModel)]="dialog.Address2" placeholder="Address2">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Address1">Phone No</label>
+                <input type="text" class="form-control" id="PhoneNo" [(ngModel)]="dialog.PhoneNo" placeholder="Phone No">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="Address2">Mobile No</label>
+                <input type="text" class="form-control" id="MobileNo" [(ngModel)]="dialog.MobileNo" placeholder="Mobile No">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="City">City</label>
+                <input type="text" class="form-control" id="City" [(ngModel)]="dialog.City" placeholder="City">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="PinCode">ZIP Code</label>
+                <input type="text" class="form-control" id="PinCode" [(ngModel)]="dialog.PinCode" placeholder="Zip Code">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Country</label>
+                <!-- <select class="form-control" ng-options="ddlCountrycode" [(ngModel)]="dialog.Countrycode"> -->
+                <select class="form-control" [(ngModel)]="dialog.Countrycode" (ngModelChange)="onChangeCountry($event)" name="Countrycode" required>
+                  <option [value]="i.ID" *ngFor="let i of ddlCountry">{{i.TEXT}}</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>State</label>
+                <!-- <select class="form-control" ng-options="ddlCountrycode" [(ngModel)]="dialog.Countrycode"> -->
+                <select class="form-control" [(ngModel)]="dialog.Statecode" name="Statecode">
+                  <option [value]="i.ID" *ngFor="let i of ddlState">{{i.TEXT}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Subscription</label>
+                  <!-- <select class="form-control" ng-options="ddlCountrycode" [(ngModel)]="dialog.Countrycode"> -->
+                  <select class="form-control" [(ngModel)]="dialog.SubscribeID"   name="SubscribeID" required>
+                    <option [value]="i.ID" *ngFor="let i of ddlSubscribe">{{i.TEXT}}</option>
+                  </select>
+  
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <table><tr><td>
+                      <nb-checkbox id="tc" [(ngModel)]="tc">
+                        </nb-checkbox></td><td>
+                        I have read and agree to the <a href="https://echannelhub.com/privacy-policy/" target="_blank">Privacy Policy</a> | <a href="https://echannelhub.com/terms-and-condition/" target="_blank">Terms and condition</a>
+                      </td></tr> </table>
+                    </div>
+                  </div>
+                </div>
+        </nb-card-body>
+      </nb-card>
+      <div class="form-group">
+        <button class="btn btn-md btn-success" *ngIf="tc" (click)="SaveData()">Save</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#/login" class="btn btn-danger">Cancel</a>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
