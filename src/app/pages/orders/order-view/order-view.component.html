@@ -1,0 +1,743 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="wrapper">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <td
+            colspan="2"
+            class="text-left"
+            style="background-color: #ddd; border: 1px solid #ddd"
+          >
+            Order Details
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 50%" class="text-left">
+            <b>Order ID:</b> {{ this.dialog.orderno }}
+            <br />
+            <b>Pickup Date and Time:</b
+            >{{ this.dialog.orderdate | date : "dd-MMM-yyyy" }} {{ strdate }}
+            <br />
+            <b>Total Distance:</b> {{ this.dialog.totkm }}
+            <br />
+            <b>Total Items:</b> {{ this.dialogdetail.length }}
+            <br />
+
+            <b>Vehicle Name:</b> {{ vehiclename }}
+            <br />
+            <b>Total CFT:</b> {{ this.dialog.totalcft }}
+          </td>
+          <td style="width: 50%" class="text-left">
+            <b>Package Type:</b> {{ this.packagename }} <br /><b>Status:</b>
+            <div [ngClass]="getSeverity(this.dialog.orderstatus)">
+              {{ this.dialog.orderstatus }}
+            </div>
+
+            <br /><b>Assinged Partner:</b> {{ partnername }}
+            <select 
+              class="form-control"
+              [(ngModel)]="dialog.part_id"
+              name="Part_id"
+            >
+              <option [value]="i.idval" *ngFor="let i of ddlpart">
+                {{ i.textval }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <td
+            colspan="3"
+            class="text-left"
+            style="background-color: #ddd; border: 1px solid #ddd"
+          >
+            Party Details
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-left">
+            {{ this.dialog.cust_name }}
+          </td>
+          <td class="text-left">
+            <i style="padding-right: 5px" class="fa fa-envelope"></i
+            >{{ this.dialog.cust_email }}
+          </td>
+          <td class="text-left">
+            <i style="padding-right: 5px" class="fa fa-phone"></i
+            >{{ this.dialog.cust_mobile }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr style="background-color: #ddd; border: 1px solid #ddd">
+          <td style="width: 50%; vertical-align: top" class="text-left">
+            From Address
+          </td>
+          <td style="width: 50%; vertical-align: top" class="text-left">
+            To Address
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-left">
+            {{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}
+            <br />
+            <b>Floor:</b> {{ this.dialog.fromfloor }}
+            <br />
+            <b>Lift Available:</b>{{ this.dialog.fromlift ? "yes" : "No" }}
+          </td>
+          <td class="text-left">
+            {{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}
+            <br />
+            <b>Floor:</b> {{ this.dialog.tofloor }}
+            <br />
+            <b>Lift Available:</b>{{ this.dialog.tolift ? "yes" : "No" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover" width="100%">
+        <thead>
+          <tr style="background-color: #ddd; border: 1px solid #ddd">
+            <td class="text-left"></td>
+            <td class="text-left">Item</td>
+            <td class="text-right">Quantity</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dialogdetail">
+            <td class="text-left">
+              <img
+                [src]="
+                  item.imageurl ? ImageserverUrl + item.imageurl : noimageurl
+                "
+              />
+            </td>
+            <td class="text-left">{{ item.item_name }}</td>
+            <td class="text-right">{{ item.quantity }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>Sub-Total</b></td>
+            <td class="text-right">
+              <input
+              type="number"
+              required
+              class="form-control text-right"
+              id="Total"
+              [(ngModel)]="dialog.total"
+              placeholder="Sub Total"
+            />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>Discount</b></td>
+            <td class="text-right">
+              <input
+              type="number"
+              required
+              class="form-control text-right"
+              id="Total"
+              [(ngModel)]="dialog.discount"
+              placeholder="Discount"
+            />
+            
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>For Insurance</b></td>
+            <td class="text-right">
+              <input
+                type="number"
+                required
+                class="form-control text-right"
+                id="forinsurance"
+                [(ngModel)]="dialog.forinsurance"
+                (keyup)="insuranceamountchange()"
+                placeholder="For Insurance"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right">
+              <b>Insurance Amount @{{ insurancerate }} %</b>
+            </td>
+            <td class="text-right">
+              <input
+                type="number"
+                required
+                class="form-control text-right"
+                id="insuranceamount"
+                [(ngModel)]="dialog.insuranceamount"
+                placeholder="Insurance amount"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>GST Amount</b></td>
+            <td class="text-right">
+              <input
+                type="number"
+                required
+                class="form-control text-right"
+                id="gstamount"
+                [(ngModel)]="dialog.gstamount"
+                placeholder="Gst amount"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>Final Total</b></td>
+            <td class="text-right">
+              {{
+                (this.dialog.total +
+                  this.dialog.gstamount +
+                  this.dialog.insuranceamount) -
+                  this.dialog.discount
+              }}
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td class="text-right"><b>Paid Amount</b></td>
+            <td class="text-right">{{ this.paidamount }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="text-right"><b>Balance</b></td>
+            <td class="text-right" style="color: red">
+              {{
+                this.dialog.total +
+                  this.dialog.gstamount +
+                  this.dialog.insuranceamount -
+                  this.dialog.discount -
+                  paidamount
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="d-flex">
+                <div>
+                  <button class="btn btn-md btn-primary" (click)="SaveData()">
+                    Save Order
+                  </button>
+                </div>
+                <div>
+                  <input
+                    required
+                    class="form-control"
+                    id="cancelreason"
+                    [(ngModel)]="dialog.cancelreason"
+                    placeholder="Reason For Cancelation"
+                  />
+                </div>
+                <div>
+                  <button class="btn btn-md btn-danger" (click)="CancelOrder()">
+                    Cancel Order
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="modal-header"></div>
+    <div class="modal-body" style="display: none">
+      <table style="width: 100%">
+        <tr>
+          <th>Residencial</th>
+          <th>Package Type</th>
+          <!-- <th>Order Status</th> -->
+        </tr>
+        <tr>
+          <td>{{ this.dialog.movetype }}</td>
+          <td>{{ this.packagename }}</td>
+        </tr>
+      </table>
+      <span aria-hidden="true"
+        >Location({{
+          this.dialog.fromcity.split(",").length > 1
+            ? this.dialog.fromcity.split(",")[1]
+            : this.dialog.fromcity.split(",")[0]
+        }})</span
+      >
+      <table style="width: 100%">
+        <tr>
+          <th>Moving From</th>
+          <th>Floor From</th>
+          <th>Lift Available From</th>
+          <th>Moving To</th>
+          <th>Floor To</th>
+          <th>Lift Available To</th>
+        </tr>
+        <tr>
+          <td>{{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}</td>
+          <td>{{ this.dialog.fromfloor }}</td>
+          <td>{{ this.dialog.fromlift ? "yes" : "No" }}</td>
+          <td>{{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}</td>
+          <td>{{ this.dialog.tofloor }}</td>
+          <td>{{ this.dialog.tolift ? "yes" : "No" }}</td>
+        </tr>
+      </table>
+      <span aria-hidden="true">Date & Time Details</span>
+      <table style="width: 100%">
+        <tr>
+          <th>Pickup Date</th>
+          <th>Pickup Time</th>
+        </tr>
+        <tr>
+          <td>
+            {{ this.dialog.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
+          </td>
+          <!-- <td>{{ new Date(this.dialog.orderdate).getHours() }}</td> -->
+          <!-- <td>{{ this.dialog.orderdate.getHours()}}":00"{{this.dialog.orderdate.getHours()>12?"PM":"AM"}}-{{ this.dialog.orderdate.getHours()+2}}":00"{{this.dialog.orderdate.getHours()>12?"PM":"AM"}}</td> -->
+          <td>{{ strdate }}</td>
+        </tr>
+      </table>
+      <span aria-hidden="true">Distance & Items Quantity</span>
+      <table style="width: 100%">
+        <tr>
+          <!-- <th>Total Distance</th> -->
+          <th>Total Items</th>
+        </tr>
+        <tr>
+          <!--    <td>{{  (this.dialog.totkm) }}KM</td> -->
+          <td>{{ this.dialogdetail.length }}</td>
+        </tr>
+      </table>
+      <span aria-hidden="true">Items </span>
+      <table style="width: 100%">
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+        </tr>
+        <tr *ngFor="let h of dialogdetail">
+          <td>{{ h.item_name }}</td>
+          <td>{{ h.quantity }}</td>
+        </tr>
+      </table>
+      <span aria-hidden="true">Party Details</span>
+      <table style="width: 100%">
+        <tr>
+          <th>Party Name</th>
+          <th>Email</th>
+          <th>Mobile#</th>
+        </tr>
+        <tr>
+          <td>{{ this.dialog.cust_name }}</td>
+          <td>{{ this.dialog.cust_email }}</td>
+          <td>{{ this.dialog.cust_mobile }}</td>
+        </tr>
+      </table>
+      <!-- <span aria-hidden="true">CFT Details</span> -->
+      <table style="width: 100%">
+        <tr>
+          <!--    <th>Vehicle Name</th>
+            <th>Total CFT</th> -->
+          <th>Select Partner</th>
+        </tr>
+        <tr>
+          <!--   <td>{{  vehiclename }}</td>
+            <td>{{ this.dialog.totalcft }}</td> -->
+          <td>
+            {{ partnername }}
+            <!-- <select class="form-control" [(ngModel)]="dialog.part_id" name="Part_id">
+              <option [value]="i.idval" *ngFor="let i of ddlpart" >
+                {{ i.textval }}
+              </option>
+            </select> -->
+          </td>
+        </tr>
+      </table>
+      <span aria-hidden="true">Payment Details </span>
+      <table style="width: 100%">
+        <tr>
+          <th>Total Amount</th>
+          <th>Discount Amount</th>
+          <th>Paid Amount</th>
+          <th
+            *ngIf="
+              this.dialog.orderstatus == 'Quotation' ||
+              this.dialog.orderstatus == 'token'
+            "
+          >
+            Balance Amount
+          </th>
+          <th *ngIf="this.dialog.orderstatus == 'Quotation'">Balance Amount</th>
+        </tr>
+        <tr>
+          <td>{{ this.dialog.grandtotal }}</td>
+          <td>{{ this.dialog.discount }}</td>
+          <td>{{ this.paidamount }}</td>
+          <td
+            *ngIf="
+              this.dialog.orderstatus == 'Quotation' ||
+              this.dialog.orderstatus == 'token'
+            "
+          >
+            {{
+              this.dialog.grandtotal - this.dialog.discount - this.paidamount
+            }}
+          </td>
+          <td *ngIf="this.dialog.orderstatus == 'Quotation'">
+            <p-button
+              [label]="NextButtonLabel"
+              (onClick)="processPayment()"
+              icon="pi pi-angle-right"
+              iconPos="right"
+              styleClass="font-12 font-bold text-uppercase"
+              [ngClass]="'p-button-danger'"
+            ></p-button>
+          </td>
+        </tr>
+      </table>
+      <div
+        class="modal-body"
+        *ngIf="
+          this.dialog.orderstatus == 'adminapproved' ||
+          this.dialog.orderstatus == 'ready'
+        "
+        class="row"
+      >
+        <table style="width: 100%">
+          <tr>
+            <th>For Insurance</th>
+            <th>Insurance Amount@{{ insurancerate }}%</th>
+            <th>GST Amount@{{ gstrate }}%</th>
+            <th>Balance Amount</th>
+            <th *ngIf="this.dialog.orderstatus == 'adminapproved'"></th>
+          </tr>
+          <tr>
+            <td>{{ dialog.forinsurance }}</td>
+            <td>{{ dialog.insuranceamount }}</td>
+            <td>{{ dialog.gstamount }}</td>
+
+            <td>
+              <span style="color: red">
+                <!-- {{  this.dialog.grandtotal + this.dialog.gstamount +  this.dialog.insuranceamount - this.dialog.discount }} -->
+                {{ this.payamount }}
+              </span>
+            </td>
+            <td *ngIf="this.dialog.orderstatus == 'adminapproved'">
+              <p-button
+                [label]="NextButtonLabel"
+                (onClick)="processPayment()"
+                icon="pi pi-angle-right"
+                iconPos="right"
+                styleClass="font-12 font-bold text-uppercase"
+                [ngClass]="'p-button-danger'"
+              ></p-button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- <div  class="row">
+          <div class="col-sm-6">
+           <div class="form-group">
+             <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
+           </div>
+          </div>
+    
+         </div> -->
+    </div>
+  </div>
+
+  <!-------------old -------->
+  <!-- <div style="display: none">
+    <table style="width: 100%">
+      <tr>
+        <th>Residencial</th>
+        <th>Package Type</th>
+        <th>Order Status</th>
+      </tr>
+      <tr>
+        <td>{{ this.dialog.movetype }}</td>
+        <td>{{ this.packagename }}</td>
+        <td>{{ this.dialog.orderstatus }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true"
+      >Location({{
+        this.dialog.fromcity.split(",").length > 1
+          ? this.dialog.fromcity.split(",")[1]
+          : this.dialog.fromcity.split(",")[0]
+      }})</span
+    >
+    <table style="width: 100%">
+      <tr>
+        <th>Moving From</th>
+        <th>Floor From</th>
+        <th>Lift Available From</th>
+        <th>Moving To</th>
+        <th>Floor To</th>
+        <th>Lift Available To</th>
+      </tr>
+      <tr>
+        <td>{{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}</td>
+        <td>{{ this.dialog.fromfloor }}</td>
+        <td>{{ this.dialog.fromlift ? "yes" : "No" }}</td>
+        <td>{{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}</td>
+        <td>{{ this.dialog.tofloor }}</td>
+        <td>{{ this.dialog.tolift ? "yes" : "No" }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true">Date & Time Details</span>
+    <table style="width: 100%">
+      <tr>
+        <th>Delivery Date</th>
+        <th>Delivery Time Slot</th>
+      </tr>
+      <tr>
+        <td>
+          {{ this.dialog.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
+        </td>
+      
+        <td>{{ strdate }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true">Distance & Items Quantity</span>
+    <table style="width: 100%">
+      <tr>
+        <th>Total Distance</th>
+        <th>Total Items</th>
+      </tr>
+      <tr>
+        <td>{{ this.dialog.totkm }}</td>
+        <td>{{ this.dialogdetail.length }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true">Items </span>
+    <table style="width: 100%">
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+      </tr>
+      <tr *ngFor="let h of dialogdetail">
+        <td>{{ h.item_name }}</td>
+        <td>{{ h.quantity }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true">Party Details</span>
+    <table style="width: 100%">
+      <tr>
+        <th>Party Name</th>
+        <th>Email</th>
+        <th>Mobile#</th>
+      </tr>
+      <tr>
+        <td>{{ this.dialog.cust_name }}</td>
+       
+        <td>
+          <input
+            type="text"
+            required
+            class="form-control"
+            id="cust_email"
+            [(ngModel)]="dialog.cust_email"
+            placeholder="Email"
+          />
+        </td>
+        <td>{{ this.dialog.cust_mobile }}</td>
+      </tr>
+    </table>
+    <span aria-hidden="true">CFT Details</span>
+    <table style="width: 100%">
+      <tr>
+        <th>Vehicle Name</th>
+        <th>Total CFT</th>
+        <th>Select Partner</th>
+      </tr>
+      <tr>
+        <td>{{ vehiclename }}</td>
+        <td>{{ this.dialog.totalcft }}</td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="dialog.part_id"
+            name="Part_id"
+          >
+            <option [value]="i.idval" *ngFor="let i of ddlpart">
+              {{ i.textval }}
+            </option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <span aria-hidden="true">Payment Details </span>
+    <table style="width: 100%">
+      <tr>
+        <th>Total Amount</th>
+        <th>Discount Amount</th>
+        <th>Paid Amount</th>
+        <th>Balance Amount</th>
+      </tr>
+      <tr>
+        <td *ngIf="!incityflag">
+          <input
+            type="number"
+            required
+            class="form-control"
+            id="grandtotal"
+            [(ngModel)]="dialog.grandtotal"
+            (keyup)="totalamountchange()"
+            placeholder="For Total"
+          />
+        </td>
+        <td *ngIf="incityflag">{{ this.dialog.grandtotal }}</td>
+        <td>
+          <input
+            type="number"
+            required
+            class="form-control"
+            id="discount"
+            [(ngModel)]="dialog.discount"
+            placeholder="Discount amount"
+          />
+        </td>
+        <td>{{ paidamount }}</td>
+        <td>{{ this.dialog.grandtotal - paidamount }}</td>
+      </tr>
+    </table>
+    
+    <table style="width: 100%">
+      <tr>
+        <th>For Insurance</th>
+        <th>Insurance Amount@{{ insurancerate }}%</th>
+        <th>GST Amount@{{ gstrate }}%</th>
+
+        <th>Final Total</th>
+        <th>Final Balance</th>
+      </tr>
+      <tr>
+        <td>
+          <input
+            type="number"
+            required
+            class="form-control"
+            id="forinsurance"
+            [(ngModel)]="dialog.forinsurance"
+            (keyup)="insuranceamountchange()"
+            placeholder="For Insurance"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            required
+            class="form-control"
+            id="insuranceamount"
+            [(ngModel)]="dialog.insuranceamount"
+            placeholder="Insurance amount"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            required
+            class="form-control"
+            id="gstamount"
+            [(ngModel)]="dialog.gstamount"
+            placeholder="Gst amount"
+          />
+        </td>
+
+        <td>
+          <span style="color: red">
+            {{
+              this.dialog.grandtotal +
+                this.dialog.gstamount +
+                this.dialog.insuranceamount -
+                this.dialog.discount
+            }}
+          </span>
+        </td>
+        <td>
+          <span style="color: red">
+            {{
+              this.dialog.grandtotal +
+                this.dialog.gstamount +
+                this.dialog.insuranceamount -
+                this.dialog.discount -
+                paidamount
+            }}
+          </span>
+        </td>
+      </tr>
+    </table>
+    <table style="width: 100%">
+      <tr>
+        <td>
+          <button class="btn btn-md btn-primary" (click)="SaveData()">
+            Save Order
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-md btn-primary" (click)="CancelOrder()">
+            Cancel Order
+          </button>
+        </td>
+        <td>
+          <input
+            required
+            class="form-control"
+            id="cancelreason"
+            [(ngModel)]="dialog.cancelreason"
+            placeholder="Reason For Cancelation"
+          />
+        </td>
+      </tr>
+    </table>
+  </div> -->
+  <!-- </div> -->
+  <!-- <div  class="row">
+  <div class="col-sm-3">
+   <div class="form-group">
+     <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
+    
+   </div></div>
+   <div class="col-sm-2.5">
+    <div class="form-group">
+      <button class="btn btn-md btn-primary" (click)="CancelOrder()">Cancel Order</button>
+    </div></div>
+    <div class="col-sm-6.5">
+     <div class="form-group">
+   <input 
+          required
+          class="form-control"
+          id="cancelreason"
+          [(ngModel)]="dialog.cancelreason"
+          placeholder="Reason For Cancelation"
+        /> </div> 
+  </div>
+  
+ </div> -->
+</div>

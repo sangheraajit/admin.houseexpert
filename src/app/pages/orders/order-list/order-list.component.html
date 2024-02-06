@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-xxxl-3 col-md-3" *ngFor="let statusCard of statusCards">
+    <!-- <ngx-status-card [title]="statusCard.title"
+                     [type]="statusCard.type"
+                     [total]="statusCard.total">
+      <i [ngClass]="statusCard.iconClass"></i>
+    </ngx-status-card> -->
+    <nb-card accent="{{ statusCard.type }}" status="{{ statusCard.iconClass }}" (click)="filterorders(statusCard)">
+       
+      <nb-card-header>{{ statusCard.title }}</nb-card-header>
+      <!-- <nb-card-body>
+      </nb-card-body> -->
+      <nb-card-footer>{{ statusCard.total }}</nb-card-footer>
+    </nb-card>
+     </div>
+</div>
+<div class="row">
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <nb-card>
+        <nb-card-header>
+          <!-- Orders Listing -->
+          <div >
+            <table>
+            <tr>
+            <td style="width:30%">
+              <input
+              type="text"  
+              required
+              class="form-control"
+              id="globalsearch"
+              [(ngModel)]="globalsearch"
+              placeholder="Order#,Party Name, Mobile#"
+            />
+            </td>
+            <td style="width:25%">
+            <ng-multiselect-dropdown
+            [placeholder]="'Select Filters'"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            [(ngModel)]="selectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </td>
+        <td style="width:25%">
+          <select class="form-control" [(ngModel)]="part_id" name="Part_id">
+            <option [value]="i.idval" *ngFor="let i of ddlpart" placeholder="Select Partner" >
+              {{ i.textval }}
+            </option>
+          </select>
+        </td>
+        <td style="width:20%">
+          <button class="btn btn-md btn-primary" (click)="filterorders2()">Search Orders</button>
+        </td>
+        </tr>
+        </table>
+          </div>
+          
+        </nb-card-header>
+        <ngx-spinner
+          bdColor="rgba(51, 51, 51, 0.8)"
+          size="medium"
+          color="#d32dd8"
+          type="ball-triangle-path"
+        >
+        </ngx-spinner>
+  
+        <nb-card-body>
+          <ng2-smart-table
+            [settings]="settings"
+            (create)="openCreateDialog($event)"
+            (edit)="editDialog($event)"
+            [source]="sourcedata"
+            (delete)="viewDialog($event)"
+          >
+          </ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+  

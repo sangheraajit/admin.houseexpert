@@ -1,0 +1,464 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Order</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+  <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Order date  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              
+              class="form-control"
+              id="mdesc"
+              [ngModel]="dialog.orderdate | date:'yyyy-MM-dd'"
+              placeholder="Orderdate"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Order no  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.orderno"
+              placeholder="Orderno"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Customer  </label>
+            <!-- <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.customerid"
+              placeholder="Customerid"
+            /> -->
+           <select class="form-control" [disabled]="noedit" [(ngModel)]="dialog.customerid"  name="customerid">
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlcust"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromaddress  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromaddress"
+              placeholder="Fromaddress"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromcity  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromcity"
+              placeholder="Fromcity"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromlat  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromlat"
+              placeholder="Fromlat"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromlong  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromlong"
+              placeholder="Fromlong"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Toaddress  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.toaddress"
+              placeholder="Toaddress"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tocity  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tocity"
+              placeholder="Tocity"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tolat  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tolat"
+              placeholder="Tolat"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tolong  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tolong"
+              placeholder="Tolong"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Totkm  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.totkm"
+              placeholder="Totkm"
+            />
+          </div>
+        </div>
+</div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Incity  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.incity"
+              placeholder="Incity"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Total  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.total"
+              placeholder="Total"
+            />
+          </div>
+        </div>
+</div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tax  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tax"
+              placeholder="Tax"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Discount  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.discount"
+              placeholder="Discount"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Grandtotal  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.grandtotal"
+              placeholder="Grandtotal"
+            />
+          </div>
+        </div>        
+        <!-- <div class="col-sm-6">
+          <div class="form-group">
+             
+            <label>Partner</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.part_id"
+              
+              name="Part_id"
+            >
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlpart"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div> -->
+</div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Orderstatus  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.orderstatus"
+              placeholder="Orderstatus"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromfloor  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromfloor"
+              placeholder="Fromfloor"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tofloor  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tofloor"
+              placeholder="Tofloor"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Packageid  </label>
+            <!-- <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.packageid"
+              placeholder="Packageid"
+            /> -->
+            <select class="form-control" [disabled]="noedit" [(ngModel)]="dialog.packageid"  name="packageid">
+              <option [value]="i.idval" *ngFor="let i of ddlpackage" >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Extracharges  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.extracharges"
+              placeholder="Extracharges"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Addoncharges  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.addoncharges"
+              placeholder="Addoncharges"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Fromlift  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.fromlift"
+              placeholder="Fromlift"
+            />
+          </div>
+        </div>        
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Tolift  </label>
+            <input
+              type="text" [disabled]="noedit"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tolift"
+              placeholder="Tolift"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Partner</label>
+            <select class="form-control" [(ngModel)]="dialog.part_id" name="Part_id">
+              <option [value]="i.idval" *ngFor="let i of ddlpart" >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Insurance Amount  </label>
+            <input
+            type="number"   
+              required
+              class="form-control"
+              id="insuranceamount"
+              [(ngModel)]="dialog.insuranceamount"
+              placeholder="Insurance amount"
+            />
+          </div>
+        </div>        
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>GST Amount  </label>
+            <input
+              type="number" 
+              required
+              class="form-control"
+              id="gstamount"
+              [(ngModel)]="dialog.gstamount"
+              placeholder="Gst amount"
+            />
+          </div>
+        </div>
+      </div>
+      <div  class="row">
+       <div class="col-sm-6">
+        <div class="form-group">
+          <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
+        </div>
+       </div>
+      </div>
+      <div  class="row">
+        <button class="btn btn-md btn-primary" (click)="showdetail=!showdetail">{{showdetail==true?"Hide Order Details":"Show Order Details"}}</button>
+      </div>
+      <div *ngIf="showdetail"  class="row">
+        
+        <ng2-smart-table
+            [settings]="settingsdtl"
+            [source]="sourcedatadtl">
+          </ng2-smart-table>
+      </div>
+      <div  class="row">
+        .
+      </div>
+      <div class="row">
+        <button class="btn btn-md btn-primary" (click)="showpayment=!showpayment">{{showpayment==true?"Hide Payment Details":"Show Payment Details"}}</button>
+      </div>
+      <div *ngIf="showpayment"  class="row">
+        <ng2-smart-table
+            [settings]="settingspay"
+            [source]="sourcedatapay">
+          </ng2-smart-table>
+      </div>
+    </nb-card-body>
+    <!-- <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer> -->
+  </nb-card>
+</div>

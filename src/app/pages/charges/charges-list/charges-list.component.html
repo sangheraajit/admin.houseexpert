@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-12">
+      <nb-card>
+        <nb-card-header>
+          Charges Listing
+        </nb-card-header>
+        <ngx-spinner
+          bdColor="rgba(51, 51, 51, 0.8)"
+          size="medium"
+          color="#d32dd8"
+          type="ball-triangle-path"
+        >
+        </ngx-spinner>
+  
+        <nb-card-body>
+          <ng2-smart-table
+            [settings]="settings"
+            (create)="openCreateDialog($event)"
+            (edit)="editDialog($event)"
+            [source]="source"
+            (delete)="deleteDialog($event)"
+          >
+          </ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+  

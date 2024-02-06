@@ -1,0 +1,223 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Service Add / Edit</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Type</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.part_id"
+              (change)="filterChanged($event.target.value)"
+              name="parttype_id"
+            >
+              <option [value]="i.idval" *ngFor="let i of ddlPartnertype">
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Category</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.cat_id"
+              (change)="filterChanged($event.target.value)"
+              name="pcat_id"
+            >
+              <option [value]="i.id" *ngFor="let i of ddlcategory">
+                {{ i.cat_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Name * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="pserv_name"
+              [(ngModel)]="dialog.serv_name"
+              placeholder="Name"
+            />
+            <span style="color: red">{{ objerror.part_name }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Description * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="pserv_desc"
+              [(ngModel)]="dialog.serv_desc"
+              placeholder="Name"
+            />
+            <span style="color: red">{{ objerror.part_name }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Rating * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="pserv_rating"
+              [(ngModel)]="dialog.serv_rating"
+              placeholder="Rating"
+            />
+            <span style="color: red">{{ objerror.part_name }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="part_email">Email ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pserv_email"
+              [(ngModel)]="dialog.serv_email"
+              placeholder="Email ID"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pserv_mobile">Mobile</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pserv_mobile"
+              [(ngModel)]="dialog.serv_mobile"
+              placeholder="Mobile"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pserv_cost">Service Cost</label>
+            <input
+              type="number"
+              class="form-control"
+              id="pserv_cost"
+              [(ngModel)]="dialog.serv_cost"
+              placeholder="Service Cost"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pserv_commission_percent">Service Commission Percentage</label>
+            <input
+              type="number"
+              class="form-control"
+              id="pserv_commission_percent"
+              [(ngModel)]="dialog.serv_commission_percent"
+              placeholder="Service Commission Percentage"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pserv_commission_fixed">Service Commission Fixed</label>
+            <input
+              type="number"
+              class="form-control"
+              id="pserv_commission_fixed"
+              [(ngModel)]="dialog.serv_commission_fixed"
+              placeholder="Service Commission Fixed"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="pserv_street">Service Street</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pserv_street"
+              [(ngModel)]="dialog.serv_street"
+              placeholder="Service Street"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>City</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.city_id"
+              (change)="filterChanged($event.target.value)"
+              name="pcity_id"
+            >
+              <option [value]="i.idval" *ngFor="let i of ddlCity">
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <table>
+              <tr>
+                <td>Active :</td>
+                <td><ui-switch [(ngModel)]="dialog.active"></ui-switch></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">File Upload</label>
+            <input
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader1"
+              (onFileSelected)="onFileSelected1($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+  <!-- <div class="form-group"><table>
+  <tr>
+    <td>
+<button class="btn btn-md btn-primary" (click)="OrderImport()">Import Orders</button>
+</td><td>
+<button class="btn btn-md btn-primary" (click)="ShippingUpload()">Upload Shipping</button>
+</td>
+<td>
+  <button class="btn btn-md btn-primary" (click)="GetToken()">Get Token</button>
+  </td>
+  <td>
+    <button class="btn btn-md btn-primary" (click)="GetListing()">Get Listing</button>
+    </td>
+    <td>
+      <button class="btn btn-md btn-primary" (click)="hide = !hide">{{hide ? 'Show' : 'Hide'}}</button>
+      </td>
+</tr></table>
+</div> -->
+</div>

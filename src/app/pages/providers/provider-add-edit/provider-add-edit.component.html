@@ -1,0 +1,900 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Partner Add/Edit</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!--#region commented  -->
+<!-- 
+<div class="modal-body">
+  <nb-card
+    ><nb-card-body>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Type</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.parttype_id"
+              (change)="filterChanged($event.target.value)"
+              name="parttype_id"
+            >
+              <option [value]="i.idval" *ngFor="let i of ddlPartnertype">
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Name * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="part_name"
+              [(ngModel)]="dialog.part_name"
+              placeholder="Name"
+            />
+            <span style="color: red">{{ objerror.part_name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>City</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.part_city"
+              (change)="filterChanged($event.target.value)"
+              name="part_city"
+            >
+              <option [value]="i.idval" *ngFor="let i of ddlCity">
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="part_address">Address</label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="part_address"
+              [(ngModel)]="dialog.part_address"
+              placeholder="Address"
+            />
+
+            <span style="color: red">{{ objerror.part_address }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="part_mobile">Mobile</label>
+            <input
+              type="text"
+              class="form-control"
+              id="part_mobile"
+              [(ngModel)]="dialog.part_mobile"
+              placeholder="Mobile"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="part_email">Email ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="part_email"
+              [(ngModel)]="dialog.part_email"
+              placeholder="Email ID"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6" *ngIf="isfreelancer">
+          <div class="form-group">
+            <label for="part_gender">Gender</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.part_gender"
+              name="part_gender"
+            >
+              <option [value]="'M'">Male</option>
+              <option [value]="'F'">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <table>
+              <tr>
+                <td>Active :</td>
+                <td><ui-switch [(ngModel)]="dialog.active"></ui-switch></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">File Upload</label>
+            <input
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader1"
+              (onFileSelected)="onFileSelected1($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div> -->
+<!--#endregion    -->
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <nb-card>
+      <nb-tabset>
+        <!--#region Provider  -->
+        <nb-tab tabTitle="Provider">
+          <nb-card
+            ><nb-card-body>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Type</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogp.parttype_id"
+                      (change)="filterChanged($event.target.value)"
+                      name="parttype_id"
+                    >
+                      <option
+                        [value]="i.idval"
+                        *ngFor="let i of ddlPartnertype"
+                      >
+                        {{ i.textval }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Name * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="part_name"
+                      [(ngModel)]="dialogp.part_name"
+                      placeholder="Name"
+                    />
+                    <span style="color: red">{{ objerror.part_name }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogp.part_city"
+                      (change)="filterChanged($event.target.value)"
+                      name="part_city"
+                    >
+                      <option [value]="i.idval" *ngFor="let i of ddlCity">
+                        {{ i.textval }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_address">Address</label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="part_address"
+                      [(ngModel)]="dialogp.part_address"
+                      placeholder="Address"
+                    />
+
+                    <span style="color: red">{{ objerror.part_address }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_mobile">Mobile</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="part_mobile"
+                      [(ngModel)]="dialogp.part_mobile"
+                      placeholder="Mobile"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_email">Email ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="part_email"
+                      [(ngModel)]="dialogp.part_email"
+                      placeholder="Email ID"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6" *ngIf="isfreelancer">
+                  <div class="form-group">
+                    <label for="part_gender">Gender</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogp.part_gender"
+                      name="part_gender"
+                    >
+                      <option [value]="'M'">Male</option>
+                      <option [value]="'F'">Female</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <table>
+                      <tr>
+                        <td>Active :</td>
+                        <td>
+                          <ui-switch [(ngModel)]="dialogp.active"></ui-switch>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="token">File Upload</label>
+                    <input
+                      type="file"
+                      ng2FileSelect
+                      [uploader]="uploader1"
+                      (onFileSelected)="onFileSelected1($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </nb-card-body>
+            <nb-card-footer>
+              <button class="btn btn-md btn-primary" (click)="SaveData()">
+                Save changes
+              </button>
+            </nb-card-footer>
+          </nb-card>
+        </nb-tab>
+ <!--#endregion  -->
+        <!--#region shop  -->
+       <nb-tab tabTitle="Shop" *ngIf="this.dialogp.id">
+        <div *ngIf="shopaction === 'add'" class="row">
+          <nb-card
+          ><nb-card-body>
+            <div class="row">
+              <!-- <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Type</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="dialogp.parttype_id"
+                    (change)="filterChanged($event.target.value)"
+                    name="parttype_id"
+                  >
+                    <option
+                      [value]="i.idval"
+                      *ngFor="let i of ddlPartnertype"
+                    >
+                      {{ i.textval }}
+                    </option>
+                  </select>
+                </div>
+              </div> -->
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Shop Name * </label>
+                  <input
+                    type="text"
+                    required
+                    class="form-control"
+                    id="part_name"
+                    [(ngModel)]="shopAdd.shop_name"
+                    placeholder="Name"
+                  />
+                  <!-- <span style="color: red">{{ objerror.pshop_name }}</span> -->
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Shop Description * </label>
+                  <input
+                    type="text"
+                    required
+                    class="form-control"
+                    id="part_name"
+                    [(ngModel)]="shopAdd.shop_desc"
+                    placeholder="Name"
+                  />
+                  <!-- <span style="color: red">{{ objerror.pshop_desc }}</span> -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_address">Rating</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="part_address"
+                    [(ngModel)]="shopAdd.shop_rating"
+                    placeholder="Rating"
+                  />
+
+                  <!-- <span style="color: red">{{ objerror.pshop_rating }}</span> -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_mobile">Mobile</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pshop_mobile"
+                    [(ngModel)]="shopAdd.shop_mobile"
+                    placeholder="Mobile"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_email">Email ID</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pshop_email"
+                    [(ngModel)]="shopAdd.shop_email"
+                    placeholder="Email ID"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_email">Shop Latitude</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pshop_lat"
+                    [(ngModel)]="shopAdd.shop_lat"
+                    placeholder="Shop Latitude"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_email">Shop Longitude</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pshop_long"
+                    [(ngModel)]="shopAdd.shop_long"
+                    placeholder="Shop Longitude"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>City</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="shopAdd.city_id"
+                    (change)="filterChanged($event.target.value)"
+                    name="pcity_id"
+                  >
+                    <option [value]="i.idval" *ngFor="let i of ddlCity">
+                      {{ i.textval }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="part_email">Shop Street</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="pshop_long"
+                    [(ngModel)]="shopAdd.shop_street"
+                    placeholder="Shop Street"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <table>
+                    <tr>
+                      <td>Active :</td>
+                      <td>
+                        <ui-switch [(ngModel)]="shopAdd.active"></ui-switch>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              
+            </div>
+          </nb-card-body>
+          <nb-card-footer>
+            <button class="btn btn-md btn-primary" (click)="SaveShopData()">
+              Save Shop changes
+            </button>&nbsp;&nbsp;
+            <button class="btn btn-md btn-primary" (click)="BackShopData()">
+              Back
+            </button>
+          </nb-card-footer>
+        </nb-card>
+        </div>
+          <div *ngIf="shopaction === 'list'" class="row">
+            <div class="col-md-12">
+              <nb-card>
+                <!-- <nb-card-header>
+                  Shop Listing
+                    <button class="btn btn-primary" (click)="showStaticModal()">Add</button>  
+                </nb-card-header> -->
+                <ngx-spinner
+                  bdColor="rgba(51, 51, 51, 0.8)"
+                  size="medium"
+                  color="#d32dd8"
+                  type="ball-triangle-path"
+                >
+                </ngx-spinner>
+          
+                <nb-card-body>
+                  <ng2-smart-table
+                    [settings]="settingshop"
+                    [source]="source"
+                     (create)="openCreateDialogshop($event)"
+                    (edit)="editDialogshop($event)"                 
+                    >
+                  </ng2-smart-table>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </nb-tab>
+        <!--#endregion shop  -->
+        <!--#region services  -->
+        <nb-tab tabTitle="Services" *ngIf="this.dialogp.id">
+          <div *ngIf="servaction === 'add'" class="row">
+            <nb-card
+            ><nb-card-body>
+              <div class="row">
+                
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Shop</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogService.shop_id"
+                      (change)="filterChanged($event.target.value)"
+                      name="pcity_id"
+                    >
+                      <option [value]="i.id" *ngFor="let i of ddlShop">
+                        {{ i.shop_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6"></div>
+              </div>
+              <div class="row" *ngIf="dialogService.shop_id">
+                <!-- <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Type</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogService.part_id"
+                      (change)="filterChanged($event.target.value)"
+                      name="parttype_id"
+                    >
+                      <option [value]="i.idval" *ngFor="let i of ddlPartnertype">
+                        {{ i.textval }}
+                      </option>
+                    </select>
+                  </div>
+                </div> -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Category</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogService.cat_id"
+                      (change)="filterChanged($event.target.value)"
+                      name="pcat_id"
+                    >
+                      <option [value]="i.id" *ngFor="let i of ddlcategory">
+                        {{ i.cat_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Name * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="pserv_name"
+                      [(ngModel)]="dialogService.serv_name"
+                      placeholder="Name"
+                    />
+                    <span style="color: red">{{ objerror.part_name }}</span>
+                  </div>
+                </div> -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Description * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="pserv_desc"
+                      [(ngModel)]="dialogService.serv_desc"
+                      placeholder="Name"
+                    />
+                    <span style="color: red">{{ objerror.part_name }}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Rating * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="pserv_rating"
+                      [(ngModel)]="dialogService.serv_rating"
+                      placeholder="Rating"
+                    />
+                    <span style="color: red">{{ objerror.part_name }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_email">Email ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pserv_email"
+                      [(ngModel)]="dialogService.serv_email"
+                      placeholder="Email ID"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="pserv_mobile">Mobile</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pserv_mobile"
+                      [(ngModel)]="dialogService.serv_mobile"
+                      placeholder="Mobile"
+                    />
+                  </div> 
+                </div>-->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="pserv_cost">Service Cost</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="pserv_cost"
+                      [(ngModel)]="dialogService.serv_cost"
+                      placeholder="Service Cost"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="pserv_commission_percent">Service Commission Percentage</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="pserv_commission_percent"
+                      [(ngModel)]="dialogService.serv_commission_percent"
+                      placeholder="Service Commission Percentage"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="pserv_commission_fixed">Service Commission Fixed</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="pserv_commission_fixed"
+                      [(ngModel)]="dialogService.serv_commission_fixed"
+                      placeholder="Service Commission Fixed"
+                    />
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="pserv_street">Service Street</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pserv_street"
+                      [(ngModel)]="dialogService.serv_street"
+                      placeholder="Service Street"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="dialogService.city_id"
+                      (change)="filterChanged($event.target.value)"
+                      name="pcity_id"
+                    >
+                      <option [value]="i.idval" *ngFor="let i of ddlCity">
+                        {{ i.textval }}
+                      </option>
+                    </select>
+                  </div>
+                </div> -->
+              </div>
+        
+              <div class="row" *ngIf="dialogService.shop_id">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <table>
+                      <tr>
+                        <td>Active :</td>
+                        <td><ui-switch [(ngModel)]="dialogService.active"></ui-switch></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="token">File Upload</label>
+                    <input
+                      type="file"
+                      ng2FileSelect
+                      [uploader]="uploader1"
+                      (onFileSelected)="onFileSelected1($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </nb-card-body>
+            <nb-card-footer>
+              <button class="btn btn-md btn-primary" (click)="SaveServiceData()">
+                Save Service Changes
+              </button>&nbsp;&nbsp;
+              <button class="btn btn-md btn-primary" (click)="BackServiceData()">
+                Back
+              </button>
+            </nb-card-footer>
+          </nb-card>
+          </div>
+          <div *ngIf="servaction === 'list'" class="row">
+            <div class="col-md-12">
+              <nb-card>
+                <nb-card-header>
+                  Service Listing
+                </nb-card-header>
+                <ngx-spinner
+                  bdColor="rgba(51, 51, 51, 0.8)"
+                  size="medium"
+                  color="#d32dd8"
+                  type="ball-triangle-path">
+                </ngx-spinner>
+          
+                <nb-card-body>
+                  <ng2-smart-table [settings]="settingsService"        
+                    [source]="sourceService" 
+                    (create)="openCreateDialogService($event)"
+                    (edit)="editServiceDialog($event)"
+                    (delete)="deleteDialog($event)"             
+                  >
+                  
+                  </ng2-smart-table>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </nb-tab>
+        <!--#endregion    -->
+        <!--#region rate  -->
+        <nb-tab tabTitle="Rate Master" *ngIf="this.dialogp.id">
+          <div *ngIf="rateaction === 'add'" class="row">
+            <nb-card
+            ><nb-card-body>
+              <div class="row">
+                
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>CFT * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="part_name"
+                      [(ngModel)]="shopAdd.shop_name"
+                      placeholder="CFT"
+                    />
+                    <!-- <span style="color: red">{{ objerror.pshop_name }}</span> -->
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>CFT Rate * </label>
+                    <input
+                      type="text"
+                      required
+                      class="form-control"
+                      id="part_name"
+                      [(ngModel)]="shopAdd.shop_desc"
+                      placeholder="CFT Rate"
+                    />
+                    <!-- <span style="color: red">{{ objerror.pshop_desc }}</span> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_address">Fixed</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="part_address"
+                      [(ngModel)]="shopAdd.shop_rating"
+                      placeholder="Fixed"
+                    />
+  
+                    <!-- <span style="color: red">{{ objerror.pshop_rating }}</span> -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_mobile">Per KM</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pshop_mobile"
+                      [(ngModel)]="shopAdd.shop_mobile"
+                      placeholder="Per KM"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_email">From KM</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pshop_email"
+                      [(ngModel)]="shopAdd.shop_email"
+                      placeholder="From KM"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="part_email">To KM</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pshop_lat"
+                      [(ngModel)]="shopAdd.shop_lat"
+                      placeholder="To KM"
+                    />
+                  </div>
+                </div>
+               
+              </div>
+              <div class="row">
+                
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <table>
+                      <tr>
+                        <td>Active :</td>
+                        <td>
+                          <ui-switch [(ngModel)]="shopAdd.active"></ui-switch>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                
+              </div>
+            </nb-card-body>
+            <nb-card-footer>
+              <button class="btn btn-md btn-primary" (click)="SaveRateData()">
+                Save Rate changes
+              </button>&nbsp;&nbsp;
+              <button class="btn btn-md btn-primary" (click)="BackRateData()">
+                Back
+              </button>
+            </nb-card-footer>
+          </nb-card>
+          </div>
+          <div *ngIf="rateaction === 'list'" class="row">
+            <div class="col-md-12">
+              <nb-card>
+                <nb-card-header>
+                  Rate Master
+                  <button class="close" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </nb-card-header>
+                <ngx-spinner
+                  bdColor="rgba(51, 51, 51, 0.8)"
+                  size="medium"
+                  color="#d32dd8"
+                  type="ball-triangle-path"
+                >
+                </ngx-spinner>
+          
+                <nb-card-body>
+                  <ng2-smart-table
+                    [settings]="settingsRate"
+                    
+                    [source]="sourceRate"
+                    (create)="openCreateRateDialog($event)"
+                    (edit)="editRateDialog($event)"
+                    (delete)="deleteDialog($event)"
+                  >
+                  <!--  -->
+                  </ng2-smart-table>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </nb-tab>
+        <!--#endregion    -->
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

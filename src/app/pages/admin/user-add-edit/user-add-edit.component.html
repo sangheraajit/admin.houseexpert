@@ -1,0 +1,102 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Channel Credentials</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+      <div class="row">
+        <!-- <div class="col-sm-6">
+          <div class="form-group">
+            <label>Type</label>
+            <select class="form-control" [(ngModel)]="dialog.parttype_id" (change)="filterChanged($event.target.value)"  name="parttype_id">
+              <option [value]="i.idval" *ngFor="let i of ddlPartnertype">{{i.textval}}</option>
+            </select>
+          </div>
+        </div> -->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>User Name * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="pcity_name"
+              [(ngModel)]="dialog.username"
+              placeholder="City Name"
+            />
+            <span style="color: red">{{ objerror.pusername }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>User Type * </label>
+              <select class="form-control" [(ngModel)]="dialog.usertype" name="usertype">
+                  <option [value]="i.idval" *ngFor="let i of ddl">
+                    {{ i.textval }}
+                  </option>
+                </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>User Password * </label>
+            <input
+              type="password"
+              required
+              class="form-control"
+              id="pcity_country"
+              [(ngModel)]="dialog.userpass"
+              placeholder="Country"
+            />
+            <span style="color: red">{{ objerror.puserpass }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+  <!-- <div class="form-group"><table>
+  <tr>
+    <td>
+<button class="btn btn-md btn-primary" (click)="OrderImport()">Import Orders</button>
+</td><td>
+<button class="btn btn-md btn-primary" (click)="ShippingUpload()">Upload Shipping</button>
+</td>
+<td>
+  <button class="btn btn-md btn-primary" (click)="GetToken()">Get Token</button>
+  </td>
+  <td>
+    <button class="btn btn-md btn-primary" (click)="GetListing()">Get Listing</button>
+    </td>
+    <td>
+      <button class="btn btn-md btn-primary" (click)="hide = !hide">{{hide ? 'Show' : 'Hide'}}</button>
+      </td>
+</tr></table>
+</div> -->
+</div>

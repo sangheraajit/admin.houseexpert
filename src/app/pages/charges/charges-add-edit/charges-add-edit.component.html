@@ -1,0 +1,103 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Charges Master</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+  <div class="row">
+        <div class="col-sm-6">
+         
+          <!-- <div class="form-group">
+            <label>Catid * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.catid"
+              placeholder="Catid"
+            />
+          </div> -->
+          <div class="form-group">
+            <label>Type</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.catid"
+              
+              name="catid"
+            >
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlcat"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Charge desc * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.chargedesc"
+              placeholder="Chargedesc"
+            />
+          </div>
+        </div></div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Charge amount * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.chargeamount"
+              placeholder="Chargeamount"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Charge sequence * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.chargesequence"
+              placeholder="Chargesequence"
+            />
+          </div>
+        </div></div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>

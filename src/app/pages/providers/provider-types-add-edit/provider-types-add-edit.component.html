@@ -1,0 +1,87 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Provider Type Add/Edit</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card><nb-card-body>
+      <div class="row">
+        <!-- <div class="col-sm-6">
+          <div class="form-group">
+            <label>Channel ID</label>
+            <select class="form-control" [(ngModel)]="dialog.mid" (change)="filterChanged($event.target.value)"  name="processtype">
+              <option [value]="i.ID" *ngFor="let i of ddlProcesstype">{{i.TEXT}}</option>
+            </select>
+          </div>
+        </div> -->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Product Type * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.parttype_name"
+              placeholder="Channel Description"
+            />
+            <span style="color: red">{{ objerror.parttype_name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="muser">Common fixed *</label>
+            <input
+              type="number"
+              required
+              class="form-control"
+              id="muser"
+              [(ngModel)]="dialog.parttype_comm_fixed"
+              placeholder="Common fixed"
+            />
+
+            <span style="color: red">{{ objerror.parttype_comm_fixed }}</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="mpass">Common Percent * </label>
+            <input
+              type="number"
+              required
+              class="form-control"
+              id="mpass"
+              [(ngModel)]="dialog.parttype_comm_percent"
+              placeholder="Common Percent"
+            />
+
+            <span style="color: red">{{ objerror.parttype_comm_percent }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="token">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>

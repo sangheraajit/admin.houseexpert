@@ -1,0 +1,60 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>Floor Rate Master</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+           
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Floor Number * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="floorno"
+              [(ngModel)]="dialog.floorno"
+              placeholder="Floor Number"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Floor Rate * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="floorrate"
+              [(ngModel)]="dialog.floorrate"
+              placeholder="Floor Rate"
+            />
+          </div>
+        </div></div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>
