@@ -36,7 +36,13 @@
             <b>Total CFT:</b> {{ this.dialog.totalcft }}
           </td>
           <td style="width: 50%" class="text-left">
-            <b>Package Type:</b> {{ this.packagename }} <br /><b>Status:</b>
+            <b>Package Type:</b> {{ this.packagename }} <br />
+            <button class="btn btn-md btn-primary" (click)="viewPackageRate($event)">
+              View Package Rate
+            </button><br />
+            
+            <b>Status:</b>
+           
             <div [ngClass]="getSeverity(this.dialog.orderstatus)">
               {{ this.dialog.orderstatus }}
             </div>

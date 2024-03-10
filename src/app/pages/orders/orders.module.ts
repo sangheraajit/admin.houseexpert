@@ -34,11 +34,12 @@ import { Ng2SmartTableModule } from "ng2-smart-table";
 import { OrderViewComponent } from './order-view/order-view.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SelectPackageComponent } from './select-package/select-package.component';
 
 @NgModule({
   declarations: [OrderListComponent,
     OrderAddEditComponent,StatusCardComponent,
-    OrderViewComponent,
+    OrderViewComponent,SelectPackageComponent,
     MultiSelectComponent],
   imports: [
     CommonModule,

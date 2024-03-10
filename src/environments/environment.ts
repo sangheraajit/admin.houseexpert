@@ -13,8 +13,8 @@ export const environment = {
   projName: "House Expert",
   // AdminServer: "http://188.208.140.246:8093",
 	// CommonApiServer: "http://188.208.140.246:8093/api/",
-   CommonApiServer: "https://localhost:5001/",
-    AdminServer: "https://localhost:5001",
+  // CommonApiServer: "https://localhost:5001/",
+  ///  AdminServer: "https://localhost:5001",
   // CommonApiServer: "http://localhost:44263/api/",
   // AdminServer: "http://localhost:44263",
   // CommonApiServer: "http://103.233.25.27:8082/api/",7252
@@ -23,8 +23,8 @@ export const environment = {
   // AdminServer: "http://103.87.173.169:8083",
   // AdminServer: "http://188.208.140.246:8093",
   // CommonApiServer: "http://188.208.140.246:8093/api/",
-   /*  CommonApiServer: "https://api.houseexpert.in/",
-    AdminServer: "https://api.houseexpert.in", */
+     CommonApiServer: "https://api.houseexpert.in/",
+    AdminServer: "https://api.houseexpert.in", 
     gstrate: 18,
     insurancerate: 3,
     withincitykm: 150,

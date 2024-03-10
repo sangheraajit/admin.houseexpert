@@ -358,6 +358,7 @@ export class OrderListComponent implements OnInit {
         console.log("order_read2",data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           this.dialog = JSON.parse(data.results).Table as any[];
+           console.log("order_read2  this.dialog", this.dialog);
         } else {
           this.dialog = [];
         }
@@ -434,6 +435,8 @@ export class OrderListComponent implements OnInit {
       }
     );
   }
+  
+  
   ngOnDestroy() {
     this.alive = false;
     if (this.subscribe$) {

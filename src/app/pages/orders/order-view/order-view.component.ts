@@ -9,10 +9,12 @@ import {
 } from "angular2-toaster";
 import "style-loader!angular2-toaster/toaster.css";
 import { ApiService } from "../../../services/api.service";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { LocalDataSource } from "ng2-smart-table";
 import { environment } from "../../../../environments/environment";
 import { OrderService } from "../../../services/order.service";
+import { SelectPackageComponent } from "../select-package/select-package.component";
+import { SubcategoryService } from "../../../services/subcategory.service";
 @Component({
   selector: "ngx-order-view",
   templateUrl: "./order-view.component.html",
@@ -37,12 +39,15 @@ export class OrderViewComponent implements OnInit {
   public insurancerate = environment.insurancerate;
   public incityflag = false;
   public partnername = "Not Assigned";
+  ArticlemstlistAll: any;
   constructor(
     private activeModal: NgbActiveModal,
     private ServiceObj: ApiService,
     private _sanitizer: DomSanitizer,
     private toasterService: ToasterService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private modalService: NgbModal,
+    public SubcategoryService: SubcategoryService
   ) {
     this.msg = localStorage.getItem("Message");
     console.log(this.msg);
@@ -109,7 +114,9 @@ export class OrderViewComponent implements OnInit {
   isDuplicatesPrevented = false;
   isCloseButton = true;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllarticle();
+  }
   closeModal() {
     this.activeModal.close();
   }
@@ -185,16 +192,16 @@ export class OrderViewComponent implements OnInit {
       (res) => {
         // debugger;
         let data: any = res;
-        if (!this.dialog.forinsurance && this.dialog.forinsurance != 0)
-          this.dialog.forinsurance = 100000;
+        /* if (!this.dialog.forinsurance && this.dialog.forinsurance != 0)
+          this.dialog.forinsurance = 100000; */
         if (!this.dialog.gstamount && this.dialog.gstamount != 0)
           this.dialog.gstamount = Math.round(
             (this.dialog.grandtotal * this.gstrate) / 100
           );
-        if (!this.dialog.insuranceamount && this.dialog.insuranceamount != 0)
+        /* if (!this.dialog.insuranceamount && this.dialog.insuranceamount != 0)
           this.dialog.insuranceamount = Math.round(
             (this.dialog.forinsurance * this.insurancerate) / 100
-          );
+          ); */
         console.log(data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           this.paidamount = 0;
@@ -254,8 +261,8 @@ export class OrderViewComponent implements OnInit {
           var packagefind = this.ddlpackage.find(
             (x) => x.idval == this.dialog.packageid
           );
-          if (packagefind && packagefind.length > 0) {
-            this.packagename = packagefind[0].textval;
+          if (packagefind) {
+            this.packagename = packagefind.textval;
           }
         }
       },
@@ -472,7 +479,7 @@ export class OrderViewComponent implements OnInit {
     }
   }
 
-  SaveData() {
+  SaveData(closeModal = false) {
     {
       if (this.dialog.orderstatus == "token") {
         this.dialog.orderstatus = "adminapproved";
@@ -541,8 +548,10 @@ export class OrderViewComponent implements OnInit {
             this.content = "Record processed successfully..";
             this.showToast(this.type, this.title, this.content);
             if (this.custname == this.dialog.cust_email) {
-              this.dialog = {} as any;
-              this.activeModal.close();
+              if (closeModal) {
+                this.dialog = {} as any;
+                this.activeModal.close();
+              }
             }
           }
         },
@@ -575,8 +584,10 @@ export class OrderViewComponent implements OnInit {
             this.type = "info";
             this.content = "Customer Email updated successfully..";
             this.showToast(this.type, this.title, this.content);
-            this.dialog = {} as any;
-            this.activeModal.close();
+            if (closeModal) {
+              this.dialog = {} as any;
+              this.activeModal.close();
+            }
           }
         });
       }
@@ -600,5 +611,43 @@ export class OrderViewComponent implements OnInit {
       default:
         return "danger";
     }
+  }
+  viewPackageRate(event): void {
+    const modalRef = this.modalService.open(SelectPackageComponent, {
+      size: "lg",
+      backdrop: "static",
+      container: "nb-layout",
+    });
+    this.dialog.orderDetails = this.dialogdetail;
+    modalRef.componentInstance.orderHeader = this.dialog;
+    modalRef.componentInstance.ArticlemstlistAll = this.ArticlemstlistAll;
+
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log("passdata", result);
+
+        localStorage.setItem("Message", result);
+        this.SaveData();
+        var packagefind = this.ddlpackage.find(
+          (x) => x.idval == result.packageid
+        );
+        if (packagefind) {
+          this.packagename = packagefind.textval;
+        }
+      }
+    });
+  }
+  getAllarticle() {
+    this.SubcategoryService.getAllarticle("", "").subscribe((res: any) => {
+      let data: any = res;
+
+      console.log(data.results);
+      if (JSON.parse(data.results).Table.length > 0) {
+        //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
+        this.ArticlemstlistAll = JSON.parse(
+          JSON.parse(data.results).Table[0].document
+        );
+      }
+    });
   }
 }
