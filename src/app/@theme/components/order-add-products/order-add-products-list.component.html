@@ -1,0 +1,107 @@
+<div>
+    <form>
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="input-group rounded-pill m-0" ngbDropdown>
+            <input
+              #query
+              (keyup)="searchData(query.value)"
+              type="text"
+              class="form-control border-0 rounded-pill shadow-none px-0 ps-4"
+              placeholder="Please enter any product name to search"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+            <span
+              class="bg-pink input-group-text border-0 px-3 bg-pink text-white rounded-circle ms-2"
+              id="basic-addon1"
+            >
+              <i class="fa fa-search fs-22 scaleX-1"></i>
+            </span>
+          </div>
+        </div>
+        <!--   <div class="col-10">
+          <h4 class="fs-16 fw-normal">Select Your Item</h4>
+        </div> 
+        <div class="col-md-5">
+          <div class="selectitems d-flex gap-4">
+            <div class="flex-grow-1">
+              <ul>
+                <li class="selected-item">Door wardrobe</li>
+                <li class="selected-item">AC Split</li>
+                <li class="selected-item">AC Window</li>
+                <li>Almira</li>
+                <li class="selected-item">Bean Bag</li>
+                <li class="selected-item">Bedding mattress</li>
+              </ul>
+            </div>
+            <div class="bg-pink add-remove">
+              <div class="add">
+                <span class="add-item">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+                <span>ADD</span>
+              </div>
+              <div class="remove">
+                <span>Remove</span>
+                <span class="remove-item">
+                  <i class="fa fa-angle-left"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-12 pl-5">
+          <div class="selectitems">
+            <h4 class="fs-16 fw-normal">Selected Items</h4>
+
+            <ul>
+              <li
+                class="selected-item d-flex"
+                *ngFor="let item of Articlemstlist"
+              >
+                {{ item.itemname }}
+                <div class="d-flex align-items-center qty ms-auto">
+                  <span
+                    *ngIf="item.qty > 0"
+                    (click)="changeQty(item, -1, '')"
+                    >-</span
+                  >
+                  <input
+                    *ngIf="item.qty > 0"
+                    type="text"
+                    value="{{ item?.qty }}"
+                    #qtyRef
+                    (keyup)="
+                      changeQty(item, qtyRef.value, 'replace')
+                    "
+                  />
+
+                  <span
+                    *ngIf="item.qty > 0"
+                    class="opacity-25"
+                    (click)="changeQty(item, 1, '')"
+                    >+</span
+                  >
+                  <div
+                    style="padding-right: 15px"
+                    *ngIf="item.qty == 0"
+                  >
+                    <button
+                      (click)="changeQty(item, 1, '')"
+                      class="btn btn-md btn-primary"
+                      style="font-size: 10px; height: 30px"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    
+    </form>
+  </div>

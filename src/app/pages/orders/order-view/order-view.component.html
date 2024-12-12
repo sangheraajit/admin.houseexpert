@@ -6,6 +6,7 @@
 </div>
 <div class="modal-body">
   <div class="wrapper">
+    
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
@@ -76,15 +77,26 @@
       <tbody>
         <tr>
           <td class="text-left">
-            {{ this.dialog.cust_name }}
+           
+            <input type="text" [(ngModel)]="dialog.cust_name" class="form-control" />
           </td>
           <td class="text-left">
-            <i style="padding-right: 5px" class="fa fa-envelope"></i
-            >{{ this.dialog.cust_email }}
+           
+          <div class="input-group input-focus">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            </div>
+            <input type="text" [(ngModel)]="dialog.cust_email" class="form-control border-left-0">
+          </div>
           </td>
           <td class="text-left">
-            <i style="padding-right: 5px" class="fa fa-phone"></i
-            >{{ this.dialog.cust_mobile }}
+           
+            <div class="input-group input-focus">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+              </div>
+              <input type="text" [(ngModel)]="dialog.cust_mobile" class="form-control border-left-0">
+            </div>
           </td>
         </tr>
       </tbody>
@@ -103,24 +115,69 @@
       <tbody>
         <tr>
           <td class="text-left">
-            {{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}
-            <br />
-            <b>Floor:</b> {{ this.dialog.fromfloor }}
-            <br />
-            <b>Lift Available:</b>{{ this.dialog.fromlift ? "yes" : "No" }}
+            <div class="row">
+              <div class="col-12">
+                <app-google-places
+                id="fromAddress"
+                placeholder="Moving From"
+                [isRequired]="true"
+                [autocompleteInput]="dialog.fromaddress"
+                (setAddress)="getAddress($event, 'from')"
+                adressType="geocode"
+                [ngClass]="{
+                  'is-invalid': f['fromaddress'].touched && !f['fromaddress'].valid
+                }"
+              ></app-google-places>
+              </div>
+              <div class="col-6">
+                <b>Floor:</b><input type="number" [(ngModel)]="dialog.fromfloor" class="form-control">
+              </div>
+              <div class="col-6">
+                <b>Lift Available:</b><br>
+                <nb-toggle [(checked)]="this.dialog.fromlift"></nb-toggle>
+              </div>
+            </div>
           </td>
           <td class="text-left">
-            {{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}
-            <br />
-            <b>Floor:</b> {{ this.dialog.tofloor }}
-            <br />
-            <b>Lift Available:</b>{{ this.dialog.tolift ? "yes" : "No" }}
+           
+
+            <div class="row">
+              <div class="col-12">
+                <app-google-places
+                id="toaddress"
+                placeholder="Moving To"
+                [isRequired]="true"
+                [autocompleteInput]="dialog.toaddress"
+                (setAddress)="getAddress($event, 'from')"
+                adressType="geocode"
+                [ngClass]="{
+                  'is-invalid': f['toaddress'].touched && !f['toaddress'].valid
+                }"
+              ></app-google-places>
+              </div>
+              <div class="col-6">
+                <b>Floor:</b><input type="number" [(ngModel)]="dialog.tofloor" class="form-control">
+              </div>
+              <div class="col-6">
+                <b>Lift Available:</b><br>
+                <nb-toggle [(checked)]="this.dialog.tolift"></nb-toggle>
+              </div>
+            </div>
+
+        
           </td>
         </tr>
       </tbody>
     </table>
 
     <div class="table-responsive">
+      <ng2-smart-table
+      [settings]="settings"
+      (create)="editDialog($event)"
+      (edit)="editDialog($event)"
+      [source]="sourcedata"
+    >
+    </ng2-smart-table>
       <table class="table table-bordered table-hover" width="100%">
         <thead>
           <tr style="background-color: #ddd; border: 1px solid #ddd">
@@ -190,7 +247,7 @@
           <tr>
             <td></td>
             <td class="text-right">
-              <b>Insurance Amount @{{ insurancerate }} %</b>
+              <b>Insurance Amount {{ insurancerate }} %</b>
             </td>
             <td class="text-right">
               <input
@@ -306,7 +363,7 @@
           <th>Lift Available To</th>
         </tr>
         <tr>
-          <td>{{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}</td>
+          <td>{{ this.dialog.fromaddress }}</td>
           <td>{{ this.dialog.fromfloor }}</td>
           <td>{{ this.dialog.fromlift ? "yes" : "No" }}</td>
           <td>{{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}</td>
@@ -437,8 +494,8 @@
         <table style="width: 100%">
           <tr>
             <th>For Insurance</th>
-            <th>Insurance Amount@{{ insurancerate }}%</th>
-            <th>GST Amount@{{ gstrate }}%</th>
+            <th>Insurance Amount {{ insurancerate }}%</th>
+            <th>GST Amount {{ gstrate }}%</th>
             <th>Balance Amount</th>
             <th *ngIf="this.dialog.orderstatus == 'adminapproved'"></th>
           </tr>

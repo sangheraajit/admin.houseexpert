@@ -27,8 +27,8 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { OrderAddEditComponent } from './order-add-edit/order-add-edit.component';
 import { UiSwitchModule } from "ngx-ui-switch";
 import { ToasterModule } from "angular2-toaster";
-import { FormsModule } from "@angular/forms";
-import { NbCardModule } from "@nebular/theme";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NbCardModule, NbCheckboxModule, NbToggleModule } from "@nebular/theme";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { Ng2SmartTableModule } from "ng2-smart-table";
 import { OrderViewComponent } from './order-view/order-view.component';
@@ -40,14 +40,18 @@ import { SelectPackageComponent } from './select-package/select-package.componen
   declarations: [OrderListComponent,
     OrderAddEditComponent,StatusCardComponent,
     OrderViewComponent,SelectPackageComponent,
-    MultiSelectComponent],
+    MultiSelectComponent,
+  ],
   imports: [
     CommonModule,
     OrdersRoutingModule,
     Ng2SmartTableModule,
     NgxSpinnerModule,
     NbCardModule,
+    NbToggleModule,
+    NbCheckboxModule,
     FormsModule,
+    ReactiveFormsModule,
     UiSwitchModule,ThemeModule,
     ToasterModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot()

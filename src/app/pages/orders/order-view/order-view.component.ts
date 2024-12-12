@@ -15,6 +15,9 @@ import { environment } from "../../../../environments/environment";
 import { OrderService } from "../../../services/order.service";
 import { SelectPackageComponent } from "../select-package/select-package.component";
 import { SubcategoryService } from "../../../services/subcategory.service";
+import { GoogleAddressService } from "../../../services/google-address.service";
+import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import { OrderAddProductsComponent } from "../../../@theme/components";
 @Component({
   selector: "ngx-order-view",
   templateUrl: "./order-view.component.html",
@@ -40,6 +43,59 @@ export class OrderViewComponent implements OnInit {
   public incityflag = false;
   public partnername = "Not Assigned";
   ArticlemstlistAll: any;
+  public Customerform: FormGroup = new FormGroup({
+    fromaddress: new FormControl("", [Validators.required]),
+    toaddress: new FormControl("", [Validators.required]),
+    fromfloor: new FormControl("", [Validators.required]),
+    tofloor: new FormControl("", [Validators.required]),
+    cust_name: new FormControl("", [Validators.required]),
+    cust_mobile: new FormControl("", [Validators.required]),
+    cust_email: new FormControl("", [Validators.required]),
+    fromlift: new FormControl("", [Validators.required]),
+    tolift: new FormControl("", [Validators.required]),
+  });
+   settings = {
+      mode: "external",
+      
+      pager: {
+        display: true,
+        perPage: 10,
+      },
+      actions: {
+        delete: false,
+        add: true,
+        edit: true,
+        columnTitle: "Actions",
+      },
+      add: {
+        addButtonContent: '<i class="nb-plus"></i>',
+      },
+      edit: {
+        editButtonContent: '<i class="nb-edit"></i>',
+      },
+      delete: {
+        deleteButtonContent: '<i class="nb-paper-plane"></i>',
+      },
+  
+      columns: {
+        item_name: {
+          title: "Item#",
+          type: "string",
+          filter: false,
+          width: "80%",
+        },
+        quantity: {
+          title: "Quantity",
+          type: "string",
+          filter: false,
+          width: "10%",
+          editable: true,
+         
+        },
+      
+      },
+    };
+    sourcedata: LocalDataSource = new LocalDataSource();
   constructor(
     private activeModal: NgbActiveModal,
     private ServiceObj: ApiService,
@@ -47,7 +103,8 @@ export class OrderViewComponent implements OnInit {
     private toasterService: ToasterService,
     private orderService: OrderService,
     private modalService: NgbModal,
-    public SubcategoryService: SubcategoryService
+    public SubcategoryService: SubcategoryService,
+    private googleAddressService: GoogleAddressService,
   ) {
     this.msg = localStorage.getItem("Message");
     console.log(this.msg);
@@ -56,6 +113,7 @@ export class OrderViewComponent implements OnInit {
 
     if (this.msg.length > 0) {
       this.dialog = JSON.parse(this.msg);
+     
       console.log("this.dialog", this.dialog);
       this.custname = this.dialog.cust_email;
       this.getPackList();
@@ -157,12 +215,13 @@ export class OrderViewComponent implements OnInit {
         // debugger;
         let data: any = res;
 
-        console.log(data.results);
+       // console.log(data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
           this.dialogdetail = JSON.parse(
             JSON.parse(data.results).Table[0].document
           );
+          this.sourcedata.load(this.dialogdetail);
         }
       },
 
@@ -641,7 +700,7 @@ export class OrderViewComponent implements OnInit {
     this.SubcategoryService.getAllarticle("", "").subscribe((res: any) => {
       let data: any = res;
 
-      console.log(data.results);
+     //console.log(data.results);
       if (JSON.parse(data.results).Table.length > 0) {
         //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
         this.ArticlemstlistAll = JSON.parse(
@@ -650,4 +709,86 @@ export class OrderViewComponent implements OnInit {
       }
     });
   }
+  calculateFinalTotal() {
+    const { subtotal, discount, insuranceamount, gstamount } = this.dialog;
+    this.dialog.finaltotal = subtotal - discount + insuranceamount + gstamount;
+  }
+  getAddress(place: any, type: string) {
+    // this.phone = this.getPhone(place);
+
+    this.setaddress(place, type);
+    
+  }
+  setaddress(place: any, type: string) {
+    if (type == "from") {
+     this.dialog.fromaddress =
+        this.googleAddressService.getFormattedAddress(place);
+     this.dialog.fromlat = this.googleAddressService.getlat(place);
+     this.dialog.fromlong = this.googleAddressService.getlng(place);
+     this.dialog.fromcity = this.googleAddressService.getDistrict(place);
+    }
+    if (type == "to") {
+     this.dialog.toaddress =
+        this.googleAddressService.getFormattedAddress(place);
+     this.dialog.tolat = this.googleAddressService.getlat(place);
+     this.dialog.tolong = this.googleAddressService.getlng(place);
+     this.dialog.tocity = this.googleAddressService.getDistrict(place);
+    }
+      // Obtain the distance in meters by the computeDistanceBetween method
+      // From the Google Maps extension using plain coordinates
+      var distanceInMeters =
+        google.maps.geometry.spherical.computeDistanceBetween(
+          new google.maps.LatLng({
+            lat:this.dialog.fromlat,
+            lng:this.dialog.fromlong,
+          }),
+          new google.maps.LatLng({
+            lat:this.dialog.tolat,
+            lng:this.dialog.tolong,
+          })
+        );
+
+      // Outputs: Distance in Meters:  286562.7470149898
+      console.log("Distance in Meters: ", distanceInMeters);
+
+     /*  // Outputs: Distance in Kilometers:  286.5627470149898
+      this.DistanceKM = (distanceInMeters * 0.001).toFixed(2);
+      console.log("Distance in Kilometers: ", this.DistanceKM);
+     this.dialog.totkm = this.DistanceKM;
+      if (this.jheader.totkm < 150) {
+       this.dialog.incity = true;
+      } else {
+       this.dialog.incity = false;
+      }
+      this.bookingInformation.jheader[0] =this.dialog; */
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.Customerform.controls;
+  }
+  onCreateConfirm(event) {
+    console.log("Create Event In Console")
+    console.log(event);
+    event.confirm.resolve();
+  }
+   editDialog(event): void {
+      let i = event.data.id;
+     /*  this.dialog = this.dialog.find((h) => h.id == i);
+      this.dialog.TYPE = "U";
+  
+      localStorage.setItem("Message", JSON.stringify(this.dialog)); */
+      const activeModal = this.modalService.open(OrderAddProductsComponent, {
+        size: "lg",
+        backdrop: "static",
+        container: "nb-layout",
+      });
+      activeModal.result.then(
+        (data) => {
+        //  this.getlist();
+        },
+        (reason) => {
+          //this.getlist();
+        }
+      );
+    }
 }

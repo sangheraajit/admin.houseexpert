@@ -355,10 +355,10 @@ export class OrderListComponent implements OnInit {
       (res) => {
         let data: any = res;
 
-        console.log("order_read2",data.results);
+       // console.log("order_read2",data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           this.dialog = JSON.parse(data.results).Table as any[];
-           console.log("order_read2  this.dialog", this.dialog);
+          // console.log("order_read2  this.dialog", this.dialog);
         } else {
           this.dialog = [];
         }

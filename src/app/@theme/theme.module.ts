@@ -12,6 +12,7 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbInputModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -21,6 +22,8 @@ import {
   HeaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
+  GooglePlacesComponent,
+  OrderAddProductsComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -38,6 +41,8 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -52,6 +57,9 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  ReactiveFormsModule,
+  NbInputModule,
+  FormsModule,
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -61,6 +69,8 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  GooglePlacesComponent,
+  OrderAddProductsComponent,
 ];
 const PIPES = [
   CapitalizePipe,
