@@ -171,6 +171,16 @@
     </table>
 
     <div class="table-responsive">
+      <div class="table-container">
+        <button (click)="openAddDialog()" class="add-button">
+          + Add New Record
+        </button>
+        <ng2-smart-table
+          [settings]="settings1"
+          [source]="source"
+          (editConfirm)="onSaveConfirm($event)"
+        ></ng2-smart-table>
+      </div>
       <ng2-smart-table
       [settings]="settings"
       (create)="editDialog($event)"

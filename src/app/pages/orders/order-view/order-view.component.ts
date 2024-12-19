@@ -96,6 +96,30 @@ export class OrderViewComponent implements OnInit {
       },
     };
     sourcedata: LocalDataSource = new LocalDataSource();
+    // Data source for the table
+  source: LocalDataSource = new LocalDataSource();
+
+  // Table settings
+  settings1 = {
+    actions: { add: false, delete: false, position: 'right' },
+    edit: {
+      editButtonContent: '✎',
+      saveButtonContent: '💾',
+      cancelButtonContent: '✗',
+      confirmSave: true, // Ensures you can capture the event
+    },
+    columns: {
+      id: { title: 'ID', editable: false },
+      name: { title: 'Name' },
+      age: { title: 'Age', type: 'number' },
+    },
+  };
+
+  // Sample table data
+  data = [
+    { id: 1, name: 'John Doe', age: 25 },
+    { id: 2, name: 'Jane Smith', age: 30 },
+  ];
   constructor(
     private activeModal: NgbActiveModal,
     private ServiceObj: ApiService,
@@ -110,7 +134,7 @@ export class OrderViewComponent implements OnInit {
     console.log(this.msg);
     this.getProvList();
     //this.getCustList();
-
+    this.source.load(this.data);
     if (this.msg.length > 0) {
       this.dialog = JSON.parse(this.msg);
      
@@ -771,24 +795,62 @@ export class OrderViewComponent implements OnInit {
     console.log(event);
     event.confirm.resolve();
   }
-   editDialog(event): void {
-      let i = event.data.id;
-     /*  this.dialog = this.dialog.find((h) => h.id == i);
-      this.dialog.TYPE = "U";
+  editDialog(event: any): void {
+    let dialogData;
   
-      localStorage.setItem("Message", JSON.stringify(this.dialog)); */
-      const activeModal = this.modalService.open(OrderAddProductsComponent, {
-        size: "lg",
-        backdrop: "static",
-        container: "nb-layout",
-      });
-      activeModal.result.then(
-        (data) => {
-        //  this.getlist();
-        },
-        (reason) => {
-          //this.getlist();
-        }
-      );
+    if (event.isNew) {
+      // For adding a new record
+      dialogData = { TYPE: "C", data: {} }; // TYPE "C" for Create, empty data for new record
+    } else if (event.data && event.data.id) {
+      // For editing an existing record
+      let id = event.data.id;
+      // Assuming `this.dialog` contains a list of records to find by ID
+      dialogData = this.dialog.find((h) => h.id === id);
+      if (dialogData) {
+        dialogData.TYPE = "U"; // TYPE "U" for Update
+      } else {
+        console.error("No dialog found for ID:", id);
+        return; // Prevent opening the modal if no dialog data is found
+      }
     }
+  
+    // Save dialogData to local storage for use in the modal component
+    localStorage.setItem("Message", JSON.stringify(dialogData));
+  
+    // Open the modal
+    const activeModal = this.modalService.open(OrderAddProductsComponent, {
+      size: "lg",
+      backdrop: "static",
+      container: "nb-layout",
+    });
+    activeModal.componentInstance.OrderDetails = this.dialogdetail;
+    // Handle modal close events
+    activeModal.result.then(
+      (data) => {
+        console.log("Modal closed with data:", data);
+        // Refresh the list or perform necessary updates
+        //this.getlist();
+      },
+      (reason) => {
+        console.log("Modal dismissed with reason:", reason);
+        // Handle dismiss logic or refresh the list if needed
+       // this.getlist();
+      }
+    );
+  }
+  
+  
+     // Capture inline edit save confirmation
+  onSaveConfirm(event: any): void {
+    if (window.confirm('Are you sure you want to save changes?')) {
+      event.confirm.resolve(event.newData);
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+  // Open external dialog for new row addition
+  openAddDialog(): void {
+    this.editDialog({ isNew: true });
+  }
 }
