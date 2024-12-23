@@ -1,4 +1,9 @@
-import { Component, OnInit, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  ChangeDetectorRef,
+} from "@angular/core";
 import { DDLItem, DDLItemCategory } from "../../../@core/models/model";
 import { DomSanitizer } from "@angular/platform-browser";
 import {
@@ -16,7 +21,12 @@ import { OrderService } from "../../../services/order.service";
 import { SelectPackageComponent } from "../select-package/select-package.component";
 import { SubcategoryService } from "../../../services/subcategory.service";
 import { GoogleAddressService } from "../../../services/google-address.service";
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { OrderAddProductsComponent } from "../../../@theme/components";
 @Component({
   selector: "ngx-order-view",
@@ -54,72 +64,74 @@ export class OrderViewComponent implements OnInit {
     fromlift: new FormControl("", [Validators.required]),
     tolift: new FormControl("", [Validators.required]),
   });
-   settings = {
-      mode: "external",
-      
-      pager: {
-        display: true,
-        perPage: 10,
-      },
-      actions: {
-        delete: false,
-        add: true,
-        edit: true,
-        columnTitle: "Actions",
-      },
-      add: {
+  settings = {
+    pager: {
+      display: true,
+      perPage: 10,
+    },
+    actions: { add: false, delete: false, position: "left" },
+    edit: {
+      editButtonContent: "✎",
+      saveButtonContent: "💾",
+      cancelButtonContent: "✗",
+      confirmSave: true, // Ensures you can capture the event
+    },
+    /*  add: {
         addButtonContent: '<i class="nb-plus"></i>',
       },
       edit: {
         editButtonContent: '<i class="nb-edit"></i>',
+      }, */
+    delete: {
+      deleteButtonContent: '<i class="nb-paper-plane"></i>',
+    },
+
+    columns: {
+      item_name: {
+        title: "Item#",
+        type: "string",
+        filter: false,
+        width: "80%",
+        editable: false,
       },
-      delete: {
-        deleteButtonContent: '<i class="nb-paper-plane"></i>',
+      quantity: {
+        title: "Quantity",
+        type: "string",
+        filter: false,
+        width: "10%",
+        editable: true,
       },
-  
-      columns: {
-        item_name: {
-          title: "Item#",
-          type: "string",
-          filter: false,
-          width: "80%",
-        },
-        quantity: {
-          title: "Quantity",
-          type: "string",
-          filter: false,
-          width: "10%",
-          editable: true,
-         
-        },
-      
-      },
-    };
-    sourcedata: LocalDataSource = new LocalDataSource();
-    // Data source for the table
+    },
+  };
+  sourcedata: LocalDataSource = new LocalDataSource();
+  // Data source for the table
   source: LocalDataSource = new LocalDataSource();
 
   // Table settings
   settings1 = {
-    actions: { add: false, delete: false, position: 'right' },
+    actions: { add: false, delete: false, position: "right" },
     edit: {
-      editButtonContent: '✎',
-      saveButtonContent: '💾',
-      cancelButtonContent: '✗',
+      editButtonContent: "✎",
+      saveButtonContent: "💾",
+      cancelButtonContent: "✗",
       confirmSave: true, // Ensures you can capture the event
     },
     columns: {
-      id: { title: 'ID', editable: false },
-      name: { title: 'Name' },
-      age: { title: 'Age', type: 'number' },
+      id: { title: "ID", editable: false },
+      name: { title: "Name" },
+      age: { title: "Age", type: "number" },
     },
   };
 
   // Sample table data
   data = [
-    { id: 1, name: 'John Doe', age: 25 },
-    { id: 2, name: 'Jane Smith', age: 30 },
+    { id: 1, name: "John Doe", age: 25 },
+    { id: 2, name: "Jane Smith", age: 30 },
   ];
+  combinedJson: { order: any; orderdetails: any } = {
+    order: null,
+    orderdetails: null,
+  };
   constructor(
     private activeModal: NgbActiveModal,
     private ServiceObj: ApiService,
@@ -129,6 +141,7 @@ export class OrderViewComponent implements OnInit {
     private modalService: NgbModal,
     public SubcategoryService: SubcategoryService,
     private googleAddressService: GoogleAddressService,
+    private cdr: ChangeDetectorRef
   ) {
     this.msg = localStorage.getItem("Message");
     console.log(this.msg);
@@ -137,8 +150,9 @@ export class OrderViewComponent implements OnInit {
     this.source.load(this.data);
     if (this.msg.length > 0) {
       this.dialog = JSON.parse(this.msg);
-     
+
       console.log("this.dialog", this.dialog);
+      this.combinedJson.order = this.dialog;
       this.custname = this.dialog.cust_email;
       this.getPackList();
       this.getVehicleList();
@@ -239,13 +253,22 @@ export class OrderViewComponent implements OnInit {
         // debugger;
         let data: any = res;
 
-       // console.log(data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
           this.dialogdetail = JSON.parse(
             JSON.parse(data.results).Table[0].document
           );
+          //console.log(JSON.stringify(this.dialogdetail));
           this.sourcedata.load(this.dialogdetail);
+          try {
+           
+            this.combinedJson.orderdetails = this.dialogdetail;
+
+            console.log("Combined JSON:", this.combinedJson);
+            // Proceed with the combined JSON
+          } catch (error) {
+            console.error("Error parsing JSON data:", error);
+          }
         }
       },
 
@@ -724,7 +747,7 @@ export class OrderViewComponent implements OnInit {
     this.SubcategoryService.getAllarticle("", "").subscribe((res: any) => {
       let data: any = res;
 
-     //console.log(data.results);
+      //console.log(data.results);
       if (JSON.parse(data.results).Table.length > 0) {
         //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
         this.ArticlemstlistAll = JSON.parse(
@@ -733,49 +756,110 @@ export class OrderViewComponent implements OnInit {
       }
     });
   }
+  computeCartTotals() {
+    let totalPriceValue: number = 0;
+    let totalQuantityValue: number = 0;
+    let totalcftValue: number = 0;
+    this.combinedJson.order.totalcft=0;
+    for (let currentCartItem of this.combinedJson.orderdetails) {
+      //price: item.cft_rate * cartDataItems[item.itemname],
+      totalPriceValue += currentCartItem.quantity * currentCartItem.cft;
+      totalQuantityValue += currentCartItem.quantity;
+      //totalcftValue+=currentCartItem.cft
+      this.combinedJson.order.totalcft += currentCartItem.cft * currentCartItem.quantity;
+    }
+
+    // publish the new values ... all sbscribers will receive the new data
+
+   // this.combinedJson.order.finaltotal = totalPriceValue;
+   // this.combinedJson.order.Totalcft = totalcftValue;
+   
+    this.SubcategoryService.getcalculateamount(
+      0,
+      this.combinedJson.order.packageid,
+      this.combinedJson.order.totalcft,
+      Math.ceil(this.combinedJson.order.totkm),
+      this.combinedJson.order.fromlift == true
+        ? 0
+        : Math.ceil(this.combinedJson.order.fromfloor),
+        this.combinedJson.order.tolift == true
+        ? 0
+        : Math.ceil(this.combinedJson.order.tofloor)
+    ).subscribe(
+      (res: any) => {
+    
+        let data: any = res;
+
+        console.log(data.results);
+        if (JSON.parse(data.results).Table.length > 0) {
+          //this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
+          this.combinedJson.order.finaltotal = JSON.parse(
+            JSON.parse(data.results).Table[0].getcalculateamount
+          );
+          this.combinedJson.order.grandtotal=this.combinedJson.order.finaltotal; 
+          this.combinedJson.order.TokenAmount = this.percentage(
+            15,
+            this.combinedJson.order.finaltotal
+          );
+         
+        }
+      },
+
+      (err) => {
+        // this.message = err.error.msg;
+      }
+    );
+  
+  }
+
+  percentage(percent: number, total: number) {
+    return ((percent / 100) * total).toFixed(2);
+  }
+
   calculateFinalTotal() {
-    const { subtotal, discount, insuranceamount, gstamount } = this.dialog;
-    this.dialog.finaltotal = subtotal - discount + insuranceamount + gstamount;
+    const { subtotal, discount, insuranceamount, gstamount } =
+      this.combinedJson.order;
+    this.combinedJson.order.finaltotal =
+      subtotal - discount + insuranceamount + gstamount;
   }
   getAddress(place: any, type: string) {
     // this.phone = this.getPhone(place);
 
     this.setaddress(place, type);
-    
   }
   setaddress(place: any, type: string) {
     if (type == "from") {
-     this.dialog.fromaddress =
+      this.dialog.fromaddress =
         this.googleAddressService.getFormattedAddress(place);
-     this.dialog.fromlat = this.googleAddressService.getlat(place);
-     this.dialog.fromlong = this.googleAddressService.getlng(place);
-     this.dialog.fromcity = this.googleAddressService.getDistrict(place);
+      this.dialog.fromlat = this.googleAddressService.getlat(place);
+      this.dialog.fromlong = this.googleAddressService.getlng(place);
+      this.dialog.fromcity = this.googleAddressService.getDistrict(place);
     }
     if (type == "to") {
-     this.dialog.toaddress =
+      this.dialog.toaddress =
         this.googleAddressService.getFormattedAddress(place);
-     this.dialog.tolat = this.googleAddressService.getlat(place);
-     this.dialog.tolong = this.googleAddressService.getlng(place);
-     this.dialog.tocity = this.googleAddressService.getDistrict(place);
+      this.dialog.tolat = this.googleAddressService.getlat(place);
+      this.dialog.tolong = this.googleAddressService.getlng(place);
+      this.dialog.tocity = this.googleAddressService.getDistrict(place);
     }
-      // Obtain the distance in meters by the computeDistanceBetween method
-      // From the Google Maps extension using plain coordinates
-      var distanceInMeters =
-        google.maps.geometry.spherical.computeDistanceBetween(
-          new google.maps.LatLng({
-            lat:this.dialog.fromlat,
-            lng:this.dialog.fromlong,
-          }),
-          new google.maps.LatLng({
-            lat:this.dialog.tolat,
-            lng:this.dialog.tolong,
-          })
-        );
+    // Obtain the distance in meters by the computeDistanceBetween method
+    // From the Google Maps extension using plain coordinates
+    var distanceInMeters =
+      google.maps.geometry.spherical.computeDistanceBetween(
+        new google.maps.LatLng({
+          lat: this.dialog.fromlat,
+          lng: this.dialog.fromlong,
+        }),
+        new google.maps.LatLng({
+          lat: this.dialog.tolat,
+          lng: this.dialog.tolong,
+        })
+      );
 
-      // Outputs: Distance in Meters:  286562.7470149898
-      console.log("Distance in Meters: ", distanceInMeters);
+    // Outputs: Distance in Meters:  286562.7470149898
+    console.log("Distance in Meters: ", distanceInMeters);
 
-     /*  // Outputs: Distance in Kilometers:  286.5627470149898
+    /*  // Outputs: Distance in Kilometers:  286.5627470149898
       this.DistanceKM = (distanceInMeters * 0.001).toFixed(2);
       console.log("Distance in Kilometers: ", this.DistanceKM);
      this.dialog.totkm = this.DistanceKM;
@@ -791,20 +875,20 @@ export class OrderViewComponent implements OnInit {
     return this.Customerform.controls;
   }
   onCreateConfirm(event) {
-    console.log("Create Event In Console")
+    console.log("Create Event In Console");
     console.log(event);
     event.confirm.resolve();
   }
   editDialog(event: any): void {
     let dialogData;
-  
+
     if (event.isNew) {
       // For adding a new record
       dialogData = { TYPE: "C", data: {} }; // TYPE "C" for Create, empty data for new record
     } else if (event.data && event.data.id) {
       // For editing an existing record
-      let id = event.data.id;
-      // Assuming `this.dialog` contains a list of records to find by ID
+      const id = event.data.id;
+      // Find the record in the dialog data by ID
       dialogData = this.dialog.find((h) => h.id === id);
       if (dialogData) {
         dialogData.TYPE = "U"; // TYPE "U" for Update
@@ -813,38 +897,77 @@ export class OrderViewComponent implements OnInit {
         return; // Prevent opening the modal if no dialog data is found
       }
     }
-  
+
     // Save dialogData to local storage for use in the modal component
-    localStorage.setItem("Message", JSON.stringify(dialogData));
-  
+    localStorage.setItem(
+      "Message",
+      JSON.stringify(this.combinedJson.orderdetails)
+    );
+
     // Open the modal
     const activeModal = this.modalService.open(OrderAddProductsComponent, {
       size: "lg",
       backdrop: "static",
       container: "nb-layout",
     });
-    activeModal.componentInstance.OrderDetails = this.dialogdetail;
+
+    // Pass order details and dialog data to the modal
+    activeModal.componentInstance.OrderDetails = this.combinedJson.orderdetails;
+    activeModal.componentInstance.dialogData = dialogData;
+
     // Handle modal close events
     activeModal.result.then(
       (data) => {
         console.log("Modal closed with data:", data);
-        // Refresh the list or perform necessary updates
-        //this.getlist();
+
+        // Ensure data is in array format
+        if (data && Array.isArray(data)) {
+          this.combinedJson.orderdetails = data;
+        } else if (data) {
+          // If data is not already an array, convert it into one
+          this.combinedJson.orderdetails = Object.values(data);
+        }
+        this.computeCartTotals();
+        // Update the LocalDataSource with the new data
+        this.sourcedata.load(this.combinedJson.orderdetails);
+
+        // After loading new data, refresh the source to make the table update
+        this.sourcedata.refresh();
       },
       (reason) => {
         console.log("Modal dismissed with reason:", reason);
-        // Handle dismiss logic or refresh the list if needed
-       // this.getlist();
       }
     );
   }
-  
-  
-     // Capture inline edit save confirmation
+
+  // Capture inline edit save confirmation
   onSaveConfirm(event: any): void {
-    if (window.confirm('Are you sure you want to save changes?')) {
+    if (window.confirm("Are you sure you want to save changes?")) {
+      console.log("event.newData", event.newData);
+
+      // Extract new data
+      const newProduct = event.newData;
+
+      // Check if the product already exists in the orderdetails array
+      const existingProduct = this.combinedJson.orderdetails.find(
+        (detail: any) => detail.article_id === newProduct.article_id
+      );
+
+      if (existingProduct) {
+        // Product found - Update quantity
+        existingProduct.quantity += parseInt(newProduct.quantity); // Update based on your requirements
+        console.log(`Updated product quantity:`, existingProduct);
+      } else {
+        // Product not found - Add new product to the array
+        this.combinedJson.orderdetails.push(newProduct);
+        console.log(`Added new product:`, newProduct);
+      }
+      this.sourcedata.load(this.combinedJson.orderdetails);
+
+      // Resolve the event to reflect the changes in the UI
       event.confirm.resolve(event.newData);
     } else {
+      // Reject the event if the user cancels
       event.confirm.reject();
     }
   }

@@ -6,7 +6,6 @@
 </div>
 <div class="modal-body">
   <div class="wrapper">
-    
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
@@ -22,34 +21,37 @@
       <tbody>
         <tr>
           <td style="width: 50%" class="text-left">
-            <b>Order ID:</b> {{ this.dialog.orderno }}
+            <b>Order ID:</b> {{ this.combinedJson?.order?.orderno }}
             <br />
             <b>Pickup Date and Time:</b
-            >{{ this.dialog.orderdate | date : "dd-MMM-yyyy" }} {{ strdate }}
+            >{{ this.combinedJson?.order?.orderdate | date : "dd-MMM-yyyy" }} {{ strdate }}
             <br />
-            <b>Total Distance:</b> {{ this.dialog.totkm }}
+            <b>Total Distance:</b> {{ this.combinedJson?.order?.totkm }}
             <br />
-            <b>Total Items:</b> {{ this.dialogdetail.length }}
+            <b>Total Items:</b> {{ this.combinedJson?.orderdetails?.length }}
             <br />
 
             <b>Vehicle Name:</b> {{ vehiclename }}
             <br />
-            <b>Total CFT:</b> {{ this.dialog.totalcft }}
+            <b>Total CFT:</b> {{ this.combinedJson?.order?.totalcft }}
           </td>
           <td style="width: 50%" class="text-left">
             <b>Package Type:</b> {{ this.packagename }} <br />
-            <button class="btn btn-md btn-primary" (click)="viewPackageRate($event)">
-              View Package Rate
-            </button><br />
-            
+            <button
+              class="btn btn-md btn-primary"
+              (click)="viewPackageRate($event)"
+            >
+              View Package Rate</button
+            ><br />
+
             <b>Status:</b>
-           
-            <div [ngClass]="getSeverity(this.dialog.orderstatus)">
-              {{ this.dialog.orderstatus }}
+
+            <div [ngClass]="getSeverity(this.combinedJson?.order?.orderstatus)">
+              {{ this.combinedJson?.order?.orderstatus }}
             </div>
 
             <br /><b>Assinged Partner:</b> {{ partnername }}
-            <select 
+            <select
               class="form-control"
               [(ngModel)]="dialog.part_id"
               name="Part_id"
@@ -77,25 +79,38 @@
       <tbody>
         <tr>
           <td class="text-left">
-           
-            <input type="text" [(ngModel)]="dialog.cust_name" class="form-control" />
+            <input
+              type="text"
+              [(ngModel)]="dialog.cust_name"
+              class="form-control"
+            />
           </td>
           <td class="text-left">
-           
-          <div class="input-group input-focus">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-            </div>
-            <input type="text" [(ngModel)]="dialog.cust_email" class="form-control border-left-0">
-          </div>
-          </td>
-          <td class="text-left">
-           
             <div class="input-group input-focus">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                <span class="input-group-text"
+                  ><i class="fa fa-envelope"></i
+                ></span>
               </div>
-              <input type="text" [(ngModel)]="dialog.cust_mobile" class="form-control border-left-0">
+              <input
+                type="text"
+                [(ngModel)]="dialog.cust_email"
+                class="form-control border-left-0"
+              />
+            </div>
+          </td>
+          <td class="text-left">
+            <div class="input-group input-focus">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="fa fa-phone"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="dialog.cust_mobile"
+                class="form-control border-left-0"
+              />
             </div>
           </td>
         </tr>
@@ -118,53 +133,61 @@
             <div class="row">
               <div class="col-12">
                 <app-google-places
-                id="fromAddress"
-                placeholder="Moving From"
-                [isRequired]="true"
-                [autocompleteInput]="dialog.fromaddress"
-                (setAddress)="getAddress($event, 'from')"
-                adressType="geocode"
-                [ngClass]="{
-                  'is-invalid': f['fromaddress'].touched && !f['fromaddress'].valid
-                }"
-              ></app-google-places>
+                  id="fromAddress"
+                  placeholder="Moving From"
+                  [isRequired]="true"
+                  [autocompleteInput]="dialog.fromaddress"
+                  (setAddress)="getAddress($event, 'from')"
+                  adressType="geocode"
+                  [ngClass]="{
+                    'is-invalid':
+                      f['fromaddress'].touched && !f['fromaddress'].valid
+                  }"
+                ></app-google-places>
               </div>
               <div class="col-6">
-                <b>Floor:</b><input type="number" [(ngModel)]="dialog.fromfloor" class="form-control">
+                <b>Floor:</b
+                ><input
+                  type="number"
+                  [(ngModel)]="dialog.fromfloor"
+                  class="form-control"
+                />
               </div>
               <div class="col-6">
-                <b>Lift Available:</b><br>
-                <nb-toggle [(checked)]="this.dialog.fromlift"></nb-toggle>
+                <b>Lift Available:</b><br />
+                <nb-toggle [(checked)]="this.combinedJson.order.fromlift"></nb-toggle>
               </div>
             </div>
           </td>
           <td class="text-left">
-           
-
             <div class="row">
               <div class="col-12">
                 <app-google-places
-                id="toaddress"
-                placeholder="Moving To"
-                [isRequired]="true"
-                [autocompleteInput]="dialog.toaddress"
-                (setAddress)="getAddress($event, 'from')"
-                adressType="geocode"
-                [ngClass]="{
-                  'is-invalid': f['toaddress'].touched && !f['toaddress'].valid
-                }"
-              ></app-google-places>
+                  id="toaddress"
+                  placeholder="Moving To"
+                  [isRequired]="true"
+                  [autocompleteInput]="dialog.toaddress"
+                  (setAddress)="getAddress($event, 'from')"
+                  adressType="geocode"
+                  [ngClass]="{
+                    'is-invalid':
+                      f['toaddress'].touched && !f['toaddress'].valid
+                  }"
+                ></app-google-places>
               </div>
               <div class="col-6">
-                <b>Floor:</b><input type="number" [(ngModel)]="dialog.tofloor" class="form-control">
+                <b>Floor:</b
+                ><input
+                  type="number"
+                  [(ngModel)]="dialog.tofloor"
+                  class="form-control"
+                />
               </div>
               <div class="col-6">
-                <b>Lift Available:</b><br>
-                <nb-toggle [(checked)]="this.dialog.tolift"></nb-toggle>
+                <b>Lift Available:</b><br />
+                <nb-toggle [(checked)]="this.combinedJson.order.tolift"></nb-toggle>
               </div>
             </div>
-
-        
           </td>
         </tr>
       </tbody>
@@ -172,16 +195,178 @@
 
     <div class="table-responsive">
       <div class="table-container">
-        <button (click)="openAddDialog()" class="add-button">
-          + Add New Record
+        <button class="btn btn-md btn-success" (click)="openAddDialog()">
+          + Add New Product
         </button>
         <ng2-smart-table
-          [settings]="settings1"
-          [source]="source"
+          [settings]="settings"
+          [source]="sourcedata"
           (editConfirm)="onSaveConfirm($event)"
         ></ng2-smart-table>
+        <table class="table table-bordered table-hover" width="100%">
+          <tfoot>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>Sub-Total</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="Total"
+                  [(ngModel)]="dialog.total"
+                  placeholder="Sub Total"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>Discount</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="Total"
+                  [(ngModel)]="dialog.discount"
+                  placeholder="Discount"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>For Insurance</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="forinsurance"
+                  [(ngModel)]="dialog.forinsurance"
+                  (keyup)="insuranceamountchange()"
+                  placeholder="For Insurance"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right">
+                <b>Insurance Amount {{ insurancerate }} %</b>
+              </td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="insuranceamount"
+                  [(ngModel)]="dialog.insuranceamount"
+                  placeholder="Insurance amount"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>GST Amount</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="gstamount"
+                  [(ngModel)]="dialog.gstamount"
+                  placeholder="Gst amount"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>Final Total</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="FinalTotal"
+                  [(ngModel)]="
+                    this.combinedJson.order.total +
+                    this.combinedJson.order.gstamount +
+                    this.combinedJson.order.insuranceamount -
+                    this.combinedJson.order.discount
+                  "
+                  placeholder="Final Total"
+                  readonly
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td class="text-right"><b>Paid Amount</b></td>
+              <td class="text-right">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="PaidAmount"
+                  [(ngModel)]="this.paidamount"
+                  placeholder="Paid Amount"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right"><b>Balance</b></td>
+              <td class="text-right" style="color: red">
+                <input
+                  type="number"
+                  required
+                  class="form-control text-right"
+                  id="Balance"
+                  [(ngModel)]="
+                    this.combinedJson.order.grandtotal +
+                    this.combinedJson.order.gstamount +
+                    this.combinedJson.order.insuranceamount -
+                    this.combinedJson.order.discount -
+                    paidamount
+                  "
+                  placeholder="Balance"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <div class="d-flex">
+                  <div>
+                    <button class="btn btn-md btn-primary" (click)="SaveData()">
+                      Save Order
+                    </button>
+                  </div>
+                  <div>
+                    <input
+                      required
+                      class="form-control"
+                      id="cancelreason"
+                      [(ngModel)]="dialog.cancelreason"
+                      placeholder="Reason For Cancelation"
+                    />
+                  </div>
+                  <div>
+                    <button
+                      class="btn btn-md btn-danger"
+                      (click)="CancelOrder()"
+                    >
+                      Cancel Order
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
-      <ng2-smart-table
+      <!--    <ng2-smart-table
       [settings]="settings"
       (create)="editDialog($event)"
       (edit)="editDialog($event)"
@@ -289,10 +474,10 @@
             <td class="text-right"><b>Final Total</b></td>
             <td class="text-right">
               {{
-                (this.dialog.total +
-                  this.dialog.gstamount +
-                  this.dialog.insuranceamount) -
-                  this.dialog.discount
+                (this.combinedJson.order.total +
+                  this.combinedJson.order.gstamount +
+                  this.combinedJson.order.insuranceamount) -
+                  this.combinedJson.order.discount
               }}
             </td>
           </tr>
@@ -307,10 +492,10 @@
             <td class="text-right"><b>Balance</b></td>
             <td class="text-right" style="color: red">
               {{
-                this.dialog.total +
-                  this.dialog.gstamount +
-                  this.dialog.insuranceamount -
-                  this.dialog.discount -
+                this.combinedJson.order.total +
+                  this.combinedJson.order.gstamount +
+                  this.combinedJson.order.insuranceamount -
+                  this.combinedJson.order.discount -
                   paidamount
               }}
             </td>
@@ -342,185 +527,148 @@
           </tr>
         </tfoot>
       </table>
-    </div>
-    <div class="modal-header"></div>
-    <div class="modal-body" style="display: none">
-      <table style="width: 100%">
-        <tr>
-          <th>Residencial</th>
-          <th>Package Type</th>
-          <!-- <th>Order Status</th> -->
-        </tr>
-        <tr>
-          <td>{{ this.dialog.movetype }}</td>
-          <td>{{ this.packagename }}</td>
-        </tr>
-      </table>
-      <span aria-hidden="true"
-        >Location({{
-          this.dialog.fromcity.split(",").length > 1
-            ? this.dialog.fromcity.split(",")[1]
-            : this.dialog.fromcity.split(",")[0]
-        }})</span
-      >
-      <table style="width: 100%">
-        <tr>
-          <th>Moving From</th>
-          <th>Floor From</th>
-          <th>Lift Available From</th>
-          <th>Moving To</th>
-          <th>Floor To</th>
-          <th>Lift Available To</th>
-        </tr>
-        <tr>
-          <td>{{ this.dialog.fromaddress }}</td>
-          <td>{{ this.dialog.fromfloor }}</td>
-          <td>{{ this.dialog.fromlift ? "yes" : "No" }}</td>
-          <td>{{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}</td>
-          <td>{{ this.dialog.tofloor }}</td>
-          <td>{{ this.dialog.tolift ? "yes" : "No" }}</td>
-        </tr>
-      </table>
-      <span aria-hidden="true">Date & Time Details</span>
-      <table style="width: 100%">
-        <tr>
-          <th>Pickup Date</th>
-          <th>Pickup Time</th>
-        </tr>
-        <tr>
-          <td>
-            {{ this.dialog.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
-          </td>
-          <!-- <td>{{ new Date(this.dialog.orderdate).getHours() }}</td> -->
-          <!-- <td>{{ this.dialog.orderdate.getHours()}}":00"{{this.dialog.orderdate.getHours()>12?"PM":"AM"}}-{{ this.dialog.orderdate.getHours()+2}}":00"{{this.dialog.orderdate.getHours()>12?"PM":"AM"}}</td> -->
-          <td>{{ strdate }}</td>
-        </tr>
-      </table>
-      <span aria-hidden="true">Distance & Items Quantity</span>
-      <table style="width: 100%">
-        <tr>
-          <!-- <th>Total Distance</th> -->
-          <th>Total Items</th>
-        </tr>
-        <tr>
-          <!--    <td>{{  (this.dialog.totkm) }}KM</td> -->
-          <td>{{ this.dialogdetail.length }}</td>
-        </tr>
-      </table>
-      <span aria-hidden="true">Items </span>
-      <table style="width: 100%">
-        <tr>
-          <th>Item</th>
-          <th>Qty</th>
-        </tr>
-        <tr *ngFor="let h of dialogdetail">
-          <td>{{ h.item_name }}</td>
-          <td>{{ h.quantity }}</td>
-        </tr>
-      </table>
-      <span aria-hidden="true">Party Details</span>
-      <table style="width: 100%">
-        <tr>
-          <th>Party Name</th>
-          <th>Email</th>
-          <th>Mobile#</th>
-        </tr>
-        <tr>
-          <td>{{ this.dialog.cust_name }}</td>
-          <td>{{ this.dialog.cust_email }}</td>
-          <td>{{ this.dialog.cust_mobile }}</td>
-        </tr>
-      </table>
-      <!-- <span aria-hidden="true">CFT Details</span> -->
-      <table style="width: 100%">
-        <tr>
-          <!--    <th>Vehicle Name</th>
+    </div> -->
+      <div class="modal-header"></div>
+      <div class="modal-body" style="display: none">
+        <table style="width: 100%">
+          <tr>
+            <th>Residencial</th>
+            <th>Package Type</th>
+            <!-- <th>Order Status</th> -->
+          </tr>
+          <tr>
+            <td>{{ this.combinedJson.order.movetype }}</td>
+            <td>{{ this.packagename }}</td>
+          </tr>
+        </table>
+        <span aria-hidden="true"
+          >Location({{
+            this.combinedJson.order.fromcity.split(",").length > 1
+              ? this.combinedJson.order.fromcity.split(",")[1]
+              : this.combinedJson.order.fromcity.split(",")[0]
+          }})</span
+        >
+        <table style="width: 100%">
+          <tr>
+            <th>Moving From</th>
+            <th>Floor From</th>
+            <th>Lift Available From</th>
+            <th>Moving To</th>
+            <th>Floor To</th>
+            <th>Lift Available To</th>
+          </tr>
+          <tr>
+            <td>{{ this.combinedJson.order.fromaddress }}</td>
+            <td>{{ this.combinedJson.order.fromfloor }}</td>
+            <td>{{ this.combinedJson.order.fromlift ? "yes" : "No" }}</td>
+            <td>{{ this.combinedJson.order.toaddress1 }},{{ this.combinedJson.order.toaddress }}</td>
+            <td>{{ this.combinedJson.order.tofloor }}</td>
+            <td>{{ this.combinedJson.order.tolift ? "yes" : "No" }}</td>
+          </tr>
+        </table>
+        <span aria-hidden="true">Date & Time Details</span>
+        <table style="width: 100%">
+          <tr>
+            <th>Pickup Date</th>
+            <th>Pickup Time</th>
+          </tr>
+          <tr>
+            <td>
+              {{ this.combinedJson.order.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
+            </td>
+            <!-- <td>{{ new Date(this.combinedJson.order.orderdate).getHours() }}</td> -->
+            <!-- <td>{{ this.combinedJson.order.orderdate.getHours()}}":00"{{this.combinedJson.order.orderdate.getHours()>12?"PM":"AM"}}-{{ this.combinedJson.order.orderdate.getHours()+2}}":00"{{this.combinedJson.order.orderdate.getHours()>12?"PM":"AM"}}</td> -->
+            <td>{{ strdate }}</td>
+          </tr>
+        </table>
+        <span aria-hidden="true">Distance & Items Quantity</span>
+        <table style="width: 100%">
+          <tr>
+            <!-- <th>Total Distance</th> -->
+            <th>Total Items</th>
+          </tr>
+          <tr>
+            <!--    <td>{{  (this.combinedJson.order.totkm) }}KM</td> -->
+            <td>{{ this.combinedJson?.orderdetails?.length }}</td>
+          </tr>
+        </table>
+        <span aria-hidden="true">Items </span>
+        <table style="width: 100%">
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+          </tr>
+          <tr *ngFor="let h of dialogdetail">
+            <td>{{ h.item_name }}</td>
+            <td>{{ h.quantity }}</td>
+          </tr>
+        </table>
+        <span aria-hidden="true">Party Details</span>
+        <table style="width: 100%">
+          <tr>
+            <th>Party Name</th>
+            <th>Email</th>
+            <th>Mobile#</th>
+          </tr>
+          <tr>
+            <td>{{ this.combinedJson.order.cust_name }}</td>
+            <td>{{ this.combinedJson.order.cust_email }}</td>
+            <td>{{ this.combinedJson.order.cust_mobile }}</td>
+          </tr>
+        </table>
+        <!-- <span aria-hidden="true">CFT Details</span> -->
+        <table style="width: 100%">
+          <tr>
+            <!--    <th>Vehicle Name</th>
             <th>Total CFT</th> -->
-          <th>Select Partner</th>
-        </tr>
-        <tr>
-          <!--   <td>{{  vehiclename }}</td>
-            <td>{{ this.dialog.totalcft }}</td> -->
-          <td>
-            {{ partnername }}
-            <!-- <select class="form-control" [(ngModel)]="dialog.part_id" name="Part_id">
+            <th>Select Partner</th>
+          </tr>
+          <tr>
+            <!--   <td>{{  vehiclename }}</td>
+            <td>{{ this.combinedJson.order.totalcft }}</td> -->
+            <td>
+              {{ partnername }}
+              <!-- <select class="form-control" [(ngModel)]="dialog.part_id" name="Part_id">
               <option [value]="i.idval" *ngFor="let i of ddlpart" >
                 {{ i.textval }}
               </option>
             </select> -->
-          </td>
-        </tr>
-      </table>
-      <span aria-hidden="true">Payment Details </span>
-      <table style="width: 100%">
-        <tr>
-          <th>Total Amount</th>
-          <th>Discount Amount</th>
-          <th>Paid Amount</th>
-          <th
-            *ngIf="
-              this.dialog.orderstatus == 'Quotation' ||
-              this.dialog.orderstatus == 'token'
-            "
-          >
-            Balance Amount
-          </th>
-          <th *ngIf="this.dialog.orderstatus == 'Quotation'">Balance Amount</th>
-        </tr>
-        <tr>
-          <td>{{ this.dialog.grandtotal }}</td>
-          <td>{{ this.dialog.discount }}</td>
-          <td>{{ this.paidamount }}</td>
-          <td
-            *ngIf="
-              this.dialog.orderstatus == 'Quotation' ||
-              this.dialog.orderstatus == 'token'
-            "
-          >
-            {{
-              this.dialog.grandtotal - this.dialog.discount - this.paidamount
-            }}
-          </td>
-          <td *ngIf="this.dialog.orderstatus == 'Quotation'">
-            <p-button
-              [label]="NextButtonLabel"
-              (onClick)="processPayment()"
-              icon="pi pi-angle-right"
-              iconPos="right"
-              styleClass="font-12 font-bold text-uppercase"
-              [ngClass]="'p-button-danger'"
-            ></p-button>
-          </td>
-        </tr>
-      </table>
-      <div
-        class="modal-body"
-        *ngIf="
-          this.dialog.orderstatus == 'adminapproved' ||
-          this.dialog.orderstatus == 'ready'
-        "
-        class="row"
-      >
+            </td>
+          </tr>
+        </table>
+        <span aria-hidden="true">Payment Details </span>
         <table style="width: 100%">
           <tr>
-            <th>For Insurance</th>
-            <th>Insurance Amount {{ insurancerate }}%</th>
-            <th>GST Amount {{ gstrate }}%</th>
-            <th>Balance Amount</th>
-            <th *ngIf="this.dialog.orderstatus == 'adminapproved'"></th>
+            <th>Total Amount</th>
+            <th>Discount Amount</th>
+            <th>Paid Amount</th>
+            <th
+              *ngIf="
+                this.combinedJson.order.orderstatus == 'Quotation' ||
+                this.combinedJson.order.orderstatus == 'token'
+              "
+            >
+              Balance Amount
+            </th>
+            <th *ngIf="this.combinedJson.order.orderstatus == 'Quotation'">
+              Balance Amount
+            </th>
           </tr>
           <tr>
-            <td>{{ dialog.forinsurance }}</td>
-            <td>{{ dialog.insuranceamount }}</td>
-            <td>{{ dialog.gstamount }}</td>
-
-            <td>
-              <span style="color: red">
-                <!-- {{  this.dialog.grandtotal + this.dialog.gstamount +  this.dialog.insuranceamount - this.dialog.discount }} -->
-                {{ this.payamount }}
-              </span>
+            <td>{{ this.combinedJson.order.grandtotal }}</td>
+            <td>{{ this.combinedJson.order.discount }}</td>
+            <td>{{ this.paidamount }}</td>
+            <td
+              *ngIf="
+                this.combinedJson.order.orderstatus == 'Quotation' ||
+                this.combinedJson.order.orderstatus == 'token'
+              "
+            >
+              {{
+                this.combinedJson.order.grandtotal - this.combinedJson.order.discount - this.paidamount
+              }}
             </td>
-            <td *ngIf="this.dialog.orderstatus == 'adminapproved'">
+            <td *ngIf="this.combinedJson.order.orderstatus == 'Quotation'">
               <p-button
                 [label]="NextButtonLabel"
                 (onClick)="processPayment()"
@@ -532,8 +680,47 @@
             </td>
           </tr>
         </table>
-      </div>
-      <!-- <div  class="row">
+        <div
+          class="modal-body"
+          *ngIf="
+            this.combinedJson.order.orderstatus == 'adminapproved' ||
+            this.combinedJson.order.orderstatus == 'ready'
+          "
+          class="row"
+        >
+          <table style="width: 100%">
+            <tr>
+              <th>For Insurance</th>
+              <th>Insurance Amount {{ insurancerate }}%</th>
+              <th>GST Amount {{ gstrate }}%</th>
+              <th>Balance Amount</th>
+              <th *ngIf="this.combinedJson.order.orderstatus == 'adminapproved'"></th>
+            </tr>
+            <tr>
+              <td>{{ dialog.forinsurance }}</td>
+              <td>{{ dialog.insuranceamount }}</td>
+              <td>{{ dialog.gstamount }}</td>
+
+              <td>
+                <span style="color: red">
+                  <!-- {{  this.combinedJson.order.grandtotal + this.combinedJson.order.gstamount +  this.combinedJson.order.insuranceamount - this.combinedJson.order.discount }} -->
+                  {{ this.payamount }}
+                </span>
+              </td>
+              <td *ngIf="this.combinedJson.order.orderstatus == 'adminapproved'">
+                <p-button
+                  [label]="NextButtonLabel"
+                  (onClick)="processPayment()"
+                  icon="pi pi-angle-right"
+                  iconPos="right"
+                  styleClass="font-12 font-bold text-uppercase"
+                  [ngClass]="'p-button-danger'"
+                ></p-button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- <div  class="row">
           <div class="col-sm-6">
            <div class="form-group">
              <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
@@ -541,11 +728,11 @@
           </div>
     
          </div> -->
+      </div>
     </div>
-  </div>
 
-  <!-------------old -------->
-  <!-- <div style="display: none">
+    <!-------------old -------->
+    <!-- <div style="display: none">
     <table style="width: 100%">
       <tr>
         <th>Residencial</th>
@@ -553,16 +740,16 @@
         <th>Order Status</th>
       </tr>
       <tr>
-        <td>{{ this.dialog.movetype }}</td>
+        <td>{{ this.combinedJson.order.movetype }}</td>
         <td>{{ this.packagename }}</td>
-        <td>{{ this.dialog.orderstatus }}</td>
+        <td>{{ this.combinedJson.order.orderstatus }}</td>
       </tr>
     </table>
     <span aria-hidden="true"
       >Location({{
-        this.dialog.fromcity.split(",").length > 1
-          ? this.dialog.fromcity.split(",")[1]
-          : this.dialog.fromcity.split(",")[0]
+        this.combinedJson.order.fromcity.split(",").length > 1
+          ? this.combinedJson.order.fromcity.split(",")[1]
+          : this.combinedJson.order.fromcity.split(",")[0]
       }})</span
     >
     <table style="width: 100%">
@@ -575,12 +762,12 @@
         <th>Lift Available To</th>
       </tr>
       <tr>
-        <td>{{ this.dialog.fromaddress1 }},{{ this.dialog.fromaddress }}</td>
-        <td>{{ this.dialog.fromfloor }}</td>
-        <td>{{ this.dialog.fromlift ? "yes" : "No" }}</td>
-        <td>{{ this.dialog.toaddress1 }},{{ this.dialog.toaddress }}</td>
-        <td>{{ this.dialog.tofloor }}</td>
-        <td>{{ this.dialog.tolift ? "yes" : "No" }}</td>
+        <td>{{ this.combinedJson.order.fromaddress1 }},{{ this.combinedJson.order.fromaddress }}</td>
+        <td>{{ this.combinedJson.order.fromfloor }}</td>
+        <td>{{ this.combinedJson.order.fromlift ? "yes" : "No" }}</td>
+        <td>{{ this.combinedJson.order.toaddress1 }},{{ this.combinedJson.order.toaddress }}</td>
+        <td>{{ this.combinedJson.order.tofloor }}</td>
+        <td>{{ this.combinedJson.order.tolift ? "yes" : "No" }}</td>
       </tr>
     </table>
     <span aria-hidden="true">Date & Time Details</span>
@@ -591,7 +778,7 @@
       </tr>
       <tr>
         <td>
-          {{ this.dialog.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
+          {{ this.combinedJson.order.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
         </td>
       
         <td>{{ strdate }}</td>
@@ -604,8 +791,8 @@
         <th>Total Items</th>
       </tr>
       <tr>
-        <td>{{ this.dialog.totkm }}</td>
-        <td>{{ this.dialogdetail.length }}</td>
+        <td>{{ this.combinedJson.order.totkm }}</td>
+        <td>{{ this.combinedJson.orderdetail.length }}</td>
       </tr>
     </table>
     <span aria-hidden="true">Items </span>
@@ -627,7 +814,7 @@
         <th>Mobile#</th>
       </tr>
       <tr>
-        <td>{{ this.dialog.cust_name }}</td>
+        <td>{{ this.combinedJson.order.cust_name }}</td>
        
         <td>
           <input
@@ -639,7 +826,7 @@
             placeholder="Email"
           />
         </td>
-        <td>{{ this.dialog.cust_mobile }}</td>
+        <td>{{ this.combinedJson.order.cust_mobile }}</td>
       </tr>
     </table>
     <span aria-hidden="true">CFT Details</span>
@@ -651,7 +838,7 @@
       </tr>
       <tr>
         <td>{{ vehiclename }}</td>
-        <td>{{ this.dialog.totalcft }}</td>
+        <td>{{ this.combinedJson.order.totalcft }}</td>
         <td>
           <select
             class="form-control"
@@ -685,7 +872,7 @@
             placeholder="For Total"
           />
         </td>
-        <td *ngIf="incityflag">{{ this.dialog.grandtotal }}</td>
+        <td *ngIf="incityflag">{{ this.combinedJson.order.grandtotal }}</td>
         <td>
           <input
             type="number"
@@ -697,7 +884,7 @@
           />
         </td>
         <td>{{ paidamount }}</td>
-        <td>{{ this.dialog.grandtotal - paidamount }}</td>
+        <td>{{ this.combinedJson.order.grandtotal - paidamount }}</td>
       </tr>
     </table>
     
@@ -746,20 +933,20 @@
         <td>
           <span style="color: red">
             {{
-              this.dialog.grandtotal +
-                this.dialog.gstamount +
-                this.dialog.insuranceamount -
-                this.dialog.discount
+              this.combinedJson.order.grandtotal +
+                this.combinedJson.order.gstamount +
+                this.combinedJson.order.insuranceamount -
+                this.combinedJson.order.discount
             }}
           </span>
         </td>
         <td>
           <span style="color: red">
             {{
-              this.dialog.grandtotal +
-                this.dialog.gstamount +
-                this.dialog.insuranceamount -
-                this.dialog.discount -
+              this.combinedJson.order.grandtotal +
+                this.combinedJson.order.gstamount +
+                this.combinedJson.order.insuranceamount -
+                this.combinedJson.order.discount -
                 paidamount
             }}
           </span>
@@ -790,8 +977,8 @@
       </tr>
     </table>
   </div> -->
-  <!-- </div> -->
-  <!-- <div  class="row">
+    <!-- </div> -->
+    <!-- <div  class="row">
   <div class="col-sm-3">
    <div class="form-group">
      <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
@@ -813,4 +1000,5 @@
   </div>
   
  </div> -->
+  </div>
 </div>

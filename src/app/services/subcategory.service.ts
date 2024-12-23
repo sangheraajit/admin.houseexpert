@@ -124,6 +124,20 @@ export class SubcategoryService {
     };
     return this.apiservice.apicall(body)
   }
+  getcalculateamount(pserv_id:number,ppackage_id:number, ptotcft:number,pkm:number,pfromfloor:number, ptofloor:number) {
+    let spname = "getcalculateamount"
+
+    let body = {
+      spname: spname,
+      pserv_id: pserv_id,
+      ppackage_id: ppackage_id,
+      ptotcft: ptotcft,
+      pkm: pkm,
+      pfromfloor: pfromfloor,
+      ptofloor: ptofloor
+    };
+    return this.apiservice.apicall(body)
+  }
   getChildCategories(cat_id:number) {
     let spname = "get_childcategory_read"
     let ptype = "readall"

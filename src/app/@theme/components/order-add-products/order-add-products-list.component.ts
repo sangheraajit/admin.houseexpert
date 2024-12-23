@@ -15,6 +15,7 @@ import { ApiService } from "../../../services/api.service";
 import { SmartTableService } from "../../../@core/mock/smart-table.service";
 //import { ArticlemstAddEditComponent } from "../articlemst-add-edit/articlemst-add-edit.component";
 import { environment } from "../../../../environments/environment";
+import { SubcategoryService } from "../../../services/subcategory.service";
 @Component({
   selector: "order-add-products",
   templateUrl: "./order-add-products-list.component.html",
@@ -122,7 +123,8 @@ export class OrderAddProductsComponent implements OnInit {
     private service: SmartTableService,
     private spinner: NgxSpinnerService,
     private toasterService: ToasterService,
-    private activeModal: NgbActiveModal
+    private activeModal: NgbActiveModal,
+    private SubcategoryService :SubcategoryService
   ) {}
   ngOnInit() {
     this.getlist();
@@ -137,8 +139,9 @@ export class OrderAddProductsComponent implements OnInit {
       pid: 0,
     };
 
-    this.ServiceObj.apicall(body).subscribe(
-      (res) => {
+    
+    this.SubcategoryService.getAllarticle("", "").subscribe((res: any) => {
+      console.log("getAllarticle", res);
         // debugger;JSON.parse(data.results
         let data: any = res;
 
@@ -155,7 +158,9 @@ export class OrderAddProductsComponent implements OnInit {
             const matchingOrder = this.OrderDetails.find(
               (order: any) => order.article_id === article.id
             );
-
+            if (matchingOrder) {
+              matchingOrder.cft = article.cft; // Update cft field in OrderDetails
+            }
             return {
               cat_id: article.cat_id,
               cft: article.cft,
@@ -164,7 +169,9 @@ export class OrderAddProductsComponent implements OnInit {
               itemgroup: article.itemgroup,
               itemgroup1: article.itemgroup1,
               itemname: article.itemname,
-              qty: matchingOrder ? matchingOrder.quantity : 0, // Set qty from OrderDetails or default to 0
+              cft_rate:article.cft_rate,
+              price:  matchingOrder ? parseInt(matchingOrder.quantity) * article.cft_rate:0,
+              qty: matchingOrder ? parseInt(matchingOrder.quantity) : 0, // Set qty from OrderDetails or default to 0
               active: true,
             };
           });
@@ -254,17 +261,43 @@ export class OrderAddProductsComponent implements OnInit {
   }
   changeQty(product: any, change: any, replace: string) {
     if (product.qty + change >= 0) {
-      product.qty += change;
+      product.qty += parseInt(change);
     }
+  
     if (change !== "") {
       change = parseInt(change) || 1;
-      // this.cartService.addToCart(product.itemname, change, replace);
+    }
+  
+    // Update the corresponding orderdetails object in the parent component
+    const matchingOrder = this.OrderDetails.find((order: any) => order.article_id === product.id);
+    if (matchingOrder) {
+      matchingOrder.quantity = product.qty;  // Update the quantity in the parent orderdetails object
     } else {
-      // this.cartService.addToCart(product.itemname, 1, replace);
+      // If the product is not in the orderdetails array, you can add it
+      this.OrderDetails.push({
+        active: true,
+        quantity: product.qty,
+        admin_rate: 0,
+        discount: 0,
+        id: 0,
+        linestatus: 'new',
+        orderid:  this.OrderDetails[0].orderid,
+        partner_rate: 0,
+        serv_id: 0,
+        tax: 0,
+        item_name:product.itemname,
+        cft:product.cft,
+        cft_rate:product.cft_rate,
+        line_total: product.qty * product.price,
+      });
     }
   }
+  
   closeModal() {
     this.activeModal.close();
   }
-  SaveData() {}
+  saveChanges() {
+    const updatedData = { ...this.OrderDetails }; // Prepare the updated product data
+    this.activeModal.close(updatedData); // Return updated data to the parent component
+  }
 }
