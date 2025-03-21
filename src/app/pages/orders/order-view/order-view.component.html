@@ -36,14 +36,15 @@
             <b>Total CFT:</b> {{ this.combinedJson?.order?.totalcft }}
           </td>
           <td style="width: 50%" class="text-left">
-            <b>Package Type:</b> {{ this.packagename }} <br />
+            <div class="d-flex ">
+            <b>Package Type:</b> {{ this.packagename }}  <br />
             <button
               class="btn btn-md btn-primary"
               (click)="viewPackageRate($event)"
             >
               View Package Rate</button
             ><br />
-
+          </div>
             <b>Status:</b>
 
             <div [ngClass]="getSeverity(this.combinedJson?.order?.orderstatus)">

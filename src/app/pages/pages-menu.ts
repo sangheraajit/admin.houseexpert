@@ -66,6 +66,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     hidden: !findRole("Categories"),
   },
   {
+    title: "Customer",
+    icon: "home-outline",
+    link: "/pages/customer/list",
+    hidden: !findRole("Customer"),
+  },
+  {
     title: "Bookings",
     icon: "home-outline",
     link: "/pages/orders",

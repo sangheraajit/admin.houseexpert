@@ -55,7 +55,7 @@ export class SelectPackageComponent
     console.log('ArticlemstlistAll', this.ArticlemstlistAll);
     console.log("PackageList", this.PackageList);
     console.log("orderHeader", this.orderHeader);
-
+    this.selectedValues=this.orderHeader.packageid;
     if (this.pagename == "package") {
       this.SubcategoryService.getAllPackage2(
         0,

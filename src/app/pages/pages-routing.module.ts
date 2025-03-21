@@ -74,6 +74,12 @@ const routes: Routes = [
           import("./packages/packages.module").then(
             (m) => m.PackagesModule),
       },
+      {
+        path: "customer",
+        loadChildren: () =>
+          import("./customer/customer.module").then(
+            (m) => m.CustomerModule),
+      },
       // {
       //   path: 'forms',
       //   loadChildren: () => import('./forms/forms.module')
