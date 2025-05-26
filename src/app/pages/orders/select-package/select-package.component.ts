@@ -11,8 +11,8 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
@@ -47,8 +47,8 @@ export class SelectPackageComponent
     public SubcategoryService: SubcategoryService,
     private activeModal: NgbActiveModal
   ) {}
-  public packegeform: FormGroup = new FormGroup({
-    packageid: new FormControl("", [Validators.required]),
+  public packegeform: UntypedFormGroup = new UntypedFormGroup({
+    packageid: new UntypedFormControl("", [Validators.required]),
   });
   ngOnInit() {
    

@@ -23,8 +23,8 @@ import { SubcategoryService } from "../../../services/subcategory.service";
 import { GoogleAddressService } from "../../../services/google-address.service";
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { OrderAddProductsComponent } from "../../../@theme/components";
@@ -53,16 +53,16 @@ export class OrderViewComponent implements OnInit {
   public incityflag = false;
   public partnername = "Not Assigned";
   ArticlemstlistAll: any;
-  public Customerform: FormGroup = new FormGroup({
-    fromaddress: new FormControl("", [Validators.required]),
-    toaddress: new FormControl("", [Validators.required]),
-    fromfloor: new FormControl("", [Validators.required]),
-    tofloor: new FormControl("", [Validators.required]),
-    cust_name: new FormControl("", [Validators.required]),
-    cust_mobile: new FormControl("", [Validators.required]),
-    cust_email: new FormControl("", [Validators.required]),
-    fromlift: new FormControl("", [Validators.required]),
-    tolift: new FormControl("", [Validators.required]),
+  public Customerform: UntypedFormGroup = new UntypedFormGroup({
+    fromaddress: new UntypedFormControl("", [Validators.required]),
+    toaddress: new UntypedFormControl("", [Validators.required]),
+    fromfloor: new UntypedFormControl("", [Validators.required]),
+    tofloor: new UntypedFormControl("", [Validators.required]),
+    cust_name: new UntypedFormControl("", [Validators.required]),
+    cust_mobile: new UntypedFormControl("", [Validators.required]),
+    cust_email: new UntypedFormControl("", [Validators.required]),
+    fromlift: new UntypedFormControl("", [Validators.required]),
+    tolift: new UntypedFormControl("", [Validators.required]),
   });
   settings = {
     pager: {
