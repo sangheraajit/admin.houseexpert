@@ -271,7 +271,7 @@ export class OrderListComponent implements OnInit {
     if (title == "Total Pending") {
       pwhere = " and orderstatus  = 'Quotation' ";
     } else if (title == "Total Confirmed") {
-      pwhere = " and orderstatus  = 'Token' ";
+      pwhere = " and orderstatus  = 'Token'  or orderstatus='new'";
     } else if (title == "Total Ongoing") {
       //this.dialog = this.dialog.filter(x=> x.orderstatus.toLowerCase() == "preapproved")
       pwhere = " and orderstatus  = 'Preapproved' ";
