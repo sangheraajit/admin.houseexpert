@@ -8,7 +8,7 @@ import {
   BodyOutputType,
 } from "angular2-toaster";
 import { NgxSpinnerService } from "ngx-spinner";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { DomSanitizer } from "@angular/platform-browser";

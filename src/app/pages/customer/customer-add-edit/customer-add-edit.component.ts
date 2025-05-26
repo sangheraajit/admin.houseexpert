@@ -7,7 +7,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
@@ -21,6 +21,7 @@ export class CustomerAddEditComponent implements OnInit {
 
   public uploader1: FileUploader = new FileUploader({
     isHTML5: true,
+     url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
  
