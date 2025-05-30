@@ -280,7 +280,7 @@ export class OrderAddProductsComponent implements OnInit {
         quantity: product.qty,
         admin_rate: 0,
         discount: 0,
-        id: 0,
+        id: product.id,
         linestatus: 'new',
         orderid:  this.OrderID,
         partner_rate: 0,

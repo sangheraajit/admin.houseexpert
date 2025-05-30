@@ -258,6 +258,7 @@ export class OrderViewComponent implements OnInit {
           this.dialogdetail = JSON.parse(
             JSON.parse(data.results).Table[0].document
           );
+          console.log("getorderdetaillist",this.dialogdetail);
           //console.log(JSON.stringify(this.dialogdetail));
           this.sourcedata.load(this.dialogdetail);
           try {
@@ -632,7 +633,7 @@ export class OrderViewComponent implements OnInit {
         // 				  active: this.dialog.active,
         Orderid: this.dialog.id == null ? 0 : this.dialog.id,
       };
-      let body = data;
+      let body = this.combinedJson;
       console.log("body", body);
       this.orderService.AdminOrderUpdate(body).subscribe(
         (res) => {
@@ -936,6 +937,8 @@ export class OrderViewComponent implements OnInit {
 
         // After loading new data, refresh the source to make the table update
         this.sourcedata.refresh();
+         console.log("Modal closed with combinedJson:", this.combinedJson);
+         console.log("Modal closed with combinedJson string:", JSON.stringify(this.combinedJson));
       },
       (reason) => {
         console.log("Modal dismissed with reason:", reason);
