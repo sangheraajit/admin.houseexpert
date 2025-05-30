@@ -19,6 +19,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: "Providers",
     icon: "layout-outline",
+    hidden: !findRole("Providers"),
     children: [
       {
         title: "Provider Types",
@@ -62,79 +63,54 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: "Categories",
     icon: "home-outline",
     link: "/pages/categories",
+    hidden: !findRole("Categories"),
+  },
+  {
+    title: "Customer",
+    icon: "home-outline",
+    link: "/pages/customer/list",
+    hidden: !findRole("Customer"),
   },
   {
     title: "Bookings",
     icon: "home-outline",
     link: "/pages/orders",
+    hidden: !findRole("Bookings"),
   },
   {
     title: "Article",
     icon: "home-outline",
     link: "/pages/artical/list",
+    hidden: !findRole("Article"),
   },
   // {
-  //   title: "Services",
-  //   icon: "edit-2-outline",
-  //   children: [
-  //     {
-  //       title: "Services List",
-  //       link: "/pages/service/list",
-  //     },
-  //     {
-  //       title: "Option Groups",
-  //       link: "/pages/forms/layouts",
-  //     },
-  //     {
-  //       title: "Options",
-  //       link: "/pages/forms/buttons",
-  //     },
-  //     {
-  //       title: "Service Reviews",
-  //       link: "/pages/forms/datepicker",
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Artical",
-  //   icon: "edit-2-outline",
-  //   children: [
-  //     {
-  //       title: "Atrical List",
-  //       link: "/pages/artical/list",
-  //     },
-      
-  //   ],
-  // },
-  // {
-  //   title: "Bookings",
-  //   icon: "keypad-outline",
-  //   // link: '/pages/ui-features',
-  //   children: [
-  //     {
-  //       title: "Bookings",
-  //       link: "/pages/orders/list",
-  //     },
-  //     // {
-  //     //   title: "Booking Statuses",
-  //     //   link: "/pages/ui-features/icons",
-  //     // },
-  //   ],
-  // },
-  // {
-  //   title: "Coupons",
+  //   title: "Charges",
   //   icon: "home-outline",
-  //   link: "/pages/iot-dashboard",
+  //   link: "/pages/charges/list",
+  //   hidden: !findRole("Charges"),
   // },
   // {
-  //   title: "Faqs",
+  //   title: "CFT Rate",
   //   icon: "home-outline",
-  //   link: "/pages/iot-dashboard",
+  //   link: "/pages/cftrate/list",
+  //   hidden: !findRole("CFT Rate"),
   // },
-
+  {
+    title: "Floor Rate",
+    icon: "home-outline",
+    link: "/pages/cftrate/floorlist",
+    hidden: !findRole("Floor Rate"),
+  },
+  {
+    title: "Packages",
+    icon: "home-outline",
+    link: "/pages/packages/list",
+    hidden: !findRole("Packages"),
+  },
   {
     title: "Settings",
     icon: "layout-outline",
+    hidden: !findRole("Settings"),
     children: [
       {
         title: "City",
@@ -144,38 +120,31 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: "User",
         link: "/pages/admin/user",
       },
+      {
+        title: "Role Master",
+        link: "/pages/admin/role",
+      },
+      // {
+      //   title: "User Role Assignment",
+      //   link: "/pages/admin/userrole",
+      // },
     ],
   },
-  // {
-  //   title: 'Miscellaneous',
-  //   icon: 'shuffle-2-outline',
-  //   children: [
-  //     {
-  //       title: '404',
-  //       link: '/pages/miscellaneous/404',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Auth',
-  //   icon: 'lock-outline',
-  //   children: [
-  //     {
-  //       title: 'Login',
-  //       link: '/auth/login',
-  //     },
-  //     {
-  //       title: 'Register',
-  //       link: '/auth/register',
-  //     },
-  //     {
-  //       title: 'Request Password',
-  //       link: '/auth/request-password',
-  //     },
-  //     {
-  //       title: 'Reset Password',
-  //       link: '/auth/reset-password',
-  //     },
-  //   ],
-  // },
+   
 ];
+function findRole(pagename) {
+  let temp1 = localStorage.getItem("menulist");
+  let menulist;
+  if(temp1){
+                menulist = temp1.split(",");
+                if(menulist.find(x=>x==pagename))
+                {
+                  return true;
+                }
+                else
+                {
+                  return false;
+                }
+            }
+return false;
+} 

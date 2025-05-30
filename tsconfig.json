@@ -4,11 +4,12 @@
     "importHelpers": true,
     "module": "es2020",
     "outDir": "./dist/out-tsc",
+    "strict": false, // <-- CHANGED: Set to false to disable all bundled strict checks
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es2015",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,8 +17,27 @@
       "es2017",
       "dom"
     ],
+    // "plugins" section is generally for IDE extensions, not directly for compilation.
+    // TSLint is deprecated; consider migrating to ESLint if you haven't already.
+    // For compilation purposes, this can often be removed or ignored.
+    // I'm keeping it as is, but be aware it might not be fully functional with modern Angular/TypeScript.
     "plugins": [
-      { "name": "tslint-language-service"}
-    ]
+      {
+        "name": "tslint-language-service"
+      }
+    ],
+    "useDefineForClassFields": false,
+    // Explicitly disabling these for clarity, although "strict: false" should cover them
+    "strictNullChecks": false,  // <-- ADDED: Explicitly disable null checks
+    "noImplicitAny": false,     // <-- ADDED: Explicitly disable implicit 'any'
+    "noImplicitReturns": false, // <-- ADDED: Often bundled with strict, disabling for safety
+    "noFallthroughCasesInSwitch": false // <-- ADDED: Often bundled with strict, disabling for safety
+  },
+  "angularCompilerOptions": {
+    // These are specific to Angular's AOT compilation and strict template checks.
+    // If you encounter template-related strict errors, you might need to add/adjust these.
+    "strictTemplates": false,
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false
   }
 }

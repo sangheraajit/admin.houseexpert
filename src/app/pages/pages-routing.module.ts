@@ -56,6 +56,30 @@ const routes: Routes = [
           import("./orders/orders.module").then(
             (m) => m.OrdersModule),
       },
+      {
+        path: "charges",
+        loadChildren: () =>
+          import("./charges/charges.module").then(
+            (m) => m.ChargesModule),
+      },
+      {
+        path: "cftrate",
+        loadChildren: () =>
+          import("./ratemst/ratemst.module").then(
+            (m) => m.RatemstModule),
+      },
+      {
+        path: "packages",
+        loadChildren: () =>
+          import("./packages/packages.module").then(
+            (m) => m.PackagesModule),
+      },
+      {
+        path: "customer",
+        loadChildren: () =>
+          import("./customer/customer.module").then(
+            (m) => m.CustomerModule),
+      },
       // {
       //   path: 'forms',
       //   loadChildren: () => import('./forms/forms.module')

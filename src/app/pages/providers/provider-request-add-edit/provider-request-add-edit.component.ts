@@ -8,7 +8,6 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // import { DataService } from "../../../@core/data/data.service";
@@ -114,7 +113,7 @@ export class ProviderRequestAddEditComponent implements OnInit {
           //debugger;
           let data: any = res;
           console.log(data);
-          id = String(data.results.Table[0].partner_save);
+          id = String(JSON.parse(data.results).Table[0].partner_save);
           this.dialog.id = id;
           if (data.results == null) {
             this.title = "Error";

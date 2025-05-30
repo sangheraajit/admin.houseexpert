@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CategoriesListComponent } from "./categories-list/categories-list.component";
 import { AuthGuard } from "../../auth/auth.guard";
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule, NbSelectModule, NbTreeGridModule } from "@nebular/theme";
+import { NbEvaIconsModule } from "@nebular/eva-icons";
 
 const routes: Routes = [
   {
@@ -17,7 +19,19 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    NbLayoutModule, 
+    NbButtonModule,
+    NbCardModule,
+    NbSelectModule,
+    
+    NbAccordionModule, 
+    NbIconModule, 
+    NbEvaIconsModule,
+    NbButtonModule,
+    RouterModule.forChild(routes)],
+   
+
   exports: [RouterModule],
 })
 export class CategoriesRoutingModule {}

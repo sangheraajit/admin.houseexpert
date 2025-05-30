@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ToasterModule } from 'angular2-toaster';
+import { RoleComponent } from './role/role.component';
+import { RoleAddEditComponent } from './role-add-edit/role-add-edit.component';
+ 
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { ToasterModule } from 'angular2-toaster';
     UserComponent,
     CityComponent,
     CityAddEditComponent,
-    UserAddEditComponent
+    UserAddEditComponent,
+    RoleComponent,
+    RoleAddEditComponent,
+    
   ],
   imports: [
     CommonModule,

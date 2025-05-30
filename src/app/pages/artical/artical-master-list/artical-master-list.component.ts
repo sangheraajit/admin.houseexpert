@@ -14,7 +14,7 @@
   import { ApiService } from "../../../services/api.service";
   import { SmartTableService } from "../../../@core/mock/smart-table.service";
   import { ArticlemstAddEditComponent } from "../articlemst-add-edit/articlemst-add-edit.component";
-  
+  import { environment } from '../../../../environments/environment';
   @Component({
     selector: 'ngx-artical-master-list',
     templateUrl: './artical-master-list.component.html',
@@ -28,7 +28,21 @@
     dialog: any[];
     dialog1: any[];
     config: ToasterConfig;
-  
+   
+
+  position = "toast-top-right";
+  animationType = "flyLeft";
+  title = "Result";
+  content = `I'm cool toaster!`;
+  timeout = 5000;
+  toastsLimit = 5;
+  type = "info";
+
+  isNewestOnTop = true;
+  isHideOnClick = true;
+  isDuplicatesPrevented = false;
+  isCloseButton = true;
+
     settings = {
       mode: "external",
       pager: {
@@ -52,6 +66,16 @@
       },
   
       columns: {
+        imageurl: {
+          title: "Image",
+          type: "html",
+          width: "6%",
+          filter: false,
+          valuePrepareFunction: (imageurl: string) => {
+            return `<img src="${environment.AdminServer}/assets/UploadFile/article/${imageurl}" height="50px" width="50px" class="imgs" id="imgs" style="border-radius:50%"/>`;
+            // return `<img src="${pimages}" height="50px" width="50px" class="imgs" id="imgs" style="border-radius:50%"/>`;
+          },
+        },
          itemname: {
           title: "Item Name",
           type: "string",
@@ -95,7 +119,8 @@
       private ServiceObj: ApiService,
       private modalService: NgbModal,
       private service: SmartTableService,
-      private spinner: NgxSpinnerService
+      private spinner: NgxSpinnerService,
+      private toasterService: ToasterService
     ) {
      
     }
@@ -106,19 +131,20 @@
       this.spinner.show();
       let body = {
         spname: "data_get",
-        ptype: "readall",
+        ptype: "readallactive",
         ptabname: "tarticlemst",
         pid: 0,
       };
   
       this.ServiceObj.apicall(body).subscribe(
         (res) => {
-          // debugger;
+          // debugger;JSON.parse(data.results
           let data: any = res;
   
-          console.log(data.results);
-          if (data.results.table.length > 0) {
-            this.dialog = JSON.parse(data.results.table[0].document);
+           
+          if (data && data.results && JSON.parse(data.results).Table && JSON.parse(data.results).Table.length > 0) {
+            this.dialog = JSON.parse(JSON.parse(data.results).Table[0].document);
+            if(this.dialog != null)
             this.source.load(this.dialog);
           }
           this.spinner.hide();
@@ -174,11 +200,68 @@
         }
       );
     }
-  
+    private showToast(type: string, title: string, body: string) {
+      this.config = new ToasterConfig({
+        positionClass: this.position,
+        timeout: this.timeout,
+        newestOnTop: this.isNewestOnTop,
+        tapToDismiss: this.isHideOnClick,
+        preventDuplicates: this.isDuplicatesPrevented,
+        animation: this.animationType,
+        limit: this.toastsLimit,
+      });
+      const toast: Toast = {
+        type: "info",
+        title: title,
+        body: body,
+        timeout: this.timeout,
+        showCloseButton: this.isCloseButton,
+        bodyOutputType: BodyOutputType.TrustedHtml,
+      };
+      this.toasterService.popAsync(toast);
+    }
     deleteDialog(event): void {
-      let i = event.data.id; 
-      this.dialog1 = this.dialog.find((h) => h.id == i );
+      
+      if(window.confirm('Are sure you want to delete this item ?')){
+
+        var data = {
+        
+          spname: "data_save",
+          jdata: [{
+                     active: false,
+                 }],
+          ptabname: "tarticlemst",
+          pid: event.data.id,
+        };
+        let body = data;
+        this.ServiceObj.apicall(body).subscribe(
+          (res) => {
+            //debugger;
+            let data: any = res;
+             
+  
+            if (data.results == null) {
+              this.title = "Error";
+              this.type = "error";
+              this.content = "Fail to Add/Update !";
+              this.showToast(this.type, this.title, this.content);
+            } else {
+              this.getlist();
+              this.title = "Result";
+              this.type = "info";
+              this.content = "Record deleted successfully..";
+              this.showToast(this.type, this.title, this.content);
+            }
+            this.dialog = {} as any;
+            
+          },
+          (err) => {
+            this.message = err.error.msg;
+            this.showToast('error', 'error', this.message);
+          }
+        );
        
+      }
     }
     ngOnDestroy() {
       if (this.subscribe$) {

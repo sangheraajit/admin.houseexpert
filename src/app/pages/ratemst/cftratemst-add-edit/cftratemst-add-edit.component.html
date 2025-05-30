@@ -1,0 +1,172 @@
+<toaster-container [toasterconfig]="config"></toaster-container>
+<div class="modal-header">
+  <span>CFT Rate Master</span>
+  <button class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- {{ modalContent }} -->
+
+  <nb-card
+    ><nb-card-body>
+  <div class="row">
+        <div class="col-sm-6">
+          
+          <div class="form-group">
+            <label>Package</label>
+            <select
+              class="form-control"
+              [(ngModel)]="dialog.package_id"
+              
+              name="package_id"
+            >
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlcat"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+
+        </div>        
+        <!-- <div class="col-sm-6">
+          <div class="form-group">
+            <label>Charge desc * </label>
+            <input
+              type="text"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.chargedesc"
+              placeholder="Chargedesc"
+            />
+          </div>
+        </div> -->
+    </div>
+<div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>From CFT * </label>
+            <input
+              type="number"
+              required
+              class="form-control"
+              id="fromcft"
+              [(ngModel)]="dialog.fromcft"
+              placeholder="From CFT"
+            />
+          </div>
+        </div>        <div class="col-sm-6">
+          <div class="form-group">
+            <label>To CFT * </label>
+            <input
+              type="number"
+              required
+              class="form-control"
+              id="mdesc"
+              [(ngModel)]="dialog.tocft"
+              placeholder="To CFT"
+            />
+          </div>
+        </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>From KM * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="fromkm"
+          [(ngModel)]="dialog.fromkm"
+          placeholder="From KM"
+        /></div>
+    </div>        <div class="col-sm-6">
+      <div class="form-group">
+        <label>To KM * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="tokm"
+          [(ngModel)]="dialog.tokm"
+          placeholder="To KM"
+        />
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Package Rate * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="packagefixed"
+          [(ngModel)]="dialog.packagefixed"
+          placeholder="Package Rate"
+        /></div>
+    </div>        <div class="col-sm-6">
+      <div class="form-group">
+        <label>Package Per KM * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="packageperkm"
+          [(ngModel)]="dialog.packageperkm"
+          placeholder="Package Per KM"
+        />
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Extra Rate * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="extrafixed"
+          [(ngModel)]="dialog.extrafixed"
+          placeholder="Extra Rate"
+        /></div>
+    </div>        <div class="col-sm-6">
+      <div class="form-group">
+        <label>Extra Per KM * </label>
+        <input
+          type="number"
+          required
+          class="form-control"
+          id="extraperkm"
+          [(ngModel)]="dialog.extraperkm"
+          placeholder="Extra Per KM"
+        />
+      </div>
+    </div>
+</div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="active">Active</label>
+            <ui-switch
+              class="form-control"
+              style="border: none"
+              [(ngModel)]="dialog.active"
+            ></ui-switch>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-md btn-primary" (click)="SaveData()">
+        Save changes
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</div>

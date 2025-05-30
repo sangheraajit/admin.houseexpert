@@ -40,15 +40,23 @@
 <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
-            <label>Customerid  </label>
-            <input
+            <label>Customer  </label>
+            <!-- <input
               type="text" [disabled]="noedit"
               required
               class="form-control"
               id="mdesc"
               [(ngModel)]="dialog.customerid"
               placeholder="Customerid"
-            />
+            /> -->
+           <select class="form-control" [disabled]="noedit" [(ngModel)]="dialog.customerid"  name="customerid">
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlcust"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
           </div>
         </div>        <div class="col-sm-6">
           <div class="form-group">
@@ -166,7 +174,8 @@
               placeholder="Totkm"
             />
           </div>
-        </div></div>
+        </div>
+</div>
 <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
@@ -192,7 +201,8 @@
               placeholder="Total"
             />
           </div>
-        </div></div>
+        </div>
+</div>
 <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
@@ -232,19 +242,27 @@
               placeholder="Grandtotal"
             />
           </div>
-        </div>        <div class="col-sm-6">
+        </div>        
+        <!-- <div class="col-sm-6">
           <div class="form-group">
-            <label>Part_id  </label>
-            <input
-              type="text" [disabled]="noedit"
-              required
+             
+            <label>Partner</label>
+            <select
               class="form-control"
-              id="mdesc"
               [(ngModel)]="dialog.part_id"
-              placeholder="Part_id"
-            />
+              
+              name="Part_id"
+            >
+              <option
+                [value]="i.idval"
+                *ngFor="let i of ddlpart"
+              >
+                {{ i.textval }}
+              </option>
+            </select>
           </div>
-        </div></div>
+        </div> -->
+</div>
 <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
@@ -287,14 +305,19 @@
         </div>        <div class="col-sm-6">
           <div class="form-group">
             <label>Packageid  </label>
-            <input
+            <!-- <input
               type="text" [disabled]="noedit"
               required
               class="form-control"
               id="mdesc"
               [(ngModel)]="dialog.packageid"
               placeholder="Packageid"
-            />
+            /> -->
+            <select class="form-control" [disabled]="noedit" [(ngModel)]="dialog.packageid"  name="packageid">
+              <option [value]="i.idval" *ngFor="let i of ddlpackage" >
+                {{ i.textval }}
+              </option>
+            </select>
           </div>
         </div></div>
 <div class="row">
@@ -363,6 +386,51 @@
             ></ui-switch>
           </div>
         </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Partner</label>
+            <select class="form-control" [(ngModel)]="dialog.part_id" name="Part_id">
+              <option [value]="i.idval" *ngFor="let i of ddlpart" >
+                {{ i.textval }}
+              </option>
+            </select>
+          </div>
+         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Insurance Amount  </label>
+            <input
+            type="number"   
+              required
+              class="form-control"
+              id="insuranceamount"
+              [(ngModel)]="dialog.insuranceamount"
+              placeholder="Insurance amount"
+            />
+          </div>
+        </div>        
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>GST Amount  </label>
+            <input
+              type="number" 
+              required
+              class="form-control"
+              id="gstamount"
+              [(ngModel)]="dialog.gstamount"
+              placeholder="Gst amount"
+            />
+          </div>
+        </div>
+      </div>
+      <div  class="row">
+       <div class="col-sm-6">
+        <div class="form-group">
+          <button class="btn btn-md btn-primary" (click)="SaveData()">Save Order</button>
+        </div>
+       </div>
       </div>
       <div  class="row">
         <button class="btn btn-md btn-primary" (click)="showdetail=!showdetail">{{showdetail==true?"Hide Order Details":"Show Order Details"}}</button>

@@ -7,7 +7,6 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
@@ -21,6 +20,7 @@ export class ArticlemstAddEditComponent implements OnInit {
 
   public uploader1: FileUploader = new FileUploader({
     isHTML5: true,
+     url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
  
@@ -76,13 +76,14 @@ export class ArticlemstAddEditComponent implements OnInit {
   SaveData() {
      
 	{
+    let id: string = "0";
     var data = {
         
         spname: "data_save",
         jdata: [{
                     itemname: this.dialog.itemname?this.dialog.itemname:"", 
                     itemgroup: this.dialog.itemgroup?this.dialog.itemgroup:"", 
-                    itemgroup1: this.dialog.itemgroup1?this.dialog.itemgroup1:"", 
+                    // itemgroup1: this.dialog.itemgroup1?this.dialog.itemgroup1:"", 
                     cft: this.dialog.cft?this.dialog.cft:"0", 
 
 				  active: this.dialog.active,
@@ -96,7 +97,7 @@ export class ArticlemstAddEditComponent implements OnInit {
         (res) => {
           //debugger;
           let data: any = res;
-          
+          id = String(data.results.table[0].data_save);
 
           if (data.results == null) {
             this.title = "Error";
@@ -110,9 +111,7 @@ export class ArticlemstAddEditComponent implements OnInit {
             this.showToast(this.type, this.title, this.content);
           }
           this.dialog = {} as any;
-          
-
-          // localStorage.setItem("Reload", "true");
+          this.uploadSubmit(id);
           this.activeModal.close();
         },
         (err) => {
@@ -122,7 +121,8 @@ export class ArticlemstAddEditComponent implements OnInit {
       );
     }
   }
- 
+  
+
  private showToast(type: string, title: string, body: string) {
     this.config = new ToasterConfig({
       positionClass: this.position,

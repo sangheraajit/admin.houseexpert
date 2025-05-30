@@ -7,7 +7,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // import { DataService } from "../../../@core/data/data.service";
@@ -20,7 +20,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 export class UserAddEditComponent implements OnInit {
   private msg: string = "";
   public ddlPartnertype: DDLItem[];
-  public ddlCity: DDLItem[];
+  public ddl: DDLItem[];
   public dialog: any = {
     username: "",
     userpass: "",
@@ -45,6 +45,7 @@ export class UserAddEditComponent implements OnInit {
 
       //this.getImportsourceDDL(this.dialog.processtype);
     }
+    this.getDDL();
   }
   profile: any;
   ddlCountry: DDLItem[];
@@ -71,48 +72,22 @@ export class UserAddEditComponent implements OnInit {
   ngOnInit() {
     // this.getProcesstypeDDL( );
   }
-  private getPartnertypeDDL() {
+  private getDDL() {
     let body = {
       spname: "getdropdown",
-      pdrptype: "DDL_PARTNERTYPE",
+      pdrptype: "DDL_ROLE",
     };
     this.ServiceObj.apicall(body).subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlPartnertype = data.results.Table as DDLItem[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddl = JSON.parse(data.results).Table as DDLItem[];
         }
       },
       (err) => {
         this.message = err.error.msg;
       }
     );
-  }
-  private getCityDDL() {
-    let body = {
-      spname: "getdropdown",
-      pdrptype: "DDL_CITY",
-    };
-
-    this.ServiceObj.apicall(body).subscribe(
-      //this.ServiceObj.apicall(body,'getDDL_SP').subscribe(
-      (res) => {
-        let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlCity = data.results.Table as DDLItem[];
-        }
-        //   this.ddlImportsource= data.recordset as DDLItem[];
-        // }
-      },
-      (err) => {
-        this.message = err.error.msg;
-        //this.showToast(this.type, this.title, this.message);
-      }
-    );
-  }
-
-  onChangeImportsource(processtype) {
-    // ... do other stuff here ...
   }
   closeModal() {
     //localStorage.setItem('Reload','true')
@@ -170,6 +145,7 @@ export class UserAddEditComponent implements OnInit {
         pusername: this.dialog.username,
         pusertype: this.dialog.usertype,
         puserpass: this.dialog.userpass,
+        pactive: this.dialog.active?true:false,
       };
       let body = data;
       this.ServiceObj.apicall(body).subscribe(

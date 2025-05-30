@@ -105,8 +105,8 @@ export class ProviderTypesListComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.table.length > 0) {
-          this.dialog = data.results.table as any[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialog = JSON.parse(data.results).Table as any[];
           this.source.load(this.dialog);
         }
         this.spinner.hide();

@@ -1,0 +1,49 @@
+/* table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 10px;
+} */
+
+//@import '../../../../../../../../@theme/styles/themes';
+@import '../../../@theme/styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .solar-card nb-card-header {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    ngx-traffic {
+      display: none;
+    }
+  }
+
+  
+}
+
+.wrapper {
+  width: 98%;
+  margin: auto;
+ }
+ @media only screen and (max-width:767px){
+  .wrapper {
+    padding: 10px;
+    width: 100%;
+   }
+ }
+ .success {
+  background-color: nb-theme(color-success-default);
+}
+.danger {
+ 
+  background-color: #d32f2f;
+    color: #fff;
+}
+.warning {
+  background-color: nb-theme(color-warning-default);
+}
+

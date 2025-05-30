@@ -18,14 +18,23 @@ import {
   NbMenuModule,
   NbSidebarModule,
   NbToastrModule,
-  NbWindowModule,
+  NbWindowModule,NbTabsetModule,
+  NbTreeGridModule,
+  NbLayoutModule,
+  NbButtonModule,
+  NbCardModule,
+  NbSelectModule,
+  NbAccordionModule,
+  NbIconModule
 } from "@nebular/theme";
 import { LoginModule } from "./login/login.module";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthGuard } from "./auth/auth.guard";
 import { APP_BASE_HREF } from "@angular/common";
 import { httpInterceptorProviders } from "./services/interceptor";
-
+import { NbEvaIconsModule } from "@nebular/eva-icons";
+import { GooglePlacesComponent } from "./@theme/components/google-places/google-places.component";
+// import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -34,7 +43,7 @@ import { httpInterceptorProviders } from "./services/interceptor";
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
-    NgxSpinnerModule,
+    NgxSpinnerModule, NbTabsetModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
@@ -46,6 +55,16 @@ import { httpInterceptorProviders } from "./services/interceptor";
     // }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    NbTreeGridModule,
+    NbLayoutModule, 
+    NbButtonModule,
+    NbCardModule,
+    NbSelectModule,
+    NbTreeGridModule, 
+    NbAccordionModule, 
+    NbIconModule, 
+    NbEvaIconsModule,
+    
   ],
   providers: [httpInterceptorProviders, AuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent],

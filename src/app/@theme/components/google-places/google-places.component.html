@@ -1,0 +1,20 @@
+<!-- <label class="font-12 font-medium">{{ placeholder }}</label> -->
+<!-- <span *ngIf="isRequired" class="required-field">*</span> -->
+
+<input
+  style="
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #c9c9c9;
+    padding-left: 0;
+    font-size: 14px;
+  "
+  nbInput
+  [type]="type"
+  [(ngModel)]="autocompleteInput"
+  #addresstext
+  (change)="onChangeTextInputValue()"
+  [disabled]="disabled"
+  [placeholder]="placeholder"
+  class="form-control"
+/>

@@ -8,7 +8,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,6 +30,7 @@ export class CategoriesAddEditComponent implements OnInit {
   };
   public uploader1: FileUploader = new FileUploader({
     isHTML5: true,
+     url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
  
@@ -80,9 +81,9 @@ export class CategoriesAddEditComponent implements OnInit {
     this.ServiceObj.apicall(body).subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.table.length > 0) {
+        if (JSON.parse(data.results).Table.length > 0) {
           this.ddlcategoryList = [{id: "0",cat_name: "No Category"}];
-          let obj = data.results.table as DDLItemCategory[];
+          let obj = JSON.parse(data.results).Table as DDLItemCategory[];
           //this.ddlcategoryList.push({id: "0",cat_name: "No Category"})
           for(var i = 0; i < obj.length ; i++){
             this.ddlcategoryList.push(obj[i]);
@@ -128,9 +129,9 @@ export class CategoriesAddEditComponent implements OnInit {
         // entityid: this.EntityID,
         spname: "category_save",
         ptype: "save",
-        pid: this.dialog.id == null ? 0 : this.dialog.id,
+        pid: Number(this.dialog.id == null ? 0 : this.dialog.id),
         pcat_name: this.dialog.cat_name,
-        pparent_id: this.dialog.parent_id == null ? "" : this.dialog.parent_id,
+        pparent_id: Number(this.dialog.parent_id == null ? 0 : this.dialog.parent_id),
         pactive: (this.dialog.active==true?true:false),
         pispublish: (this.dialog.ispublish==true?true:false),
       };
@@ -139,7 +140,7 @@ export class CategoriesAddEditComponent implements OnInit {
         (res) => {
           //debugger;
           let data: any = res;
-          id = String(data.results.table[0].category_save);
+          id = String(JSON.parse(data.results).Table[0].category_save);
 
           if (data.results == null) {
             this.title = "Error";
@@ -221,7 +222,7 @@ export class CategoriesAddEditComponent implements OnInit {
         console.log(res);
         let d: any = res;
         console.log(d);
-        if (d == "done") {
+        if (d.result == "done") {
           this.isUploaded1 = true;
           this.showToast("info", "Success", "File Uploaded Successfully!!!");
 
@@ -234,7 +235,7 @@ export class CategoriesAddEditComponent implements OnInit {
           //this.loadResult(foldername);
           //this.loadResult('');
           // this.ro.navigate(['batch-master']);
-        } else if (d == "exists") {
+        } else if (d.result == "exists") {
           this.showToast("info", "Success", "Sheet Already uploaded.");
 
           // this._matSnackBar.open('Sheet Already uploaded.', 'OK', {

@@ -65,10 +65,16 @@ export class UserComponent implements OnInit {
       username: {
         title: "User Name",
         type: "string",
-
         filter: true,
         width: "80%",
       },
+      // userrole: {
+      //   title: "User Role",
+      //   type: "string",
+
+      //   filter: true,
+      //   width: "40%",
+      // },
       active: {
         title: "Active",
         type: "html",
@@ -122,8 +128,8 @@ export class UserComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.Table.length > 0) {
-          this.dialog = data.results.Table as any[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialog = JSON.parse(data.results).Table as any[];
           this.source.load(this.dialog);
         }
         this.spinner.hide();
@@ -164,9 +170,8 @@ export class UserComponent implements OnInit {
   }
   editDialog(event): void {
     //debugger;
-    let i = event.data.mid;
-    let s = event.data.settingid;
-    this.dialog1 = this.dialog.find((h) => h.mid == i && h.settingid == s);
+    let i = event.data.id;
+    this.dialog1 = this.dialog.find((h) => h.id == i);
     this.dialog1.TYPE = "U";
     // this.data.changeMessage(JSON.stringify(this.dialog1))
     localStorage.setItem("Message", JSON.stringify(this.dialog1));

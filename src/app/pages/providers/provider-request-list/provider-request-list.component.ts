@@ -147,8 +147,8 @@ export class ProviderRequestListComponent implements OnInit, OnDestroy {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.table.length > 0) {
-          this.dialog = JSON.parse(data.results.table[0].document);
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialog = JSON.parse(JSON.parse(data.results).Table[0].document);
           this.source.load(this.dialog);
         }
         this.spinner.hide();

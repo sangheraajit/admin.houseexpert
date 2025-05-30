@@ -1,0 +1,12 @@
+.packege_col {
+    border: 2px solid #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.packege_col:hover,.packege_col.selected {
+    border-color: #022279;
+}
+.packege_col.selected a.bg-warning {
+    background: #022279 !important;
+    color: #fff;
+}

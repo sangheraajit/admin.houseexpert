@@ -135,8 +135,8 @@ export class CityComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.Table.length > 0) {
-          this.dialog = data.results.Table as any[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialog = JSON.parse(data.results).Table as any[];
           this.source.load(this.dialog);
         }
         this.spinner.hide();
@@ -177,9 +177,9 @@ export class CityComponent implements OnInit {
   }
   editDialog(event): void {
     //debugger;
-    let i = event.data.mid;
-    let s = event.data.settingid;
-    this.dialog1 = this.dialog.find((h) => h.mid == i && h.settingid == s);
+    let i = event.data.id;
+    
+    this.dialog1 = this.dialog.find((h) => h.id == i);
     this.dialog1.TYPE = "U";
     // this.data.changeMessage(JSON.stringify(this.dialog1))
     localStorage.setItem("Message", JSON.stringify(this.dialog1));
@@ -199,8 +199,9 @@ export class CityComponent implements OnInit {
   }
 
   deleteDialog(event): void {
-    let i = event.data.mid;
-    this.dialog1 = this.dialog.find((h) => h.mid == i);
+    let i = event.data.id;
+    
+    this.dialog1 = this.dialog.find((h) => h.id == i);
     this.dialog1.TYPE = "DELETE";
     // this.data.changeMessage(JSON.stringify(this.dialog1))
     localStorage.setItem("Message", JSON.stringify(this.dialog1));

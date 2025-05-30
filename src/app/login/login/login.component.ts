@@ -119,26 +119,32 @@ export class LoginComponent implements OnInit {
 
         //console.log(data.results);
         if (data.results != null) {
-          if (data.results.table.length > 0) {
+          if (JSON.parse(data.results).Table.length > 0) {
             // this.data.changeEntity(data.results.Table[0].id)
             // this.data.changeUser(data.results.Table[0])
-            let data1 = JSON.parse(data.results.table[0].document)
+            let data1 = JSON.parse(JSON.parse(data.results).Table[0].document)
             this.EntityID = data1.id;
             localStorage.setItem("Userid", data1.id);
             localStorage.setItem("Username", data1.Username);
             localStorage.setItem("Usertype", data1.Usertype); 
-            if (data1.Usertype == "OPERATOR") {
-              MENU_ITEMS.forEach((element) => {
-                if (
-                  element.title == "Reports" ||
-                  element.title == "Order Management"
-                ) {
-                  element.hidden = true;
-                } else {
-                  element.hidden = false;
-                }
-              });
-            }
+            localStorage.setItem("quotationcntr", data1.quotationcntr); 
+            localStorage.setItem("tokencntr", data1.tokencntr); 
+            localStorage.setItem("preapprovedcntr", data1.preapprovedcntr); 
+            localStorage.setItem("approvedcntr", data1.approvedcntr); 
+            localStorage.setItem("othercntr", data1.othercntr); 
+            localStorage.setItem("menulist",  data1.menulist); //"Categories,Bookings,Charges,Settings,Role Master"); 
+            // if (data1.Usertype == "OPERATOR") {
+            //   MENU_ITEMS.forEach((element) => {
+            //     if (
+            //       element.title == "Reports" ||
+            //       element.title == "Order Management"
+            //     ) {
+            //       element.hidden = true;
+            //     } else {
+            //       element.hidden = false;
+            //     }
+            //   });
+            // }
 
             if (
               data1.themeid != null &&
@@ -184,60 +190,7 @@ export class LoginComponent implements OnInit {
             //         "canceledorder",
             //         data.results.Table[0].Canceled
             //       );
-            //       localStorage.setItem(
-            //         "ShippedAmt",
-            //         data.results.Table[0].ShippedAmt
-            //       );
-            //       localStorage.setItem(
-            //         "Totalproduct",
-            //         data.results.Table1[0].Total.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "activeproduct",
-            //         data.results.Table1[0].Active.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "inactiveproduct",
-            //         data.results.Table1[0].InActive.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "archiveproduct",
-            //         data.results.Table1[0].Archive.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "noqtyproduct",
-            //         data.results.Table1[0].noqty.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "QtySold",
-            //         data.results.Table2[0].QtySold.toString()
-            //       );
-            //       localStorage.setItem(
-            //         "LowStock",
-            //         data.results.Table3[0].LowStock.toString()
-            //       );
-
-            //       localStorage.setItem(
-            //         "RecordTop5",
-            //         JSON.stringify(data.results.Table4)
-            //       );
-            //       localStorage.setItem(
-            //         "LowStock5",
-            //         JSON.stringify(data.results.Table5)
-            //       );
-
-            //       localStorage.setItem(
-            //         "Channelwise",
-            //         JSON.stringify(data.results.Table6)
-            //       );
-            //       localStorage.setItem(
-            //         "Monthwise",
-            //         JSON.stringify(data.results.Table7)
-            //       );
-
-            //       localStorage.setItem("isErp", data.results.Table[0].isErp);
-
-                  
+                            
             //     }
             //   },
 

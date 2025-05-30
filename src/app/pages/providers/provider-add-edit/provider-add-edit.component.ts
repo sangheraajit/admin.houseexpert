@@ -8,7 +8,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // import { DataService } from "../../../@core/data/data.service";
@@ -320,6 +320,7 @@ export class ProviderAddEditComponent implements OnInit {
   isCloseButton = true;
   public uploader1: FileUploader = new FileUploader({
     isHTML5: true,
+    url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
   openCreateDialogshop(event): void {
@@ -398,8 +399,8 @@ export class ProviderAddEditComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.Table.length > 0) {
-          this.dialogv = JSON.parse(data.results.Table[0].document);
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialogv = JSON.parse(JSON.parse(data.results).Table[0].document);
           this.sourceService.load(this.dialogv);
         }
         // this.spinner.hide();
@@ -425,9 +426,9 @@ export class ProviderAddEditComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.Table.length > 0) {
-          this.dialogs = JSON.parse(data.results.Table[0].document);
-          this.ddlShop = JSON.parse(data.results.Table[0].document);
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialogs = JSON.parse(JSON.parse(data.results).Table[0].document);
+          this.ddlShop = JSON.parse(JSON.parse(data.results).Table[0].document);
           console.log(this.ddlShop);
           this.source.load(this.dialogs);
         }
@@ -454,9 +455,9 @@ export class ProviderAddEditComponent implements OnInit {
         let data: any = res;
 
         console.log(data.results);
-        if (data.results.Table.length > 0) {
-          this.dialogs = JSON.parse(data.results.Table[0].document);
-          this.ddlShop = JSON.parse(data.results.Table[0].document);
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.dialogs = JSON.parse(JSON.parse(data.results).Table[0].document);
+          this.ddlShop = JSON.parse(JSON.parse(data.results).Table[0].document);
           console.log(this.ddlShop);
           this.source.load(this.dialogs);
         }
@@ -477,8 +478,8 @@ export class ProviderAddEditComponent implements OnInit {
     this.ServiceObj.apicall(body).subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlPartnertype = data.results.Table as DDLItem[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlPartnertype = JSON.parse(data.results).Table as DDLItem[];
         }
       },
       (err) => {
@@ -496,8 +497,8 @@ export class ProviderAddEditComponent implements OnInit {
       //this.ServiceObj.apicall(body,'getDDL_SP').subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlCity = data.results.Table as DDLItem[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlCity = JSON.parse(data.results).Table as DDLItem[];
         }
         //   this.ddlImportsource= data.recordset as DDLItem[];
         // }
@@ -582,7 +583,7 @@ export class ProviderAddEditComponent implements OnInit {
           //debugger;
           let data: any = res;
           console.log(data);
-          id = String(data.results.Table[0].partner_save);
+          id = String(JSON.parse(data.results).Table[0].partner_save);
           this.dialogp.id = id;
           if (data.results == null) {
             this.title = "Error";
@@ -868,7 +869,7 @@ export class ProviderAddEditComponent implements OnInit {
         //debugger;
         let data: any = res;
         console.log(data);
-        id = String(data.results.Table[0].service_save);
+        id = String(JSON.parse(data.results).Table[0].service_save);
 
         if (data.results == null) {
           this.title = "Error";
@@ -903,9 +904,9 @@ export class ProviderAddEditComponent implements OnInit {
     this.ServiceObj.apicall(body).subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          // this.ddlPartnertype = data.results.Table as DDLItem[];
-          this.ddlcategory = data.results.Table;
+        if (JSON.parse(data.results).Table.length > 0) {
+          // this.ddlPartnertype = JSON.parse(data.results).Table as DDLItem[];
+          this.ddlcategory = JSON.parse(data.results).Table;
         }
       },
       (err) => {

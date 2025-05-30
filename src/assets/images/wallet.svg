@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="18" viewBox="0 0 21 18">
+  <g id="Group_227" data-name="Group 227" transform="translate(0.44 0.478)">
+    <g id="Rectangle_205" data-name="Rectangle 205" transform="translate(-0.44 -0.478)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="20" height="18" rx="2" stroke="none"/>
+      <rect x="0.5" y="0.5" width="19" height="17" rx="1.5" fill="none"/>
+    </g>
+    <g id="Rectangle_208" data-name="Rectangle 208" transform="translate(-0.44 3.522)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="15" height="14" rx="2" stroke="none"/>
+      <rect x="0.5" y="0.5" width="14" height="13" rx="1.5" fill="none"/>
+    </g>
+    <g id="Rectangle_209" data-name="Rectangle 209" transform="translate(10.56 5.522)" fill="none" stroke="#000" stroke-width="1">
+      <path d="M3.5,0H10a0,0,0,0,1,0,0V7a0,0,0,0,1,0,0H3.5A3.5,3.5,0,0,1,0,3.5v0A3.5,3.5,0,0,1,3.5,0Z" stroke="none"/>
+      <path d="M3.5.5H9.167A.333.333,0,0,1,9.5.833V6.167a.333.333,0,0,1-.333.333H3.5a3,3,0,0,1-3-3v0a3,3,0,0,1,3-3Z" fill="none"/>
+    </g>
+  </g>
+</svg>

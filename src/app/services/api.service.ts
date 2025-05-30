@@ -16,7 +16,7 @@ export class ApiService {
     }
     apifileupload(formData: FormData) 
     {
-        let apiUrl = environment.CommonApiServer +'apifileupload';
+        let apiUrl = environment.CommonApiServer +'apiFileupload/Post';
         return this.http.post(apiUrl, formData)
     }
 }

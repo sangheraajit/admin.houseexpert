@@ -18,7 +18,7 @@ interface CardSettings {
 export class DashboardComponent implements OnDestroy {
 
   private alive = true;
-  public EntityID;
+  
   ShippedAmt: CardSettings = {
     title: 'Total Earnings ',
     iconClass: 'nb-bar-chart',
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnDestroy {
         this.statusCards = this.statusCardsByThemes[theme.name];
        
   });
-  this.EntityID = localStorage.getItem('Entity')
+  //this.EntityID = localStorage.getItem('Entity')
  
   }
 

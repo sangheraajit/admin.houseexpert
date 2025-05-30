@@ -7,7 +7,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // import { DataService } from "../../../@core/data/data.service";
@@ -80,8 +80,8 @@ export class CityAddEditComponent implements OnInit {
     this.ServiceObj.apicall(body).subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlPartnertype = data.results.Table as DDLItem[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlPartnertype = JSON.parse(data.results).Table as DDLItem[];
         }
       },
       (err) => {
@@ -99,8 +99,8 @@ export class CityAddEditComponent implements OnInit {
       //this.ServiceObj.apicall(body,'getDDL_SP').subscribe(
       (res) => {
         let data: any = res;
-        if (data.results.Table.length > 0) {
-          this.ddlCity = data.results.Table as DDLItem[];
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlCity = JSON.parse(data.results).Table as DDLItem[];
         }
         //   this.ddlImportsource= data.recordset as DDLItem[];
         // }

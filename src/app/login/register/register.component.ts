@@ -9,7 +9,7 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
+
 import { ApiService } from "../../services/api.service";
 
 @Component({

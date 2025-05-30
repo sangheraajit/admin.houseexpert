@@ -15,14 +15,145 @@
       </ngx-spinner>
 
       <nb-card-body>
-        <ng2-smart-table
+        <!-- <ng2-smart-table
           [settings]="settings"
           (create)="openCreateDialog($event)"
           (edit)="editDialog($event)"
           [source]="source"
           (delete)="deleteDialog($event)"
         >
-        </ng2-smart-table>
+        </ng2-smart-table> -->
+        <!--  <ng2-smart-table
+  [settings]="settings"
+  [source]="source"
+>
+</ng2-smart-table> -->
+        <!-- <table [nbTreeGrid]="dataSource">
+  <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+  <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+  <ng-container [nbTreeGridColumnDef]="customColumn">
+    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{customColumn}}</th>
+    
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      <nb-icon icon="edit"></nb-icon>
+      <nb-tree-grid-row-toggle
+        [expanded]="row.expanded"
+        *ngIf="row.hasChildren()">
+      </nb-tree-grid-row-toggle>
+     
+     
+      <img [src]="img_serverPath+row.data[customColumn]"  class="imgs" id="imgs" />
+    </td>
+  </ng-container>
+
+  <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
+    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{column}}</th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column] || '-'}}
+      
+    </td>
+   
+   
+  </ng-container>
+</table>
+ -->
+
+        <button nbButton status="primary" (click)="openCreateDialog()">
+          <nb-icon icon="plus"></nb-icon>Add
+        </button>
+        <table
+  [nbTreeGrid]="dataSource"
+  [nbSort]="dataSource"
+  (sort)="updateSort($event)"
+>
+  <!-- Header row -->
+  <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+
+  <!-- Data rows -->
+  <tr
+    nbTreeGridRow
+    *nbTreeGridRowDef="let row; columns: allColumns"
+    [class.parent-row]="row.hasChildren()"
+    
+  ></tr>
+
+  <!-- Image Column -->
+  <ng-container [nbTreeGridColumnDef]="'imageurl'">
+    <th
+      nbTreeGridHeaderCell
+      [nbSortHeader]="getSortDirection('imageurl')"
+      *nbTreeGridHeaderCellDef
+    >
+      {{ headers[0] }}
+    </th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      <nb-tree-grid-row-toggle
+        [expanded]="row.expanded"
+        *ngIf="row.hasChildren()"
+        class="large-toggle"
+        [style.padding-left.px]="getIndentation(row)"
+      >
+      </nb-tree-grid-row-toggle>
+      <img
+        [src]="img_serverPath + row.data['imageurl']"
+        class="imgs"
+        alt="Row Image"
+      />
+    </td>
+  </ng-container>
+
+  <!-- Dynamic Columns -->
+  <ng-container
+    *ngFor="let column of defaultColumns; let index = index"
+    [nbTreeGridColumnDef]="column"
+    [showOn]="getShowOn(index)"
+  >
+    <th
+      nbTreeGridHeaderCell
+      [nbSortHeader]="getSortDirection(column)"
+      *nbTreeGridHeaderCellDef
+    >
+      {{ headers[index + 1] }}
+    </th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      {{ row.data[column] || '-' }}
+    </td>
+  </ng-container>
+
+  <!-- Active Column -->
+  <ng-container [nbTreeGridColumnDef]="'active'">
+    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+      {{ headers[headers.length - 3] }}
+    </th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      <nb-toggle [(checked)]="row.data['active']"></nb-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Publish Column -->
+  <ng-container [nbTreeGridColumnDef]="'ispublish'">
+    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+      {{ headers[headers.length - 2] }}
+    </th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      <nb-toggle [(checked)]="row.data['ispublish']"></nb-toggle>
+    </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container [nbTreeGridColumnDef]="'actions'">
+    <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+      {{ headers[headers.length - 1] }}
+    </th>
+    <td nbTreeGridCell *nbTreeGridCellDef="let row">
+      <nb-icon icon="edit" (click)="editDialog(row)"></nb-icon>
+      <nb-icon icon="trash" (click)="deleteDialog(row)"></nb-icon>
+    </td>
+  </ng-container>
+</table>
+
+      
+      
       </nb-card-body>
     </nb-card>
   </div>

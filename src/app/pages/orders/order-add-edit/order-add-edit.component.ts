@@ -7,7 +7,6 @@ import {
   Toast,
   BodyOutputType,
 } from "angular2-toaster";
-import "style-loader!angular2-toaster/toaster.css";
 import { ApiService } from "../../../services/api.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { LocalDataSource } from "ng2-smart-table";
@@ -19,6 +18,9 @@ import { LocalDataSource } from "ng2-smart-table";
 export class OrderAddEditComponent implements OnInit {
   private msg: string = "";
   public dialog: any; 
+  public ddlpart: any; 
+  public ddlcust: any; 
+  public ddlpackage: any; 
   public showdetail = false;
   public showpayment = false;
   settingsdtl = {
@@ -179,7 +181,9 @@ export class OrderAddEditComponent implements OnInit {
   ) {
      
     this.msg = localStorage.getItem("Message");
-     
+     this.getProvList();
+     this.getCustList();
+     this.getPackList();
     if (this.msg.length > 0) {
       this.dialog = JSON.parse(this.msg);
       this.getorderdetaillist(this.dialog.id);
@@ -220,37 +224,39 @@ export class OrderAddEditComponent implements OnInit {
      
 	{
     var data = {
-        
-        spname: "data_save",
+    spname: "data_save",
         jdata: [{
-                   orderdate: this.dialog.orderdate, 
- orderno: this.dialog.orderno, 
- customerid: this.dialog.customerid, 
- fromaddress: this.dialog.fromaddress, 
- fromcity: this.dialog.fromcity, 
- fromlat: this.dialog.fromlat, 
- fromlong: this.dialog.fromlong, 
- toaddress: this.dialog.toaddress, 
- tocity: this.dialog.tocity, 
- tolat: this.dialog.tolat, 
- tolong: this.dialog.tolong, 
- totkm: this.dialog.totkm, 
- incity: this.dialog.incity, 
- total: this.dialog.total, 
- tax: this.dialog.tax, 
- discount: this.dialog.discount, 
- grandtotal: this.dialog.grandtotal, 
+//  orderdate: this.dialog.orderdate, 
+//  orderno: this.dialog.orderno, 
+//  customerid: this.dialog.customerid, 
+//  fromaddress: this.dialog.fromaddress, 
+//  fromcity: this.dialog.fromcity, 
+//  fromlat: this.dialog.fromlat, 
+//  fromlong: this.dialog.fromlong, 
+//  toaddress: this.dialog.toaddress, 
+//  tocity: this.dialog.tocity, 
+//  tolat: this.dialog.tolat, 
+//  tolong: this.dialog.tolong, 
+//  totkm: this.dialog.totkm, 
+//  incity: this.dialog.incity, 
+//  total: this.dialog.total, 
+//  tax: this.dialog.tax, 
+//  discount: this.dialog.discount, 
+//  grandtotal: this.dialog.grandtotal, 
  part_id: this.dialog.part_id, 
- orderstatus: this.dialog.orderstatus, 
- fromfloor: this.dialog.fromfloor, 
- tofloor: this.dialog.tofloor, 
- packageid: this.dialog.packageid, 
- extracharges: this.dialog.extracharges, 
- addoncharges: this.dialog.addoncharges, 
- fromlift: this.dialog.fromlift, 
- tolift: this.dialog.tolift, 
+ gstamount: this.dialog.gstamount,
+ insuranceamount: this.dialog.insuranceamount,
+ forinsurance: (this.dialog.insuranceamount=="0"?0:this.dialog.forinsurance),
+//  orderstatus: this.dialog.orderstatus, 
+//  fromfloor: this.dialog.fromfloor, 
+//  tofloor: this.dialog.tofloor, 
+//  packageid: this.dialog.packageid, 
+//  extracharges: this.dialog.extracharges, 
+//  addoncharges: this.dialog.addoncharges, 
+//  fromlift: this.dialog.fromlift, 
+//  tolift: this.dialog.tolift, 
 
-				  active: this.dialog.active,
+// 				  active: this.dialog.active,
                }],
         ptabname: "torder",
         pid: this.dialog.id == null ? 0 : this.dialog.id,
@@ -325,9 +331,9 @@ export class OrderAddEditComponent implements OnInit {
           let data: any = res;
   
           console.log(data.results);
-          if (data.results.Table.length > 0) {
+          if (JSON.parse(data.results).Table.length > 0) {
              
-            this.sourcedatadtl.load(JSON.parse(data.results.Table[0].document));
+            this.sourcedatadtl.load(JSON.parse(JSON.parse(data.results).Table[0].document));
           }
           
         },
@@ -354,9 +360,9 @@ export class OrderAddEditComponent implements OnInit {
           let data: any = res;
   
           console.log(data.results);
-          if (data.results.Table.length > 0) {
+          if (JSON.parse(data.results).Table.length > 0) {
              
-            this.sourcedatapay.load(JSON.parse(data.results.Table[0].document));
+            this.sourcedatapay.load(JSON.parse(JSON.parse(data.results).Table[0].document));
           }
           
         },
@@ -367,5 +373,64 @@ export class OrderAddEditComponent implements OnInit {
         }
       );
   }
+  private getCustList() {
+    // this.spinner.show();
+    let body = {
+      spname: "getdropdown",
+      pdrptype: "DDL_CUST" 
+    };
 
+    this.ServiceObj.apicall(body).subscribe(
+      (res) => {
+        let data: any = res;
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlcust = JSON.parse(data.results).Table as DDLItem[];
+      }
+    },
+      (err) => {
+        this.message = err.error.msg;
+        // this.spinner.hide();
+      }
+    );
+  }
+  private getPackList() {
+    // this.spinner.show();
+    let body = {
+      spname: "getdropdown",
+      pdrptype: "DDL_PACKAGE" 
+    };
+
+    this.ServiceObj.apicall(body).subscribe(
+      (res) => {
+        let data: any = res;
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlpackage = JSON.parse(data.results).Table as DDLItem[];
+      }
+    },
+      (err) => {
+        this.message = err.error.msg;
+        // this.spinner.hide();
+      }
+    );
+  }
+  private getProvList() {
+    // this.spinner.show();
+    let body = {
+      spname: "getdropdown",
+      pdrptype: "DDL_PARTNER" 
+    };
+
+    this.ServiceObj.apicall(body).subscribe(
+      (res) => {
+        let data: any = res;
+        if (JSON.parse(data.results).Table.length > 0) {
+          this.ddlpart = JSON.parse(data.results).Table as DDLItem[];
+      }
+    },
+      (err) => {
+        this.message = err.error.msg;
+        // this.spinner.hide();
+      }
+    );
+  }
 }

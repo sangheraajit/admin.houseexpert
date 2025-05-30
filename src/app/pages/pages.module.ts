@@ -6,6 +6,9 @@ import { PagesComponent } from "./pages.component";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { PagesRoutingModule } from "./pages-routing.module";
  
+
+// import { ChargesListComponent } from './charges/charges-list/charges-list.component';
+ 
 // import { HomeserviceListComponent } from './homeservice/homeservice-list/homeservice-list.component';
 // import { HomeserviceAddEditComponent } from './homeservice-add-edit/homeservice-add-edit.component';
 // import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
@@ -15,9 +18,9 @@ import { PagesRoutingModule } from "./pages-routing.module";
     PagesRoutingModule,
     ThemeModule,
     NbMenuModule,
-    DashboardModule,
+    DashboardModule, 
     // MiscellaneousModule,
   ],
-  declarations: [PagesComponent,  ],
+  declarations: [PagesComponent,     ],
 })
 export class PagesModule {}
