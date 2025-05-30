@@ -116,6 +116,7 @@ export class OrderAddProductsComponent implements OnInit {
   ArticlemstlistAll: any;
   Articlemstlist!: any;
   @Input() public OrderDetails;
+  @Input() public OrderID: number=0;
   constructor(
     private _sanitizer: DomSanitizer,
     private ServiceObj: ApiService,
@@ -155,7 +156,7 @@ export class OrderAddProductsComponent implements OnInit {
           if (this.dialog != null) this.source.load(this.dialog);
           this.ArticlemstlistAll = this.dialog.map((article: any) => {
             // Find the matching order detail by ID
-            const matchingOrder = this.OrderDetails.find(
+            const matchingOrder = this.OrderDetails?.find(
               (order: any) => order.article_id === article.id
             );
             if (matchingOrder) {
@@ -269,7 +270,7 @@ export class OrderAddProductsComponent implements OnInit {
     }
   
     // Update the corresponding orderdetails object in the parent component
-    const matchingOrder = this.OrderDetails.find((order: any) => order.article_id === product.id);
+    const matchingOrder = this.OrderDetails?.find((order: any) => order.article_id === product.id);
     if (matchingOrder) {
       matchingOrder.quantity = product.qty;  // Update the quantity in the parent orderdetails object
     } else {
@@ -281,7 +282,7 @@ export class OrderAddProductsComponent implements OnInit {
         discount: 0,
         id: 0,
         linestatus: 'new',
-        orderid:  this.OrderDetails[0].orderid,
+        orderid:  this.OrderID,
         partner_rate: 0,
         serv_id: 0,
         tax: 0,

@@ -575,7 +575,7 @@
           </tr>
           <tr>
             <td>
-              {{ this.combinedJson.order.orderdate.split("T")[0] | date : "dd-MMM-yyyy" }}
+              {{ this.combinedJson.order.orderdate | date : "dd-MMM-yyyy" }}
             </td>
             <!-- <td>{{ new Date(this.combinedJson.order.orderdate).getHours() }}</td> -->
             <!-- <td>{{ this.combinedJson.order.orderdate.getHours()}}":00"{{this.combinedJson.order.orderdate.getHours()>12?"PM":"AM"}}-{{ this.combinedJson.order.orderdate.getHours()+2}}":00"{{this.combinedJson.order.orderdate.getHours()>12?"PM":"AM"}}</td> -->

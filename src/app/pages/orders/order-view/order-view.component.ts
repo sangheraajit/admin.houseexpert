@@ -594,17 +594,17 @@ export class OrderViewComponent implements OnInit {
         //  orderdate: this.dialog.orderdate,
         //  orderno: this.dialog.orderno,
         //  customerid: this.dialog.customerid,
-        //  fromaddress: this.dialog.fromaddress,
-        //  fromcity: this.dialog.fromcity,
-        //  fromlat: this.dialog.fromlat,
-        //  fromlong: this.dialog.fromlong,
-        //  toaddress: this.dialog.toaddress,
-        //  tocity: this.dialog.tocity,
-        //  tolat: this.dialog.tolat,
-        //  tolong: this.dialog.tolong,
-        //  totkm: this.dialog.totkm,
+        fromaddress: this.dialog.fromaddress,
+        fromcity: this.dialog.fromcity,
+        fromlat: this.dialog.fromlat,
+        fromlong: this.dialog.fromlong,
+        toaddress: this.dialog.toaddress,
+        tocity: this.dialog.tocity,
+        tolat: this.dialog.tolat,
+        tolong: this.dialog.tolong,
+        totkm: this.dialog.totkm,
         //  incity: this.dialog.incity,
-        //  total: this.dialog.total,
+        total: this.dialog.total,
         //  tax: this.dialog.tax,
 
         Discount: this.dialog.discount,
@@ -621,13 +621,13 @@ export class OrderViewComponent implements OnInit {
         forinsurance:
           this.dialog.insuranceamount == "0" ? 0 : this.dialog.forinsurance,
         Orderstatus: this.dialog.orderstatus,
-        //  fromfloor: this.dialog.fromfloor,
-        //  tofloor: this.dialog.tofloor,
-        //  packageid: this.dialog.packageid,
+        fromfloor: this.dialog.fromfloor,
+        tofloor: this.dialog.tofloor,
+        packageid: this.dialog.packageid,
         //  extracharges: this.dialog.extracharges,
         //  addoncharges: this.dialog.addoncharges,
-        //  fromlift: this.dialog.fromlift,
-        //  tolift: this.dialog.tolift,
+        fromlift: this.dialog.fromlift,
+        tolift: this.dialog.tolift,
 
         // 				  active: this.dialog.active,
         Orderid: this.dialog.id == null ? 0 : this.dialog.id,
@@ -739,6 +739,8 @@ export class OrderViewComponent implements OnInit {
         );
         if (packagefind) {
           this.packagename = packagefind.textval;
+          this.dialog.packageid=packagefind.idval;
+          this.combinedJson.order.packageid = packagefind.idval;
         }
       }
     });
@@ -912,7 +914,8 @@ export class OrderViewComponent implements OnInit {
     });
 
     // Pass order details and dialog data to the modal
-    activeModal.componentInstance.OrderDetails = this.combinedJson.orderdetails;
+    activeModal.componentInstance.OrderID = this.combinedJson.order.id;
+     activeModal.componentInstance.OrderDetails = this.combinedJson.orderdetails || [];
     activeModal.componentInstance.dialogData = dialogData;
 
     // Handle modal close events
@@ -949,7 +952,7 @@ export class OrderViewComponent implements OnInit {
       const newProduct = event.newData;
 
       // Check if the product already exists in the orderdetails array
-      const existingProduct = this.combinedJson.orderdetails.find(
+      const existingProduct = this.combinedJson.orderdetails?.find(
         (detail: any) => detail.article_id === newProduct.article_id
       );
 
