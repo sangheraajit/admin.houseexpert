@@ -123,7 +123,7 @@ export class RoleComponent  implements OnInit {
   }
   openCreateDialog(event): void {
     //debugger;
-    this.dialog1 = {} as any;
+   // this.dialog1 = {} as any;
     localStorage.setItem("Message", JSON.stringify(this.dialog1));
     const activeModal = this.modalService.open(RoleAddEditComponent, {
       size: "lg",

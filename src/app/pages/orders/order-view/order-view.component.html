@@ -25,6 +25,8 @@
             <br />
             <b>Pickup Date and Time:</b
             >{{ this.combinedJson?.order?.orderdate | date : "dd-MMM-yyyy" }} {{ strdate }}
+            <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker"  [(ngModel)]="this.combinedJson.order.orderdate">
+<nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
             <br />
             <b>Total Distance:</b> {{ this.combinedJson?.order?.totkm }}
             <br />

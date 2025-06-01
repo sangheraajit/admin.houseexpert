@@ -25,7 +25,8 @@ import {
   NbCardModule,
   NbSelectModule,
   NbAccordionModule,
-  NbIconModule
+  NbIconModule,
+  NbTimepickerModule
 } from "@nebular/theme";
 import { LoginModule } from "./login/login.module";
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -64,7 +65,8 @@ import { GooglePlacesComponent } from "./@theme/components/google-places/google-
     NbAccordionModule, 
     NbIconModule, 
     NbEvaIconsModule,
-    
+    NbDatepickerModule.forRoot(),
+    NbTimepickerModule.forRoot(),
   ],
   providers: [httpInterceptorProviders, AuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent],

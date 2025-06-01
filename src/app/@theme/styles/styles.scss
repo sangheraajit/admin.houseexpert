@@ -39,3 +39,6 @@ ngb-modal-window {
   z-index: 1050 !important; /* Standard Bootstrap modal window z-index */
 }
 
+.cdk-overlay-container {
+  z-index: 2000 !important;
+}
