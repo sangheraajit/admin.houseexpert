@@ -19,7 +19,7 @@ export const environment = {
     // AdminServer: "https://admin.houseexpert.in",
   // AdminServer: "http://188.208.140.246:8093",
   // CommonApiServer: "http://188.208.140.246:8093/api/",
-  CommonApiServer: "https://localhost:5001/",
+  CommonApiServer: "https://dev.api.houseexpert.in/",
     AdminServer: "https://dev.api.houseexpert.in",
   gstrate: 18,
     insurancerate: 3,
