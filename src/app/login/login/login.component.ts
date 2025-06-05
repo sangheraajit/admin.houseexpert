@@ -35,14 +35,15 @@ export class LoginComponent implements OnInit {
     this.dialog.rememberMe = "";
     this.btnlabel = "Sign In";
     this.forgotpassword = false;
-    localStorage.setItem("Entity", null);
+   /*  localStorage.setItem("Entity", null);
     localStorage.setItem("User", null);
     localStorage.setItem("Company", null);
-    localStorage.setItem("LoginID", null);
+    localStorage.setItem("LoginID", null); */
   }
 
   ngOnInit() {
     console.log("login");
+    localStorage.clear(); // Ensure clean state before login attempt
     this.dialog.username = "";
     this.dialog.password = "";
     this.dialog.rememberMe = "";
@@ -125,8 +126,8 @@ export class LoginComponent implements OnInit {
             let data1 = JSON.parse(JSON.parse(data.results).Table[0].document)
             this.EntityID = data1.id;
             localStorage.setItem("Userid", data1.id);
-            localStorage.setItem("Username", data1.Username);
-            localStorage.setItem("Usertype", data1.Usertype); 
+            localStorage.setItem("username", data1.username);
+            localStorage.setItem("usertype", data1.usertype); 
             localStorage.setItem("quotationcntr", data1.quotationcntr); 
             localStorage.setItem("tokencntr", data1.tokencntr); 
             localStorage.setItem("preapprovedcntr", data1.preapprovedcntr); 

@@ -28,6 +28,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { OrderAddProductsComponent } from "../../../@theme/components";
+import * as moment from 'moment';
 @Component({
   selector: "ngx-order-view",
   templateUrl: "./order-view.component.html",
@@ -209,7 +210,7 @@ export class OrderViewComponent implements OnInit {
   isHideOnClick = true;
   isDuplicatesPrevented = false;
   isCloseButton = true;
-
+  formattedOrderDate: string = ''; // To store the formatted string
   ngOnInit() {
     this.getAllarticle();
   }
@@ -258,11 +259,11 @@ export class OrderViewComponent implements OnInit {
           this.dialogdetail = JSON.parse(
             JSON.parse(data.results).Table[0].document
           );
-          console.log("getorderdetaillist",this.dialogdetail);
+          console.log("getorderdetaillist", this.dialogdetail);
           //console.log(JSON.stringify(this.dialogdetail));
           this.sourcedata.load(this.dialogdetail);
           try {
-           
+
             this.combinedJson.orderdetails = this.dialogdetail;
 
             console.log("Combined JSON:", this.combinedJson);
@@ -282,8 +283,8 @@ export class OrderViewComponent implements OnInit {
     this.dialog.insuranceamount =
       (this.dialog.forinsurance * this.insurancerate) / 100;
   }
-  totalamountchange() {}
-  discountamountchange() {}
+  totalamountchange() { }
+  discountamountchange() { }
 
   private getpaymentdetaillist(oid) {
     let pwhere1 = " orderid ='" + oid + "'";
@@ -590,50 +591,63 @@ export class OrderViewComponent implements OnInit {
     {
       if (this.dialog.orderstatus == "token") {
         this.dialog.orderstatus = "adminapproved";
+         this.combinedJson.order.orderstatus =  "adminapproved";
       }
+      if (this.combinedJson.order.orderdate) {
+        const dateFromPicker: Date = this.combinedJson.order.orderdate;
+        const dateToSend = moment(dateFromPicker).format("YYYY-MM-DD HH:mm:ss"); 
+        console.log('Date string to send to backend:', dateToSend);
+        this.formattedOrderDate = dateToSend; // Store the formatted date string
+      }
+       this.combinedJson.order.orderdate = this.formattedOrderDate;
       var data = {
-        //  orderdate: this.dialog.orderdate,
+        order:{
+        id:this.combinedJson.order.id == null ? 0 :this.combinedJson.order.id,
+        Orderid:this.combinedJson.order.id == null ? 0 :this.combinedJson.order.id,
+        orderdate: this.formattedOrderDate,
         //  orderno: this.dialog.orderno,
-        //  customerid: this.dialog.customerid,
-        fromaddress: this.dialog.fromaddress,
-        fromcity: this.dialog.fromcity,
-        fromlat: this.dialog.fromlat,
-        fromlong: this.dialog.fromlong,
-        toaddress: this.dialog.toaddress,
-        tocity: this.dialog.tocity,
-        tolat: this.dialog.tolat,
-        tolong: this.dialog.tolong,
-        totkm: this.dialog.totkm,
+        customerid: this.combinedJson.order.customerid,
+        fromaddress: this.combinedJson.order.fromaddress,
+        fromcity: this.combinedJson.order.fromcity,
+        fromlat: this.combinedJson.order.fromlat,
+        fromlong: this.combinedJson.order.fromlong,
+        toaddress: this.combinedJson.order.toaddress,
+        tocity: this.combinedJson.order.tocity,
+        tolat: this.combinedJson.order.tolat,
+        tolong: this.combinedJson.order.tolong,
+        totkm: this.combinedJson.order.totkm,
         //  incity: this.dialog.incity,
-        total: this.dialog.total,
+        total: this.combinedJson.order.total,
         //  tax: this.dialog.tax,
 
-        Discount: this.dialog.discount,
-        Total: this.dialog.total,
+        Discount: this.combinedJson.order.discount,
+        Total: this.combinedJson.order.total,
         Grandtotal:
-          this.dialog.total +
-          this.dialog.gstamount +
-          this.dialog.insuranceamount -
-          this.dialog.discount, //this.dialog.grandtotal,
-        PartId: this.dialog.part_id,
-        Tax: this.dialog.gstamount,
-        gstamount: this.dialog.gstamount,
-        insuranceamount: this.dialog.insuranceamount,
+          this.combinedJson.order.total +
+          this.combinedJson.order.gstamount +
+          this.combinedJson.order.insuranceamount -
+          this.combinedJson.order.discount, //this.dialog.grandtotal,
+        PartId: this.combinedJson.order.part_id,
+        Tax: this.combinedJson.order.gstamount,
+        gstamount: this.combinedJson.order.gstamount,
+        insuranceamount: this.combinedJson.order.insuranceamount,
         forinsurance:
-          this.dialog.insuranceamount == "0" ? 0 : this.dialog.forinsurance,
-        Orderstatus: this.dialog.orderstatus,
-        fromfloor: this.dialog.fromfloor,
-        tofloor: this.dialog.tofloor,
-        packageid: this.dialog.packageid,
+          this.combinedJson.order.insuranceamount == "0" ? 0 : this.combinedJson.order.forinsurance,
+        Orderstatus: this.combinedJson.order.orderstatus,
+        fromfloor: this.combinedJson.order.fromfloor,
+        tofloor: this.combinedJson.order.tofloor,
+        packageid: this.combinedJson.order.packageid,
         //  extracharges: this.dialog.extracharges,
         //  addoncharges: this.dialog.addoncharges,
-        fromlift: this.dialog.fromlift,
-        tolift: this.dialog.tolift,
+        fromlift: this.combinedJson.order.fromlift,
+        tolift: this.combinedJson.order.tolift,
 
         // 				  active: this.dialog.active,
-        Orderid: this.dialog.id == null ? 0 : this.dialog.id,
+       
+        },
+        orderdetails: this.combinedJson.orderdetails,
       };
-      let body = this.combinedJson;
+      let body = data;
       console.log("body", body);
       this.orderService.AdminOrderUpdate(body).subscribe(
         (res) => {
@@ -740,7 +754,7 @@ export class OrderViewComponent implements OnInit {
         );
         if (packagefind) {
           this.packagename = packagefind.textval;
-          this.dialog.packageid=packagefind.idval;
+          this.dialog.packageid = packagefind.idval;
           this.combinedJson.order.packageid = packagefind.idval;
         }
       }
@@ -763,7 +777,7 @@ export class OrderViewComponent implements OnInit {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
     let totalcftValue: number = 0;
-    this.combinedJson.order.totalcft=0;
+    this.combinedJson.order.totalcft = 0;
     for (let currentCartItem of this.combinedJson.orderdetails) {
       //price: item.cft_rate * cartDataItems[item.itemname],
       totalPriceValue += currentCartItem.quantity * currentCartItem.cft;
@@ -774,9 +788,9 @@ export class OrderViewComponent implements OnInit {
 
     // publish the new values ... all sbscribers will receive the new data
 
-   // this.combinedJson.order.finaltotal = totalPriceValue;
-   // this.combinedJson.order.Totalcft = totalcftValue;
-   
+    // this.combinedJson.order.finaltotal = totalPriceValue;
+    // this.combinedJson.order.Totalcft = totalcftValue;
+
     this.SubcategoryService.getcalculateamount(
       0,
       this.combinedJson.order.packageid,
@@ -785,12 +799,12 @@ export class OrderViewComponent implements OnInit {
       this.combinedJson.order.fromlift == true
         ? 0
         : Math.ceil(this.combinedJson.order.fromfloor),
-        this.combinedJson.order.tolift == true
+      this.combinedJson.order.tolift == true
         ? 0
         : Math.ceil(this.combinedJson.order.tofloor)
     ).subscribe(
       (res: any) => {
-    
+
         let data: any = res;
 
         console.log(data.results);
@@ -799,12 +813,12 @@ export class OrderViewComponent implements OnInit {
           this.combinedJson.order.finaltotal = JSON.parse(
             JSON.parse(data.results).Table[0].getcalculateamount
           );
-          this.combinedJson.order.grandtotal=this.combinedJson.order.finaltotal; 
+          this.combinedJson.order.grandtotal = this.combinedJson.order.finaltotal;
           this.combinedJson.order.TokenAmount = this.percentage(
             15,
             this.combinedJson.order.finaltotal
           );
-         
+
         }
       },
 
@@ -812,7 +826,7 @@ export class OrderViewComponent implements OnInit {
         // this.message = err.error.msg;
       }
     );
-  
+
   }
 
   percentage(percent: number, total: number) {
@@ -832,30 +846,30 @@ export class OrderViewComponent implements OnInit {
   }
   setaddress(place: any, type: string) {
     if (type == "from") {
-      this.dialog.fromaddress =
+      this.combinedJson.order.fromaddress =
         this.googleAddressService.getFormattedAddress(place);
-      this.dialog.fromlat = this.googleAddressService.getlat(place);
-      this.dialog.fromlong = this.googleAddressService.getlng(place);
-      this.dialog.fromcity = this.googleAddressService.getDistrict(place);
+      this.combinedJson.order.fromlat = this.googleAddressService.getlat(place);
+      this.combinedJson.order.fromlong = this.googleAddressService.getlng(place);
+      this.combinedJson.order.fromcity = this.googleAddressService.getDistrict(place);
     }
     if (type == "to") {
-      this.dialog.toaddress =
+     this.combinedJson.order.toaddress =
         this.googleAddressService.getFormattedAddress(place);
-      this.dialog.tolat = this.googleAddressService.getlat(place);
-      this.dialog.tolong = this.googleAddressService.getlng(place);
-      this.dialog.tocity = this.googleAddressService.getDistrict(place);
+      this.combinedJson.order.tolat = this.googleAddressService.getlat(place);
+      this.combinedJson.order.tolong = this.googleAddressService.getlng(place);
+      this.combinedJson.order.tocity = this.googleAddressService.getDistrict(place);
     }
     // Obtain the distance in meters by the computeDistanceBetween method
     // From the Google Maps extension using plain coordinates
     var distanceInMeters =
       google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng({
-          lat: this.dialog.fromlat,
-          lng: this.dialog.fromlong,
+          lat: Number(this.combinedJson.order.fromlat),
+          lng: Number(this.combinedJson.order.fromlong),
         }),
         new google.maps.LatLng({
-          lat: this.dialog.tolat,
-          lng: this.dialog.tolong,
+          lat: this.combinedJson.order.tolat,
+          lng: this.combinedJson.order.tolong,
         })
       );
 
@@ -916,7 +930,7 @@ export class OrderViewComponent implements OnInit {
 
     // Pass order details and dialog data to the modal
     activeModal.componentInstance.OrderID = this.combinedJson.order.id;
-     activeModal.componentInstance.OrderDetails = this.combinedJson.orderdetails || [];
+    activeModal.componentInstance.OrderDetails = this.combinedJson.orderdetails || [];
     activeModal.componentInstance.dialogData = dialogData;
 
     // Handle modal close events
@@ -937,8 +951,8 @@ export class OrderViewComponent implements OnInit {
 
         // After loading new data, refresh the source to make the table update
         this.sourcedata.refresh();
-         console.log("Modal closed with combinedJson:", this.combinedJson);
-         console.log("Modal closed with combinedJson string:", JSON.stringify(this.combinedJson));
+        console.log("Modal closed with combinedJson:", this.combinedJson);
+        console.log("Modal closed with combinedJson string:", JSON.stringify(this.combinedJson));
       },
       (reason) => {
         console.log("Modal dismissed with reason:", reason);

@@ -25,8 +25,8 @@
             <br />
             <b>Pickup Date and Time:</b
             >{{ this.combinedJson?.order?.orderdate | date : "dd-MMM-yyyy" }} {{ strdate }}
-            <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker"  [(ngModel)]="this.combinedJson.order.orderdate">
-<nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
+             <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker" [(ngModel)]="combinedJson.order.orderdate">
+    <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
             <br />
             <b>Total Distance:</b> {{ this.combinedJson?.order?.totkm }}
             <br />
@@ -56,7 +56,7 @@
             <br /><b>Assinged Partner:</b> {{ partnername }}
             <select
               class="form-control"
-              [(ngModel)]="dialog.part_id"
+              [(ngModel)]="this.combinedJson.order.part_id"
               name="Part_id"
             >
               <option [value]="i.idval" *ngFor="let i of ddlpart">
@@ -139,7 +139,7 @@
                   id="fromAddress"
                   placeholder="Moving From"
                   [isRequired]="true"
-                  [autocompleteInput]="dialog.fromaddress"
+                  [autocompleteInput]="this.combinedJson.order.fromaddress"
                   (setAddress)="getAddress($event, 'from')"
                   adressType="geocode"
                   [ngClass]="{
@@ -152,7 +152,7 @@
                 <b>Floor:</b
                 ><input
                   type="number"
-                  [(ngModel)]="dialog.fromfloor"
+                  [(ngModel)]="this.combinedJson.order.fromfloor"
                   class="form-control"
                 />
               </div>
@@ -169,8 +169,8 @@
                   id="toaddress"
                   placeholder="Moving To"
                   [isRequired]="true"
-                  [autocompleteInput]="dialog.toaddress"
-                  (setAddress)="getAddress($event, 'from')"
+                  [autocompleteInput]="this.combinedJson.order.toaddress"
+                  (setAddress)="getAddress($event, 'to')"
                   adressType="geocode"
                   [ngClass]="{
                     'is-invalid':
@@ -182,7 +182,7 @@
                 <b>Floor:</b
                 ><input
                   type="number"
-                  [(ngModel)]="dialog.tofloor"
+                  [(ngModel)]="this.combinedJson.order.tofloor"
                   class="form-control"
                 />
               </div>
@@ -217,7 +217,7 @@
                   required
                   class="form-control text-right"
                   id="Total"
-                  [(ngModel)]="dialog.total"
+                  [(ngModel)]="this.combinedJson.order.total"
                   placeholder="Sub Total"
                 />
               </td>
@@ -231,7 +231,7 @@
                   required
                   class="form-control text-right"
                   id="Total"
-                  [(ngModel)]="dialog.discount"
+                  [(ngModel)]="this.combinedJson.order.discount"
                   placeholder="Discount"
                 />
               </td>
@@ -245,7 +245,7 @@
                   required
                   class="form-control text-right"
                   id="forinsurance"
-                  [(ngModel)]="dialog.forinsurance"
+                  [(ngModel)]="this.combinedJson.order.forinsurance"
                   (keyup)="insuranceamountchange()"
                   placeholder="For Insurance"
                 />
@@ -262,7 +262,7 @@
                   required
                   class="form-control text-right"
                   id="insuranceamount"
-                  [(ngModel)]="dialog.insuranceamount"
+                  [(ngModel)]="this.combinedJson.order.insuranceamount"
                   placeholder="Insurance amount"
                 />
               </td>
@@ -276,7 +276,7 @@
                   required
                   class="form-control text-right"
                   id="gstamount"
-                  [(ngModel)]="dialog.gstamount"
+                  [(ngModel)]="this.combinedJson.order.gstamount"
                   placeholder="Gst amount"
                 />
               </td>
@@ -351,7 +351,7 @@
                       required
                       class="form-control"
                       id="cancelreason"
-                      [(ngModel)]="dialog.cancelreason"
+                      [(ngModel)]="this.combinedJson.order.cancelreason"
                       placeholder="Reason For Cancelation"
                     />
                   </div>
@@ -700,9 +700,9 @@
               <th *ngIf="this.combinedJson.order.orderstatus == 'adminapproved'"></th>
             </tr>
             <tr>
-              <td>{{ dialog.forinsurance }}</td>
-              <td>{{ dialog.insuranceamount }}</td>
-              <td>{{ dialog.gstamount }}</td>
+              <td>{{ this.combinedJson.order.forinsurance }}</td>
+              <td>{{ this.combinedJson.order.insuranceamount }}</td>
+              <td>{{ this.combinedJson.order.gstamount }}</td>
 
               <td>
                 <span style="color: red">

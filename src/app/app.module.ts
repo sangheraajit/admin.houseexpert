@@ -35,9 +35,10 @@ import { APP_BASE_HREF } from "@angular/common";
 import { httpInterceptorProviders } from "./services/interceptor";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { GooglePlacesComponent } from "./@theme/components/google-places/google-places.component";
+import { MyLogoutComponent } from './shared/components/my-logout/my-logout.component';
 // import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MyLogoutComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
