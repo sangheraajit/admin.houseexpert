@@ -9,6 +9,7 @@ import {
   NbResetPasswordComponent,
 } from "@nebular/auth";
 import { LoginComponent } from "./login/login/login.component";
+import { MyLogoutComponent } from "./shared/components/my-logout/my-logout.component";
 
 export const routes: Routes = [
   {
@@ -47,6 +48,7 @@ export const routes: Routes = [
     ],
   },
   { path: "login",  component: LoginComponent },
+  { path: "logout",  component: MyLogoutComponent },
   { path: "", redirectTo: "login", pathMatch: "full" },
   { path: "**", redirectTo: "pages" },
 ];

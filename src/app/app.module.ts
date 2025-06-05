@@ -26,7 +26,8 @@ import {
   NbSelectModule,
   NbAccordionModule,
   NbIconModule,
-  NbTimepickerModule
+  NbTimepickerModule,
+  NbSpinnerModule
 } from "@nebular/theme";
 import { LoginModule } from "./login/login.module";
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -68,6 +69,7 @@ import { MyLogoutComponent } from './shared/components/my-logout/my-logout.compo
     NbEvaIconsModule,
     NbDatepickerModule.forRoot(),
     NbTimepickerModule.forRoot(),
+    NbSpinnerModule
   ],
   providers: [httpInterceptorProviders, AuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent],

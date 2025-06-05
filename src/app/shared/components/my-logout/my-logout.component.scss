@@ -1,0 +1,31 @@
+.my-logout-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; // Ensure it takes the full viewport height
+  background-color: nb-theme(background-basic-color-2); // Use a theme-aware background
+}
+
+.my-logout-card {
+  max-width: 450px; // Adjust max-width as desired
+  width: 90%; // Make it responsive
+  padding: 2rem; // Add some internal padding
+  box-shadow: nb-theme(shadow); // Use Nebular's shadow system
+  border-radius: nb-theme(card-border-radius); // Match card border radius
+
+  .spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px; // Give some space for the spinner
+  }
+}
+
+h1 {
+  margin-bottom: 1.5rem; // Space below the heading
+  color: nb-theme(text-basic-color);
+}
+
+p {
+  color: nb-theme(text-hint-color);
+}

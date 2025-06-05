@@ -125,35 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   performLogout(): void {
-     this.isLoggingOut = true; // Show spinner
-    this.toastrService.info('Logging out...', 'Please wait'); // Show a toast message
-
-    console.log('Clearing local storage before Nebular logout...');
-    localStorage.clear();
-    console.log('Local storage cleared.');
-
-    this.appMenuService.clearMenu();
-
-
+      this.router.navigateByUrl('/logout');
   
-
-       this.authService.logout('email')
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (result) => {
-        if (result.isSuccess()) {
-          this.toastrService.success('Logged out successfully!', 'Success'); // <-- Success toast
-           this.router.navigateByUrl('login');
-        } else {
-          this.toastrService.danger('Logout failed!', 'Error'); // <-- Error toast
-        }
-      },
-      error: (error) => {
-        this.toastrService.danger('An error occurred during logout.', 'Error'); // <-- Error toast for API issues
-      },
-      complete: () => {
-        this.isLoggingOut = false; // Hide spinner
-      }
-    });
   }
 }
