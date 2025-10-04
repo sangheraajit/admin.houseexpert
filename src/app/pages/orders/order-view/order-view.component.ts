@@ -641,7 +641,7 @@ export class OrderViewComponent implements OnInit {
         //  addoncharges: this.dialog.addoncharges,
         fromlift: this.combinedJson.order.fromlift,
         tolift: this.combinedJson.order.tolift,
-
+        totalcft: this.combinedJson.order.totalcft,
         // 				  active: this.dialog.active,
        
         },

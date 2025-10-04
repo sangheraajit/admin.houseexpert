@@ -283,7 +283,7 @@ export class OrderAddProductsComponent implements OnInit {
         id: product.id,
         article_id: product.id,
         article_name: product.itemname,
-        article_image: product.imageurl,
+
         linestatus: 'new',
         orderid:  this.OrderID,
         partner_rate: 0,
