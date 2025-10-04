@@ -17,3 +17,15 @@
 
   
 }
+
+:host ::ng-deep {
+    ng2-st-actions, ng2-st-tbody-edit-delete, ng2-st-tbody-create-cancel {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    ng2-st-tbody-custom {
+        display: flex;
+        justify-content: space-around;
+    }
+}

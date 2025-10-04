@@ -70,8 +70,17 @@ export class HomeserviceAddEditComponent implements OnInit {
      url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
+   public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
   ngOnInit() {
     // this.getProcesstypeDDL( );
+  }
+   public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
   }
   private getPartnertypeDDL() {
     let body = {

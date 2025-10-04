@@ -62,12 +62,14 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="token">File Upload</label>
-            <input
-              type="file"
-              ng2FileSelect
-              [uploader]="uploader1"
-              (onFileSelected)="onFileSelected1($event)"
-            />
+           
+              <div ng2FileDrop
+                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                 (fileOver)="fileOverBase($event)"
+                 [uploader]="uploader1"
+                 class="well my-drop-zone">
+              <p>Drop files here</p>
+            </div>
           </div>
         </div>
       </div>

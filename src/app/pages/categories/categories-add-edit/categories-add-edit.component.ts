@@ -33,7 +33,9 @@ export class CategoriesAddEditComponent implements OnInit {
      url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
- 
+ public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+
   constructor(
     private activeModal: NgbActiveModal,
     private ServiceObj: ApiService,
@@ -71,7 +73,13 @@ export class CategoriesAddEditComponent implements OnInit {
   public onFileSelected1(event: EventEmitter<File[]>) {
     this.isUploaded1 = false;
   }
+ public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
 
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
   private getProcesstypeDDL() {
     let body = {
       spname: "category_read",

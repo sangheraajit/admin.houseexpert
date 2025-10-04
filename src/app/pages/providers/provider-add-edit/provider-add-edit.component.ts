@@ -275,6 +275,8 @@ export class ProviderAddEditComponent implements OnInit {
     },
   };
   sourceRate: LocalDataSource = new LocalDataSource();
+    public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
   constructor(
     private activeModal: NgbActiveModal,
     private _sanitizer: DomSanitizer,
@@ -356,6 +358,13 @@ export class ProviderAddEditComponent implements OnInit {
     //   this.getServiceList();
     //   this.getRateMasterlist();
     // }
+  }
+    public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
   }
   private getRateMasterlist() {
     // this.spinner.show();

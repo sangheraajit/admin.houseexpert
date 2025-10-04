@@ -69,12 +69,13 @@
         </ngx-spinner>
   
         <nb-card-body>
-          <ng2-smart-table
+          <ng2-smart-table class="order-table"
             [settings]="settings"
             (create)="openCreateDialog($event)"
             (edit)="editDialog($event)"
             [source]="sourcedata"
             (delete)="viewDialog($event)"
+              (custom)="onCustomAction($event)"
           >
           </ng2-smart-table>
         </nb-card-body>

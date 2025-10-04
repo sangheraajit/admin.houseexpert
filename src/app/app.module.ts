@@ -37,6 +37,7 @@ import { httpInterceptorProviders } from "./services/interceptor";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { GooglePlacesComponent } from "./@theme/components/google-places/google-places.component";
 import { MyLogoutComponent } from './shared/components/my-logout/my-logout.component';
+import { ToasterModule } from "angular2-toaster";
 // import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [AppComponent, MyLogoutComponent],
@@ -69,7 +70,8 @@ import { MyLogoutComponent } from './shared/components/my-logout/my-logout.compo
     NbEvaIconsModule,
     NbDatepickerModule.forRoot(),
     NbTimepickerModule.forRoot(),
-    NbSpinnerModule
+    NbSpinnerModule,
+    ToasterModule.forRoot(), 
   ],
   providers: [httpInterceptorProviders, AuthGuard, { provide: APP_BASE_HREF, useValue: "/" }],
   bootstrap: [AppComponent],

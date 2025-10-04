@@ -19,7 +19,7 @@ export class ArticlemstAddEditComponent implements OnInit {
   public dialog: any; 
 
   public uploader1: FileUploader = new FileUploader({
-    isHTML5: true,
+     isHTML5: true,
      url: this.ServiceObj+ "fileupload",
   });
   isUploaded1 = false;
@@ -60,13 +60,21 @@ export class ArticlemstAddEditComponent implements OnInit {
   isHideOnClick = true;
   isDuplicatesPrevented = false;
   isCloseButton = true;
-
+ public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+  public uploader:FileUploader = new FileUploader({url: this.ServiceObj+ "fileupload"});
   ngOnInit() {
     
   }
    
 
-   
+    public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
   
   closeModal() {
      this.activeModal.close();

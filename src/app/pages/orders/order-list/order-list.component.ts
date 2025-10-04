@@ -23,6 +23,8 @@ import { environment } from "../../../../environments/environment";
 import { OrderViewComponent } from "../order-view/order-view.component";
 import { takeWhile } from "rxjs/operators/takeWhile";
 import { NbThemeService, NbColorHelper } from "@nebular/theme";
+import { OrderService } from "../../../services/order.service";
+import { CustomerInfoComponent } from "./Customer-Info/CustomerInfoComponent";
 interface CardSettings {
   title: string;
   iconClass: string;
@@ -78,27 +80,27 @@ export class OrderListComponent implements OnInit {
     cosmic: CardSettings[];
     corporate: CardSettings[];
   } = {
-    default: this.commonStatusCardsSet,
-    cosmic: this.commonStatusCardsSet,
-    corporate: [
-      {
-        ...this.quotationcntr,
-        type: "primary",
-      },
-      {
-        ...this.tokencntr,
-        type: "primary",
-      },
-      {
-        ...this.preapprovedcntr,
-        type: "primary",
-      },
-      {
-        ...this.approvedcntr,
-        type: "primary",
-      },
-    ],
-  };
+      default: this.commonStatusCardsSet,
+      cosmic: this.commonStatusCardsSet,
+      corporate: [
+        {
+          ...this.quotationcntr,
+          type: "primary",
+        },
+        {
+          ...this.tokencntr,
+          type: "primary",
+        },
+        {
+          ...this.preapprovedcntr,
+          type: "primary",
+        },
+        {
+          ...this.approvedcntr,
+          type: "primary",
+        },
+      ],
+    };
 
   private message = null;
   dialog: any[];
@@ -112,10 +114,28 @@ export class OrderListComponent implements OnInit {
       perPage: 10,
     },
     actions: {
-      delete: true,
+      delete: false,
       add: false,
       edit: false,
       columnTitle: "Actions",
+      custom: [
+        {
+          name: 'edit',
+          title: '<i class="nb-edit inline-block width: 50px"></i>',
+        },
+        {
+          name: 'email',
+          title: '<i class="nb-email inline-block width: 50px"></i>',
+        },
+        {
+          name: 'download',
+          title: '<i class="fa solid fa-download inline-block width: 30px"></i>',
+        },
+        {
+          name: 'whatsapp',
+          title: '<i class="fab fa-whatsapp inline-block width: 30px"></i>',
+        },
+      ],
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -132,36 +152,44 @@ export class OrderListComponent implements OnInit {
         title: "Order#",
         type: "string",
         filter: false,
-        width: "15%",
+        width: "10%",
       },
       orderdate: {
         title: "Order Date",
         type: "string",
         filter: false,
-        width: "10%",
+        width: "12%",
         valuePrepareFunction: (date) => {
           var raw = new Date(date);
           var formatted = new DatePipe("en-EN").transform(raw, "dd-MMM-yyyy");
           return formatted;
         },
       },
+      customer: {
+        title: 'Customer Info',
+        type: 'custom',
+        width: "20%",
+        renderComponent: CustomerInfoComponent,
+         filter: false,   
+      },
+
       fromcity: {
         title: "From City",
         type: "string",
         filter: false,
-        width: "30%",
+        width: "25%",
       },
       tocity: {
         title: "To City",
         type: "string",
         filter: false,
-        width: "30%",
+        width: "25%",
       },
       orderstatus: {
         title: "Order Status",
         type: "string",
         filter: false,
-        width: "20%",
+        width: "10%",
       },
       // cust_email: {
       //   title: "Email",
@@ -175,6 +203,8 @@ export class OrderListComponent implements OnInit {
       //   filter: false,
       //   width: "10%",
       // },
+
+
     },
   };
   sourcedata: LocalDataSource = new LocalDataSource();
@@ -192,6 +222,31 @@ export class OrderListComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   selectedItems = [];
 
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+
+  constructor(
+    private themeService: NbThemeService,
+    private _sanitizer: DomSanitizer,
+    private ServiceObj: ApiService,
+    private modalService: NgbModal,
+    private service: SmartTableService,
+    private spinner: NgxSpinnerService,
+    private datePipe: DatePipe,
+    private toasterService: ToasterService,
+    private orderService: OrderService
+  ) {
+    this.themeService
+      .getJsTheme()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((theme) => {
+        this.statusCards = this.statusCardsByThemes[theme.name];
+      });
+  }
   ngOnInit() {
     this.getlist();
     this.getProvList();
@@ -216,30 +271,29 @@ export class OrderListComponent implements OnInit {
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
 
-  constructor(
-    private themeService: NbThemeService,
-    private _sanitizer: DomSanitizer,
-    private ServiceObj: ApiService,
-    private modalService: NgbModal,
-    private service: SmartTableService,
-    private spinner: NgxSpinnerService,
-    private datePipe: DatePipe
-  ) {
-    this.themeService
-      .getJsTheme()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe((theme) => {
-        this.statusCards = this.statusCardsByThemes[theme.name];
-      });
-  }
+  onCustomAction(event: any) {
+    console.log('Custom action triggered:', event);
+    switch (event.action) {
 
+
+      case 'edit':
+        this.editDialog(event);
+        break;
+      case 'whatsapp':
+        this.sendWhatsApp(event.data);
+        break;
+      case 'email':
+        this.sendEmail(event.data);
+        break;
+      case 'download':
+        this.downloadInvoice(event.data);
+        break;
+    }
+
+
+
+  }
   filterorders2() {
     this.getlist();
   }
@@ -355,7 +409,7 @@ export class OrderListComponent implements OnInit {
       (res) => {
         let data: any = res;
 
-       // console.log("order_read2",data.results);
+        // console.log("order_read2",data.results);
         if (JSON.parse(data.results).Table.length > 0) {
           this.dialog = JSON.parse(data.results).Table as any[];
           // console.log("order_read2  this.dialog", this.dialog);
@@ -374,7 +428,7 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-  showStaticModal() {}
+  showStaticModal() { }
   openCreateDialog(event): void {
     debugger;
     this.dialog1 = {} as any;
@@ -394,7 +448,7 @@ export class OrderListComponent implements OnInit {
     );
     activeModal.componentInstance.modalHeader = "Add Import Setting";
   }
-  editDialog(event): void {
+  viewDialog(event): void {
     let i = event.data.id;
     this.dialog1 = this.dialog.find((h) => h.id == i);
     this.dialog1.TYPE = "U";
@@ -415,7 +469,7 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-  viewDialog(event): void {
+  editDialog(event): void {
     let i = event.data.id;
     this.dialog1 = this.dialog.find((h) => h.id == i);
     this.dialog1.TYPE = "V";
@@ -435,8 +489,63 @@ export class OrderListComponent implements OnInit {
       }
     );
   }
-  
-  
+
+  onButtonClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const action = target.getAttribute('data-action');
+    if (!action) return;
+
+    const rowEl = target.closest('tr');
+    const rowIndex = Array.from(rowEl?.parentElement?.children || []).indexOf(rowEl!);
+    const row = this.sourcedata[rowIndex];
+
+    switch (action) {
+      case 'edit':
+        this.editDialog(row);
+        break;
+      case 'whatsapp':
+        this.sendWhatsApp(row);
+        break;
+      case 'email':
+        this.sendEmail(row);
+        break;
+      case 'download':
+        this.downloadInvoice(row);
+        break;
+    }
+  }
+
+  sendWhatsApp(row: any) {
+    console.log('Send WhatsApp to:', row);
+  }
+
+  sendEmail(row: any) {
+    console.log('Send Email to:', row);
+    this.orderService.SendOrderEmailWithAttachments(row.id).subscribe({
+      next: (res: any) => {
+        console.log('SendOrderEmailWithAttachments res', res);
+      },
+      error: (err) => {
+        console.error('SendOrderEmailWithAttachments error', err);
+      }
+    });
+  }
+
+  downloadInvoice(row: any) {
+    console.log('Download Invoice for:', row);
+    const orderId = row.id; // or adjust to match your row data
+
+    this.orderService.downloadOrderPdf(orderId).subscribe((pdfBlob: Blob) => {
+      const fileURL = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = fileURL;
+      a.download = `Order_${orderId}.pdf`;
+      a.click();
+    }, error => {
+      console.error('Error downloading PDF:', error);
+    });
+
+  }
   ngOnDestroy() {
     this.alive = false;
     if (this.subscribe$) {
